@@ -9,11 +9,10 @@
 #
 # Reference:
 #
-# Thompson PG, Smouse PE, Scofield DG, Sork VL.  Accepted, Movement Ecology.
-# What seeds tell us about birds: a multi-year analysis of acorn woodpecker
-# foraging movements.
-#
-# Data available in Data Dryad at <http://doi.org/10.5061/dryad.64jk6>.
+# Thompson PG, Smouse PE, Scofield DG, Sork VL. 2014.  What seeds tell us 
+# about birds: a multi-year analysis of acorn woodpecker foraging movements.
+# Movement Ecology 2:12. doi:10.1186/2051- 3933-2-12, data at 
+# doi:10.5061/dryad.64jk6
 
 
 options(stringsAsFactors=FALSE)
@@ -21,15 +20,13 @@ options(stringsAsFactors=FALSE)
 # MWW.nested.test performs the nested ranks test
 #    dat    : data frame containing group, treatment and value columns
 #    n.iter : number of iterations for permutation (n.iter - 1 are random, n.iter-th is data)
-#    title  : title to use when reporting test results
 # The result of the test is printed, and if the return value is
 # assigned, it is a data.frame containing the complete set of permuted values
 # for all granaries with the test answers attached as attributes with the
 # results of the test attached as attributes.  The data.frame can be passed to
 # plot.MWW.nested.test() to plot the test results.
-MWW.nested.test = function(dat, n.iter=10000, title=NULL) {
+MWW.nested.test = function(dat, n.iter=10000) {
   dat.name = deparse(substitute(dat))
-  if (is.null(title)) title = dat.name
   y = unique(sort(dat$treatment))
   if (length(y) != 2) 
     stop(dat.name, "requires exactly two levels for treatment")
@@ -71,8 +68,7 @@ MWW.nested.test = function(dat, n.iter=10000, title=NULL) {
   attr(ans,"Z.weighted.obs") = Z.weighted[n.iter]
   attr(ans,"P.obs") = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
   attr(ans,"n.iter") = n.iter
-  cat(title, 
-      " Z.weighted.obs =", attr(ans, "Z.weighted.obs"), 
+  cat(" Z.weighted.obs =", attr(ans, "Z.weighted.obs"), 
       " n.iter =", attr(ans, "n.iter"), 
       " P.obs =", attr(ans, "P.obs"),
       "\n")
@@ -125,13 +121,12 @@ MWW.weights = function(dat) {
 }
 
 # plot.MWW.nested.test creates a utility plot of the test result
-plot.MWW.nested.test = function(test.dat, title=NULL) {
-  if (is.null(title)) title = deparse(substitute(test.dat))
+plot.MWW.nested.test = function(test.dat) {
+  title = deparse(substitute(test.dat))
   bks = if (max(test.dat$Z.weighted) > 1 || min(test.dat$Z.weighted) < -1)
           200
         else
           seq(-1,1,0.05)
-  png(file=paste0(title, "_MWW_nested_test.png"), width=500, height=400)
   hist(test.dat$Z.weighted,
        breaks=bks,
        col="lightblue",
@@ -141,6 +136,5 @@ plot.MWW.nested.test = function(test.dat, title=NULL) {
        xlab="Weighted between-year Z-score",
        ylab=paste0("Frequency (out of ", attr(test.dat, "n.iter"), ")"))
   abline(v=attr(test.dat, "Z.weighted.obs"), col="red", lty=2, lwd=2)
-  dev.off()
 }
 
