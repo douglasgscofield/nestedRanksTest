@@ -19,35 +19,57 @@ options(stringsAsFactors=FALSE)
 
 # MWW.nested.test performs the nested ranks test
 #    dat    : data frame containing group, treatment and value columns
+#    dat    : column 1: value
+#           : column 2: treatment
+#           : column 3: group
 #    n.iter : number of iterations for permutation (n.iter - 1 are random, n.iter-th is data)
 # The result of the test is printed, and if the return value is
 # assigned, it is a data.frame containing the complete set of permuted values
 # for all granaries with the test answers attached as attributes with the
 # results of the test attached as attributes.  The data.frame can be passed to
 # plot.MWW.nested.test() to plot the test results.
-MWW.nested.test = function(dat, n.iter=10000) {
-  dat.name = deparse(substitute(dat))
-  y = unique(sort(dat$treatment))
-  if (length(y) != 2) 
-    stop(dat.name, "requires exactly two levels for treatment")
-  s = split(dat$group, dat$treatment)
-  if (length(unique(sort(dat$group))) != length(intersect(s[[1]], s[[2]])))
-    stop(dat.name, "must have values for all groups in both treatment levels")
+
+# TODO: find R function to make strings into proper R names
+# TODO: does a two-sided test make sense here?  I don't think so...
+# TODO: can I extend this with a nestedRanksTest class allowing for printing and plotting
+# TODO: end print.nestedRanksTest() with invisible(x)
+# http://tolstoy.newcastle.edu.au/R/devel/05/03/0094.html
+# https://github.com/Rapporter/rapportools/blob/master/R/htest.R
+# http://www1.maths.lth.se/matstat/bioinformatics/software/R/library/ctest/html/print.pairwise.htest.html
+
+MWW.nested.test = function(dat, n.iter=10000)
+{
+  DNAME = deparse(substitute(dat))
+  METHOD = "Nested Ranks Test"
+  tmt_levels = unique(sort(dat$treatment))
+  if (length(tmt_levels) != 2) 
+    stop(DNAME, "requires exactly two levels for treatment")
+  # implement a function version
+  nr = nrow(dat)
+  dat = dat[apply(dat[,1:3], 1, function(x) all(!is.na(x))), 1:3]
+  BAD.OBS = nr - nrow(dat)
+  vals = dat[, 1]
+  tmt = dat[, 2]
+  grp = dat[, 3]
+  s = split(grp, tmt)
+  if (length(unique(sort(grp))) != length(intersect(s[[1]], s[[2]])))
+    stop(DNAME, "must have values for all groups in both treatment levels")
   wt = MWW.weights(dat)
-  Grps = as.character(sort(as.integer(unique(dat$group))))
+  Grps = unique(sort(as.character(grp)))
   # fill in weight for each granary
   weights = wt$Rel_Wt
-  names(weights) = paste0("g",wt$group)  # ensure that groups have proper R names
+  # TODO: find R function to make strings into proper R names
+  names(weights) = paste0("g", wt$group)  # ensure that groups have proper R names
   # print(weights)
-  # compute permutation for each granary individually
+  # compute permutation for each group individually
   p = list()
   for (g in Grps) {
     gdat = subset(dat, group == g)
-    y1.dat = subset(gdat, treatment == y[1])
-    y2.dat = subset(gdat, treatment == y[2])
-    n1 = nrow(y1.dat)
-    n2 = nrow(y2.dat)
-    vals = c(y1.dat$value, y2.dat$value)
+    tmt1.dat = subset(gdat, treatment == tmt_levels[1])
+    tmt2.dat = subset(gdat, treatment == tmt_levels[2])
+    n1 = nrow(tmt1.dat)
+    n2 = nrow(tmt2.dat)
+    vals = c(tmt1.dat$value, tmt2.dat$value)
     this.z = MWW(vals, n1, n2)
     Z = numeric(n.iter)
     if (n.iter > 1) {
@@ -65,16 +87,40 @@ MWW.nested.test = function(dat, n.iter=10000) {
   Z.weighted = apply(ans, 1, function(.x) sum(.x * weights))
   ans$Z.weighted = Z.weighted
   attr(ans,"weights") = weights
-  attr(ans,"Z.weighted.obs") = Z.weighted[n.iter]
-  attr(ans,"P.obs") = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
+  #attr(ans,"Z.weighted.obs") = Z.weighted[n.iter]
+  STATISTIC = Z.weighted[n.iter]
+  names(STATISTIC) = "Z.weighted.obs"
+  #attr(ans,"P.obs") = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
+  PVAL = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
   attr(ans,"n.iter") = n.iter
   cat(" Z.weighted.obs =", attr(ans, "Z.weighted.obs"), 
       " n.iter =", attr(ans, "n.iter"), 
       " P.obs =", attr(ans, "P.obs"),
       "\n")
-  ####
-  invisible(ans)
+  RVAL = list(statistic = STATISTIC,
+              p.value = PVAL,
+              alternative = "Z.weighted.obs lies above the values derived from bootstrapping",
+              method = METHOD,
+              data.name = DNAME,
+              bad.obs = BAD.OBS)
+  class(RVAL) = "htest"
+  return(RVAL)
 }
+
+sample.size
+numeric scalar containing the number of non-missing observations in the sample used for the hypothesis test.
+estimation.method
+character string containing the method used to compute the estimated distribution parameter(s). The value of this component will depend on the available estimation methods (see Distribution.df).
+bad.obs
+the number of missing (NA), undefined (NaN) and/or infinite (Inf, -Inf) values that were removed from the data object prior to performing the hypothesis test.
+interval
+a list containing information about a confidence, prediction, or tolerance interval.
+Methods
+Generic functions that have methods for objects of class "htest" include: 
+print.
+
+Note
+
 
 
 # MWW calculates the Mann-Whitney-Wilcoxon Z-score
@@ -99,15 +145,15 @@ MWW = function(x, n1, n2) {
 
 # MWW.weights calculates sample-size weights
 MWW.weights = function(dat) {
-  y = unique(sort(dat$treatment))
+  tmt_levels = unique(sort(dat$treatment))
   Grps = as.character(sort(as.integer(unique(dat$group))))
   w = data.frame()
   for (g in Grps) {
     gdat = subset(dat, group == g)
-    y1.dat = subset(gdat, treatment == y[1])
-    y2.dat = subset(gdat, treatment == y[2])
-    n1 = nrow(y1.dat)
-    n2 = nrow(y2.dat)
+    tmt1.dat = subset(gdat, treatment == tmt_levels[1])
+    tmt2.dat = subset(gdat, treatment == tmt_levels[2])
+    n1 = nrow(tmt1.dat)
+    n2 = nrow(tmt2.dat)
     n1.n2 = n1 * n2
     w = rbind(w, list(group=g,
                       n1=n1,
@@ -131,7 +177,7 @@ plot.MWW.nested.test = function(test.dat) {
        breaks=bks,
        col="lightblue",
        border=NA,
-       main=paste0(title, " weighted between-y Z-score\nacross all groups, P = ", 
+       main=paste0(title, " weighted between-tmt_levels Z-score\nacross all groups, P = ", 
                    attr(test.dat, "P.obs")),
        xlab="Weighted between-year Z-score",
        ylab=paste0("Frequency (out of ", attr(test.dat, "n.iter"), ")"))
