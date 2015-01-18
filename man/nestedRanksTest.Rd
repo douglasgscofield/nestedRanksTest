@@ -8,16 +8,32 @@ Perform Mann-Whitney-Wilcoxon test when data are nested in groups
 Describe it.
 }
 \usage{
-nestedRanksTest(dat, n.iter = 10000)
+MWW.nested.test(dat, n.iter = 10000)
+}
+\usage{
+nestedRanksTest(response, treatment, groups, n.iter = 10000)
+}
+\usage{
+nestedRanksTest(formula, data, groups = NULL, n.iter = 10000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dat}{
 \code{data.frame} containing group, treatment and value columns
-}
+  }
+  \item{response}{
+A vector containing responses
+  }
+  \item{treatment}{
+A vector the same length as \code{response} coding the treatment given (must have two levels)
+  }
+  \item{groups}{
+In the variable version, this is a vector the same length as \code{response} and \code{treatment} specifying the grouping for each observation.
+In the formula version, this names a column containing grouping information in \code{data}
+  }
   \item{n.iter}{
 Number of iterations for permutation test (\code{n.iter - 1} are random, the \code{n.iter}-th is the data)
-}
+  }
 }
 \details{
 \code{nestedRanksTest()}  ...
