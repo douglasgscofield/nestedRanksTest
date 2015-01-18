@@ -37,6 +37,41 @@ options(stringsAsFactors=FALSE)
 # https://github.com/Rapporter/rapportools/blob/master/R/htest.R
 # http://www1.maths.lth.se/matstat/bioinformatics/software/R/library/ctest/html/print.pairwise.htest.html
 
+nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
+{
+  # code largely copied from stats:::t.test
+  if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
+                                                                  "term.labels")) != 1L))
+    stop("'formula' missing or incorrect")
+  m <- match.call(expand.dots = FALSE)
+  if (is.matrix(eval(m$data, parent.frame())))
+    m$data <- as.data.frame(data)
+  m[[1L]] <- quote(stats::model.frame)
+  m$... <- NULL
+  mf <- eval(m, parent.frame())
+  DNAME <- paste(names(mf), collapse = " by ")  # make sure this is correct
+  names(mf) <- NULL
+  response <- attr(attr(mf, "terms"), "response")
+  tmt <- factor(mf[[-response]])
+  if (nlevels(tmt) != 2L)
+    stop("treatment factor must have exactly 2 levels")
+  # TODO: deal with groups, this is preliminary, from latticeParseFormula()
+  if (inherits(groups, "formula")) {
+    groupVar <- as.character(groups)[2]
+    groups <- eval(parse(text = groupVar), data, environment(groups))
+  }
+  # TODO: must modify DNAME to incorporate groups
+  # TODO: consider renaming these...
+  DATA <- setNames(split(mf[[response]], tmt), c("x", "y"))
+  # TODO: nestedRanksTest doesn't yet exist
+  y <- do.call("nestedRanksTest", c(DATA, list(...)))
+  y$data.name <- DNAME
+  # TODO: are we returning group means?  is this appropriate?  wilcox.test lacks it
+  if (length(y$estimate) == 2L)
+    names(y$estimate) <- paste("mean in treatment", levels(tmt))
+  y
+}
+
 MWW.nested.test = function(dat, n.iter=10000)
 {
   DNAME = deparse(substitute(dat))
@@ -106,22 +141,6 @@ MWW.nested.test = function(dat, n.iter=10000)
   class(RVAL) = "htest"
   return(RVAL)
 }
-
-sample.size
-numeric scalar containing the number of non-missing observations in the sample used for the hypothesis test.
-estimation.method
-character string containing the method used to compute the estimated distribution parameter(s). The value of this component will depend on the available estimation methods (see Distribution.df).
-bad.obs
-the number of missing (NA), undefined (NaN) and/or infinite (Inf, -Inf) values that were removed from the data object prior to performing the hypothesis test.
-interval
-a list containing information about a confidence, prediction, or tolerance interval.
-Methods
-Generic functions that have methods for objects of class "htest" include: 
-print.
-
-Note
-
-
 
 # MWW calculates the Mann-Whitney-Wilcoxon Z-score
 #    x  : values
