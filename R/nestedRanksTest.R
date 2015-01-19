@@ -43,6 +43,7 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
   if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
                                                                   "term.labels")) != 1L))
     stop("'formula' missing or incorrect")
+  # TODO: trace these called, what happens to m
   m <- match.call(expand.dots = FALSE)
   if (is.matrix(eval(m$data, parent.frame())))
     m$data <- as.data.frame(data)
@@ -55,11 +56,28 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
   tmt <- factor(mf[[-response]])
   if (nlevels(tmt) != 2L)
     stop("treatment factor must have exactly 2 levels")
+  ## handle grouping: groups = NULL if unspecified
   # TODO: deal with groups, this is preliminary, from latticeParseFormula()
+  # If groups is a variable, then its value is used for groups, otherwise the
+  # code below turns the formula into the group variable
+  groupVar = deparse(substitute(groups))  # start by assuming groups is a vector
   if (inherits(groups, "formula")) {
     groupVar <- as.character(groups)[2]
     groups <- eval(parse(text = groupVar), data, environment(groups))
   }
+  # TODO: parse out grouping if exists in formula
+  if (length(formula[[3]]) == 3) {  # grouping specified in formula
+    if (formula[[3]][[1]] = as.name("|")) {  # indeed
+      if (! is.null(groups))
+        stop("cannot specify grouping variable in both formula and groups argument")
+      tmt <- as.character(formula[[3]][[2]])
+      groupVar <- as.character(formula[[3]][[3]])
+      groups <- eval(parse(text = groupVar), data, environment(formula))
+    } else stop("invalid group specification in formula")
+  }
+  if (is.null(groups))
+    stop("group structure must be specified in the formula or groups argument")
+  DNAME <- paste(DNAME, groupVar, sep = " grouped by ")
   # TODO: must modify DNAME to incorporate groups
   # TODO: consider renaming these...
   DATA <- setNames(split(mf[[response]], tmt), c("x", "y"))
