@@ -37,6 +37,59 @@ options(stringsAsFactors=FALSE)
 # https://github.com/Rapporter/rapportools/blob/master/R/htest.R
 # http://www1.maths.lth.se/matstat/bioinformatics/software/R/library/ctest/html/print.pairwise.htest.html
 
+testFormula = function(formula, data, groups = NULL, ...)
+{
+  # code largely copied from stats:::t.test
+  if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
+                                                                  "term.labels")) != 1L))
+    stop("'formula' missing or incorrect")
+  # TODO: trace these called, what happens to m
+  m <- match.call(expand.dots = FALSE)
+  if (is.matrix(eval(m$data, parent.frame())))
+    m$data <- as.data.frame(data)
+  m[[1L]] <- quote(stats::model.frame)
+  m$... <- NULL
+  mf <- eval(m, parent.frame())
+  DNAME <- paste(names(mf), collapse = " by ")  # make sure this is correct
+  names(mf) <- NULL
+  response <- attr(attr(mf, "terms"), "response")
+  tmt <- factor(mf[[-response]])
+  if (nlevels(tmt) != 2L)
+    stop("treatment factor must have exactly 2 levels")
+  ## handle grouping: groups = NULL if unspecified
+  # TODO: deal with groups, this is preliminary, from latticeParseFormula()
+  # If groups is a variable, then its value is used for groups, otherwise the
+  # code below turns the formula into the group variable
+  groupVar = deparse(substitute(groups))  # start by assuming groups is a vector
+  if (inherits(groups, "formula")) {
+    groupVar <- as.character(groups)[2]
+    groups <- eval(parse(text = groupVar), data, environment(groups))
+  }
+  # TODO: parse out grouping if exists in formula
+  if (length(formula[[3]]) == 3) {  # grouping specified in formula
+    if (formula[[3]][[1]] == as.name("|")) {  # indeed
+      if (! is.null(groups))
+        stop("cannot specify grouping variable in both formula and groups argument")
+      tmt <- as.character(formula[[3]][[2]])
+      groupVar <- as.character(formula[[3]][[3]])
+      groups <- eval(parse(text = groupVar), data, environment(formula))
+    } else stop("invalid group specification in formula")
+  }
+  if (is.null(groups))
+    stop("group structure must be specified in the formula or groups argument")
+  DNAME <- paste(DNAME, groupVar, sep = " grouped by ")
+  # TODO: must modify DNAME to incorporate groups
+  # TODO: consider renaming these...
+  DATA <- data.frame(vals=mf[[response]], tmt=tmt, group=groups)
+  # TODO: nestedRanksTest doesn't yet exist
+  y <- do.call("MWW.nested.test", c(DATA, list(...)))
+  y$data.name <- DNAME
+  # TODO: are we returning group means?  is this appropriate?  wilcox.test lacks it
+  if (length(y$estimate) == 2L)
+    names(y$estimate) <- paste("mean in treatment", levels(tmt))
+  y
+}
+
 nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
 {
   # code largely copied from stats:::t.test
@@ -67,7 +120,7 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
   }
   # TODO: parse out grouping if exists in formula
   if (length(formula[[3]]) == 3) {  # grouping specified in formula
-    if (formula[[3]][[1]] = as.name("|")) {  # indeed
+    if (formula[[3]][[1]] == as.name("|")) {  # indeed
       if (! is.null(groups))
         stop("cannot specify grouping variable in both formula and groups argument")
       tmt <- as.character(formula[[3]][[2]])
@@ -94,45 +147,43 @@ MWW.nested.test = function(dat, n.iter=10000)
 {
   DNAME = deparse(substitute(dat))
   METHOD = "Nested Ranks Test"
-  tmt_levels = unique(sort(dat$treatment))
-  if (length(tmt_levels) != 2) 
-    stop(DNAME, "requires exactly two levels for treatment")
-  # implement a function version
   nr = nrow(dat)
   dat = dat[apply(dat[,1:3], 1, function(x) all(!is.na(x))), 1:3]
   BAD.OBS = nr - nrow(dat)
   vals = dat[, 1]
   tmt = dat[, 2]
   grp = dat[, 3]
+  tmt_levels = unique(sort(tmt))
+  if (length(tmt_levels) != 2) 
+    stop(DNAME, "requires exactly two levels for treatment")
+  #
   s = split(grp, tmt)
   if (length(unique(sort(grp))) != length(intersect(s[[1]], s[[2]])))
     stop(DNAME, "must have values for all groups in both treatment levels")
   wt = MWW.weights(dat)
   Grps = unique(sort(as.character(grp)))
+  nm.Grps = setNames(make.names(Grps, unique = TRUE), Grps)
   # fill in weight for each granary
-  weights = wt$Rel_Wt
-  # TODO: find R function to make strings into proper R names
-  names(weights) = paste0("g", wt$group)  # ensure that groups have proper R names
+  weights = setNames(wt$Rel_Wt, rownames(wt))
   # print(weights)
   # compute permutation for each group individually
   p = list()
   for (g in Grps) {
-    gdat = subset(dat, group == g)
-    tmt1.dat = subset(gdat, treatment == tmt_levels[1])
-    tmt2.dat = subset(gdat, treatment == tmt_levels[2])
+    tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
+    tmt2.dat = dat[grp == g & tmt == tmt_levels[2], ]
     n1 = nrow(tmt1.dat)
     n2 = nrow(tmt2.dat)
-    vals = c(tmt1.dat$value, tmt2.dat$value)
-    this.z = MWW(vals, n1, n2)
+    this.vals = c(tmt1.dat[, 1], tmt2.dat[, 1])
+    this.z = MWW(this.vals, n1, n2)
     Z = numeric(n.iter)
     if (n.iter > 1) {
       for (i in 1:(n.iter - 1)) {
-        d = sample(vals)
+        d = sample(this.vals)
         Z[i] = MWW(d, n1, n2)
       }
     }
     Z[n.iter] = this.z
-    p[[paste0("g",g)]] = Z
+    p[[ nm.Grps[g] ]] = Z
   }
   ans = as.data.frame(p)
   if (! all(names(ans) == names(weights)))
@@ -146,13 +197,13 @@ MWW.nested.test = function(dat, n.iter=10000)
   #attr(ans,"P.obs") = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
   PVAL = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
   attr(ans,"n.iter") = n.iter
-  cat(" Z.weighted.obs =", attr(ans, "Z.weighted.obs"), 
-      " n.iter =", attr(ans, "n.iter"), 
-      " P.obs =", attr(ans, "P.obs"),
+  cat(" Z.weighted.obs =", STATISTIC,
+      " n.iter =", n.iter,
+      " P.obs =", PVAL,
       "\n")
   RVAL = list(statistic = STATISTIC,
               p.value = PVAL,
-              alternative = "Z.weighted.obs lies above the values derived from bootstrapping",
+              alternative = "weighted Z lies above the values bootstrapped values",
               method = METHOD,
               data.name = DNAME,
               bad.obs = BAD.OBS)
@@ -182,23 +233,28 @@ MWW = function(x, n1, n2) {
 
 # MWW.weights calculates sample-size weights
 MWW.weights = function(dat) {
-  tmt_levels = unique(sort(dat$treatment))
-  Grps = as.character(sort(as.integer(unique(dat$group))))
+  vals = dat[, 1]
+  tmt = dat[, 2]
+  grp = dat[, 3]
+  tmt_levels = unique(sort(tmt))
+  Grps = unique(sort(as.character(grp)))
   w = data.frame()
   for (g in Grps) {
-    gdat = subset(dat, group == g)
-    tmt1.dat = subset(gdat, treatment == tmt_levels[1])
-    tmt2.dat = subset(gdat, treatment == tmt_levels[2])
+    #gdat = subset(dat, grp == g)
+    #tmt1.dat = subset(gdat, treatment == tmt_levels[1])
+    #tmt2.dat = subset(gdat, treatment == tmt_levels[2])
+    tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
+    tmt2.dat = dat[grp == g & tmt == tmt_levels[2], ]
     n1 = nrow(tmt1.dat)
     n2 = nrow(tmt2.dat)
     n1.n2 = n1 * n2
-    w = rbind(w, list(group=g,
-                      n1=n1,
-                      n2=n2,
-                      n1.n2=n1.n2))
+    w = rbind(w, list(group = g,
+                      n1    = n1,
+                      n2    = n2,
+                      n1.n2 = n1.n2))
   }
-  w = transform(w, Rel_Wt=n1.n2/sum(n1.n2))
-  rownames(w) = paste0("g", w$group)
+  w = transform(w, Rel_Wt = n1.n2 / sum(n1.n2))
+  rownames(w) = make.names(w$group, unique = TRUE)
   ####
   w
 }
