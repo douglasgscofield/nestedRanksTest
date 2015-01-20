@@ -29,138 +29,82 @@ options(stringsAsFactors=FALSE)
 # results of the test attached as attributes.  The data.frame can be passed to
 # plot.MWW.nested.test() to plot the test results.
 
-# TODO: find R function to make strings into proper R names
-# TODO: does a two-sided test make sense here?  I don't think so...
 # TODO: can I extend this with a nestedRanksTest class allowing for printing and plotting
 # TODO: end print.nestedRanksTest() with invisible(x)
 # http://tolstoy.newcastle.edu.au/R/devel/05/03/0094.html
 # https://github.com/Rapporter/rapportools/blob/master/R/htest.R
 # http://www1.maths.lth.se/matstat/bioinformatics/software/R/library/ctest/html/print.pairwise.htest.html
 
-testFormula = function(formula, data, groups = NULL, ...)
+nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
 {
-  # code largely copied from stats:::t.test
+  # initial version largely copied from stats:::t.test
   if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
                                                                   "term.labels")) != 1L))
     stop("'formula' missing or incorrect")
   # TODO: trace these called, what happens to m
   m <- match.call(expand.dots = FALSE)
-  if (is.matrix(eval(m$data, parent.frame())))
+  if (is.matrix(eval(m$data, parent.frame())))  # if data passed in as a matrix
     m$data <- as.data.frame(data)
-  m[[1L]] <- quote(stats::model.frame)
+  # Now, expand the formula, see if we have groups there via '|' or via groups=
+  if (is.null(m$groups)) {
+    if (length(formula[[3]]) == 3L && formula[[3]][[1]] == as.name("|")) { # grouping in formula
+      # modify formula, add groups=
+      GROUP.NAME <- as.character(formula[[3]][[3]])
+      m$groups = formula[[3]][[3]]
+      TREATMENT.NAME <- as.character(formula[[3]][[2]])
+      formula[[3]] <- formula[[3]][[2]]
+      m$formula <- formula
+    } else stop("invalid group specification in formula")
+  } else {  # group structure specifed via groups=, could be name or vector
+    if (length(formula[[3]]) == 3L && formula[[3]][[1]] == as.name("|"))
+      stop("groups are specified with '|' in formula or groups=, but not both")
+    GROUP.NAME <- deparse(substitute(groups))
+  }
+  m[[1L]] <- quote(stats::model.frame)  # this could do a lot, including na.action and subset
   m$... <- NULL
-  mf <- eval(m, parent.frame())
-  DNAME <- paste(names(mf), collapse = " by ")  # make sure this is correct
-  names(mf) <- NULL
+  mf <- eval(m, parent.frame())  # for (y ~ x, groups=G) mf now y , x , "(groups)"
+  if (! nrow(mf))
+    stop("no data")
+  DNAME <- paste(names(mf)[1:2], collapse = " by ")  # only response and treatment
+  DNAME <- paste(DNAME, GROUP.NAME, sep = " grouped by ")
   response <- attr(attr(mf, "terms"), "response")
-  tmt <- factor(mf[[-response]])
+  TREATMENT.NAME <- attr(attr(mf, "terms"), "term.labels")
+  tmt <- factor(mf[[TREATMENT.NAME]])
   if (nlevels(tmt) != 2L)
     stop("treatment factor must have exactly 2 levels")
-  ## handle grouping: groups = NULL if unspecified
-  # TODO: deal with groups, this is preliminary, from latticeParseFormula()
-  # If groups is a variable, then its value is used for groups, otherwise the
-  # code below turns the formula into the group variable
-  groupVar = deparse(substitute(groups))  # start by assuming groups is a vector
-  if (inherits(groups, "formula")) {
-    groupVar <- as.character(groups)[2]
-    groups <- eval(parse(text = groupVar), data, environment(groups))
-  }
-  # TODO: parse out grouping if exists in formula
-  if (length(formula[[3]]) == 3) {  # grouping specified in formula
-    if (formula[[3]][[1]] == as.name("|")) {  # indeed
-      if (! is.null(groups))
-        stop("cannot specify grouping variable in both formula and groups argument")
-      tmt <- as.character(formula[[3]][[2]])
-      groupVar <- as.character(formula[[3]][[3]])
-      groups <- eval(parse(text = groupVar), data, environment(formula))
-    } else stop("invalid group specification in formula")
-  }
-  if (is.null(groups))
-    stop("group structure must be specified in the formula or groups argument")
-  DNAME <- paste(DNAME, groupVar, sep = " grouped by ")
-  # TODO: must modify DNAME to incorporate groups
   # TODO: consider renaming these...
-  DATA <- data.frame(vals=mf[[response]], tmt=tmt, group=groups)
+  DATA <- data.frame(y=mf[[response]], x=tmt, groups=mf[["(groups)"]])
   # TODO: nestedRanksTest doesn't yet exist
-  y <- do.call("MWW.nested.test", c(DATA, list(...)))
+  y <- do.call("nestedRanksTest.default", 
+               c(list(y=mf[[response]], x=tmt, groups=mf[["(groups)"]]), list(...)))
+  #y <- do.call("MWW.nested.test", c(list(dat = DATA), list(...)))
   y$data.name <- DNAME
-  # TODO: are we returning group means?  is this appropriate?  wilcox.test lacks it
-  if (length(y$estimate) == 2L)
-    names(y$estimate) <- paste("mean in treatment", levels(tmt))
   y
 }
 
-nestedRanksTest.formula = function(formula, data, groups = NULL, ...)
-{
-  # code largely copied from stats:::t.test
-  if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
-                                                                  "term.labels")) != 1L))
-    stop("'formula' missing or incorrect")
-  # TODO: trace these called, what happens to m
-  m <- match.call(expand.dots = FALSE)
-  if (is.matrix(eval(m$data, parent.frame())))
-    m$data <- as.data.frame(data)
-  m[[1L]] <- quote(stats::model.frame)
-  m$... <- NULL
-  mf <- eval(m, parent.frame())
-  DNAME <- paste(names(mf), collapse = " by ")  # make sure this is correct
-  names(mf) <- NULL
-  response <- attr(attr(mf, "terms"), "response")
-  tmt <- factor(mf[[-response]])
-  if (nlevels(tmt) != 2L)
-    stop("treatment factor must have exactly 2 levels")
-  ## handle grouping: groups = NULL if unspecified
-  # TODO: deal with groups, this is preliminary, from latticeParseFormula()
-  # If groups is a variable, then its value is used for groups, otherwise the
-  # code below turns the formula into the group variable
-  groupVar = deparse(substitute(groups))  # start by assuming groups is a vector
-  if (inherits(groups, "formula")) {
-    groupVar <- as.character(groups)[2]
-    groups <- eval(parse(text = groupVar), data, environment(groups))
-  }
-  # TODO: parse out grouping if exists in formula
-  if (length(formula[[3]]) == 3) {  # grouping specified in formula
-    if (formula[[3]][[1]] == as.name("|")) {  # indeed
-      if (! is.null(groups))
-        stop("cannot specify grouping variable in both formula and groups argument")
-      tmt <- as.character(formula[[3]][[2]])
-      groupVar <- as.character(formula[[3]][[3]])
-      groups <- eval(parse(text = groupVar), data, environment(formula))
-    } else stop("invalid group specification in formula")
-  }
-  if (is.null(groups))
-    stop("group structure must be specified in the formula or groups argument")
-  DNAME <- paste(DNAME, groupVar, sep = " grouped by ")
-  # TODO: must modify DNAME to incorporate groups
-  # TODO: consider renaming these...
-  DATA <- setNames(split(mf[[response]], tmt), c("x", "y"))
-  # TODO: nestedRanksTest doesn't yet exist
-  y <- do.call("nestedRanksTest", c(DATA, list(...)))
-  y$data.name <- DNAME
-  # TODO: are we returning group means?  is this appropriate?  wilcox.test lacks it
-  if (length(y$estimate) == 2L)
-    names(y$estimate) <- paste("mean in treatment", levels(tmt))
-  y
-}
 
-MWW.nested.test = function(dat, n.iter=10000)
+# must suffix with '.default' when a proper S3 class
+nestedRanksTest.default = function(y, x, groups, n.iter=10000)
 {
-  DNAME = deparse(substitute(dat))
+  Y.NAME = deparse(substitute(y))
+  X.NAME = deparse(substitute(x))
+  GROUPS.NAME = deparse(substitute(groups))
+  DNAME <- paste(Y.NAME, "by", X.NAME, "grouped by", GROUPS.NAME)
   METHOD = "Nested Ranks Test"
   STATISTIC.NAME = "Z.weighted.obs"
+  dat = data.frame(y=y, x=x, groups=groups)
   nr = nrow(dat)
   dat = dat[apply(dat[,1:3], 1, function(x) all(!is.na(x))), 1:3]
   BAD.OBS = nr - nrow(dat)
   vals = dat[, 1]
-  tmt = dat[, 2]
+  tmt = factor(dat[, 2])
   grp = dat[, 3]
   tmt_levels = unique(sort(tmt))
   if (length(tmt_levels) != 2) 
-    stop(DNAME, "requires exactly two levels for treatment")
-  #
+    stop(GROUPS.NAME, "requires exactly two levels for treatment")
   s = split(grp, tmt)
   if (length(unique(sort(grp))) != length(intersect(s[[1]], s[[2]])))
-    stop(DNAME, "must have values for all groups in both treatment levels")
+    stop(X.NAME, "must have values for all groups in both treatment levels")
   wt = MWW.weights(dat)
   Grps = unique(sort(as.character(grp)))
   nm.Grps = setNames(make.names(Grps, unique = TRUE), Grps)

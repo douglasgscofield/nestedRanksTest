@@ -1,0 +1,114 @@
+####
+# Error-producing tests
+> dat <- read.delim("../data/woodpecker_multiyear.txt")
+> ddat <- subset(dat, Species == "agrifolia")
+
+# groups specified twice
+> nestedRanksTest.formula(Dist ~ Year | Granary, groups=Granary, ddat)
+Error in nestedRanksTest.formula(Dist ~ Year | Granary, groups = Granary,  :
+  groups are specified with '|' in formula or groups=, but not both
+
+
+# subset results in 0-row data
+> nestedRanksTest.formula(Dist ~ Year | Granary, subset = Species == "lobata", ddat)
+Error in nestedRanksTest.formula(Dist ~ Year | Granary, subset = Species ==  :
+  no data
+
+----
+
+> dat <- read.delim("../data/woodpecker_multiyear.txt")
+
+####
+# for agrifolia
+
+> ddat <- subset(dat, Species == "agrifolia")
+> nestedRanksTest.formula(Dist ~ Year | Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.277, p-value = 2e-04
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.formula(Dist ~ Year, groups = Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.277, p-value = 1e-04
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.formula(Dist ~ Year, groups = ddat$Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by ddat$Granary
+Z.weighted.obs = 0.277, p-value = 1e-04
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.default(y=ddat$Dist, x = ddat$Year, groups = ddat$Granary)
+
+	Nested Ranks Test
+
+data:  ddat$Dist by ddat$Year grouped by ddat$Granary
+Z.weighted.obs = 0.277, p-value = 1e-04
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+
+####
+# note for lobata, the P values vary a bit (but not Z.weighted.obs)
+
+
+> ddat = subset(dat, Species == "lobata")
+> nestedRanksTest.formula(Dist ~ Year | Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.0809, p-value = 0.0602
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.formula(Dist ~ Year, groups = Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.0809, p-value = 0.058
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.formula(Dist ~ Year, groups = ddat$Granary, ddat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by ddat$Granary
+Z.weighted.obs = 0.0809, p-value = 0.0553
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.default(y=ddat$Dist, x = ddat$Year, groups = ddat$Granary)
+
+	Nested Ranks Test
+
+data:  ddat$Dist by ddat$Year grouped by ddat$Granary
+Z.weighted.obs = 0.0809, p-value = 0.0638
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+
+####
+# testing subset = 
+
+> nestedRanksTest.formula(Dist ~ Year | Granary, subset = Species == "lobata", dat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.0809, p-value = 0.0568
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
+> nestedRanksTest.formula(Dist ~ Year | Granary, subset = Species == "agrifolia", dat)
+
+	Nested Ranks Test
+
+data:  Dist by Year grouped by Granary
+Z.weighted.obs = 0.277, p-value = 1e-04
+alternative hypothesis: Z.weighted.obs lies above bootstrapped values
+
