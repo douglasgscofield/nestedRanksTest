@@ -168,6 +168,7 @@ MWW.nested.test = function(dat, n.iter=10000)
   weights = setNames(wt$Rel_Wt, rownames(wt))
   # print(weights)
   # compute permutation for each group individually
+  # TODO: speed this up...
   p = list()
   for (g in Grps) {
     tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
@@ -200,6 +201,7 @@ MWW.nested.test = function(dat, n.iter=10000)
               method = METHOD,
               data.name = DNAME,
               bad.obs = BAD.OBS,
+              weights = WEIGHTS,
               n.iter = N.ITER,
               null.distribution = NULL.DISTRIBUTION)
   class(RVAL) = "htest"
