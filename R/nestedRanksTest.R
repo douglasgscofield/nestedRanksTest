@@ -147,6 +147,7 @@ MWW.nested.test = function(dat, n.iter=10000)
 {
   DNAME = deparse(substitute(dat))
   METHOD = "Nested Ranks Test"
+  STATISTIC.NAME = "Z.weighted.obs"
   nr = nrow(dat)
   dat = dat[apply(dat[,1:3], 1, function(x) all(!is.na(x))), 1:3]
   BAD.OBS = nr - nrow(dat)
@@ -185,28 +186,22 @@ MWW.nested.test = function(dat, n.iter=10000)
     Z[n.iter] = this.z
     p[[ nm.Grps[g] ]] = Z
   }
-  ans = as.data.frame(p)
-  if (! all(names(ans) == names(weights)))
+  p = as.data.frame(p)
+  if (! all(names(p) == names(weights)))
     stop("weights out of order")
-  Z.weighted = apply(ans, 1, function(.x) sum(.x * weights))
-  ans$Z.weighted = Z.weighted
-  attr(ans,"weights") = weights
-  #attr(ans,"Z.weighted.obs") = Z.weighted[n.iter]
-  STATISTIC = Z.weighted[n.iter]
-  names(STATISTIC) = "Z.weighted.obs"
-  #attr(ans,"P.obs") = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
-  PVAL = sum(Z.weighted >= Z.weighted[n.iter]) / n.iter
-  attr(ans,"n.iter") = n.iter
-  cat(" Z.weighted.obs =", STATISTIC,
-      " n.iter =", n.iter,
-      " P.obs =", PVAL,
-      "\n")
+  NULL.DISTRIBUTION = apply(p, 1, function(x) sum(x * weights))
+  N.ITER = n.iter
+  WEIGHTS = weights
+  STATISTIC = setNames(NULL.DISTRIBUTION[n.iter], STATISTIC.NAME)
+  PVAL = sum(NULL.DISTRIBUTION >= STATISTIC) / N.ITER
   RVAL = list(statistic = STATISTIC,
               p.value = PVAL,
-              alternative = "weighted Z lies above the values bootstrapped values",
+              alternative = paste(STATISTIC.NAME, "lies above bootstrapped values"),
               method = METHOD,
               data.name = DNAME,
-              bad.obs = BAD.OBS)
+              bad.obs = BAD.OBS,
+              n.iter = N.ITER,
+              null.distribution = NULL.DISTRIBUTION)
   class(RVAL) = "htest"
   return(RVAL)
 }
