@@ -14,8 +14,14 @@
 # Movement Ecology 2:12. doi:10.1186/2051- 3933-2-12, data at 
 # doi:10.5061/dryad.64jk6
 
+# TODO: General package documentation, can we use Roxygen?
+# TODO: Update documentation for each function, including interface following
+#       the Roxygen stuff from dev_tools
+# TODO: Figure out how to register the *.formula and *.default methods
+# TODO: Do the *MWW and *weights functions need to remain internal?
+# TODO: Set up testing structure
+# TODO: Can the permutations in nestedRanksTest.default() be sped up?
 
-options(stringsAsFactors=FALSE)
 
 # MWW.nested.test performs the nested ranks test
 #    dat    : data frame containing group, treatment and value columns
@@ -29,11 +35,6 @@ options(stringsAsFactors=FALSE)
 # results of the test attached as attributes.  The data.frame can be passed to
 # plot.MWW.nested.test() to plot the test results.
 
-# TODO: can I extend this with a nestedRanksTest class allowing for printing and plotting
-# TODO: end print.nestedRanksTest() with invisible(x)
-# http://tolstoy.newcastle.edu.au/R/devel/05/03/0094.html
-# https://github.com/Rapporter/rapportools/blob/master/R/htest.R
-# http://www1.maths.lth.se/matstat/bioinformatics/software/R/library/ctest/html/print.pairwise.htest.html
 
 nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
 {
@@ -41,14 +42,13 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
   if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
                                                                   "term.labels")) != 1L))
     stop("'formula' missing or incorrect")
-  # TODO: trace these called, what happens to m
   m <- match.call(expand.dots = FALSE)
   if (is.matrix(eval(m$data, parent.frame())))  # if data passed in as a matrix
     m$data <- as.data.frame(data)
   # Now, expand the formula, see if we have groups there via '|' or via groups=
   if (is.null(m$groups)) {
     if (length(formula[[3]]) == 3L && formula[[3]][[1]] == as.name("|")) { # grouping in formula
-      # modify formula, add groups=
+      # remove grouping from formula, add it to groups=
       GROUP.NAME <- as.character(formula[[3]][[3]])
       m$groups = formula[[3]][[3]]
       TREATMENT.NAME <- as.character(formula[[3]][[2]])
@@ -60,12 +60,12 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
       stop("groups are specified with '|' in formula or groups=, but not both")
     GROUP.NAME <- deparse(substitute(groups))
   }
-  m[[1L]] <- quote(stats::model.frame)  # this could do a lot, including na.action and subset
+  m[[1L]] <- quote(stats::model.frame)  # this handles subset for us
   m$... <- NULL
   mf <- eval(m, parent.frame())  # for (y ~ x, groups=G) mf now y , x , "(groups)"
   if (! nrow(mf))
     stop("no data")
-  DNAME <- paste(names(mf)[1:2], collapse = " by ")  # only response and treatment
+  DNAME <- paste(names(mf)[1:2], collapse = " by ")
   DNAME <- paste(DNAME, GROUP.NAME, sep = " grouped by ")
   response <- attr(attr(mf, "terms"), "response")
   TREATMENT.NAME <- attr(attr(mf, "terms"), "term.labels")
@@ -74,16 +74,14 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
     stop("treatment factor must have exactly 2 levels")
   # TODO: consider renaming these...
   DATA <- data.frame(y=mf[[response]], x=tmt, groups=mf[["(groups)"]])
-  # TODO: nestedRanksTest doesn't yet exist
   y <- do.call("nestedRanksTest.default", 
                c(list(y=mf[[response]], x=tmt, groups=mf[["(groups)"]]), list(...)))
-  #y <- do.call("MWW.nested.test", c(list(dat = DATA), list(...)))
   y$data.name <- DNAME
-  y
+  return(y)
 }
 
 
-# must suffix with '.default' when a proper S3 class
+# must suffix with '.default' when a proper S3 class ???
 nestedRanksTest.default = function(y, x, groups, n.iter=10000)
 {
   Y.NAME = deparse(substitute(y))
@@ -108,11 +106,7 @@ nestedRanksTest.default = function(y, x, groups, n.iter=10000)
   wt = .nestedRanksTest_weights(dat)
   Grps = unique(sort(as.character(grp)))
   nm.Grps = setNames(make.names(Grps, unique = TRUE), Grps)
-  # fill in weight for each granary
   weights = setNames(wt$Rel_Wt, rownames(wt))
-  # print(weights)
-  # compute permutation for each group individually
-  # TODO: speed this up...
   p = list()
   for (g in Grps) {
     tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
