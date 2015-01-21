@@ -105,7 +105,7 @@ nestedRanksTest.default = function(y, x, groups, n.iter=10000)
   s = split(grp, tmt)
   if (length(unique(sort(grp))) != length(intersect(s[[1]], s[[2]])))
     stop(X.NAME, "must have values for all groups in both treatment levels")
-  wt = MWW.weights(dat)
+  wt = .nestedRanksTest_weights(dat)
   Grps = unique(sort(as.character(grp)))
   nm.Grps = setNames(make.names(Grps, unique = TRUE), Grps)
   # fill in weight for each granary
@@ -120,12 +120,12 @@ nestedRanksTest.default = function(y, x, groups, n.iter=10000)
     n1 = nrow(tmt1.dat)
     n2 = nrow(tmt2.dat)
     this.vals = c(tmt1.dat[, 1], tmt2.dat[, 1])
-    this.z = MWW(this.vals, n1, n2)
+    this.z = .nestedRanksTest_MWW(this.vals, n1, n2)
     Z = numeric(n.iter)
     if (n.iter > 1) {
       for (i in 1:(n.iter - 1)) {
         d = sample(this.vals)
-        Z[i] = MWW(d, n1, n2)
+        Z[i] = .nestedRanksTest_MWW(d, n1, n2)
       }
     }
     Z[n.iter] = this.z
@@ -134,30 +134,31 @@ nestedRanksTest.default = function(y, x, groups, n.iter=10000)
   p = as.data.frame(p)
   if (! all(names(p) == names(weights)))
     stop("weights out of order")
-  NULL.DISTRIBUTION = apply(p, 1, function(x) sum(x * weights))
-  N.ITER = n.iter
-  WEIGHTS = weights
-  STATISTIC = setNames(NULL.DISTRIBUTION[n.iter], STATISTIC.NAME)
-  PVAL = sum(NULL.DISTRIBUTION >= STATISTIC) / N.ITER
+  null.distribution <- apply(p, 1, function(x) sum(x * weights))
+  quantiles <- c(0, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 1)
+  NULL.VALUES <- quantile(null.distribution, quantiles)
+  STATISTIC = setNames(null.distribution[n.iter], STATISTIC.NAME)
+  PVAL = sum(null.distribution >= STATISTIC) / n.iter
   RVAL = list(statistic = STATISTIC,
               p.value = PVAL,
               alternative = paste(STATISTIC.NAME, "lies above bootstrapped values"),
               method = METHOD,
               data.name = DNAME,
               bad.obs = BAD.OBS,
-              weights = WEIGHTS,
-              n.iter = N.ITER,
-              null.distribution = NULL.DISTRIBUTION)
-  class(RVAL) = "htest"
+              null.values = NULL.VALUES,
+              n.iter = n.iter,
+              weights = weights,
+              null.distribution = null.distribution)
+  class(RVAL) = c("htest_boot", "htest")
   return(RVAL)
 }
 
-# MWW calculates the Mann-Whitney-Wilcoxon Z-score
+# .nestedRanksTest_MWW calculates the Mann-Whitney-Wilcoxon Z-score
 #    x  : values
 #    n1 : the first n1 of x belong to the first level
 #    n2 : the final n2 of x belong to the second level
 # The return value is the calculated Z-score
-MWW = function(x, n1, n2) {
+.nestedRanksTest_MWW = function(x, n1, n2) {
   r = rank(x)
   r1 = r[1:n1]
   r2 = r[(n1+1):(n1+n2)]
@@ -167,13 +168,12 @@ MWW = function(x, n1, n2) {
   U1 = (R1 - (((n1+1)*n1)/2))
   U2 = (R2 - (((n2+1)*n2)/2))
   Z.12 = (U2 - U1) / n1.n2
-  ####
-  Z.12
+  return(Z.12)
 }
 
 
 # MWW.weights calculates sample-size weights
-MWW.weights = function(dat) {
+.nestedRanksTest_weights = function(dat) {
   vals = dat[, 1]
   tmt = dat[, 2]
   grp = dat[, 3]
@@ -196,25 +196,31 @@ MWW.weights = function(dat) {
   }
   w = transform(w, Rel_Wt = n1.n2 / sum(n1.n2))
   rownames(w) = make.names(w$group, unique = TRUE)
-  ####
-  w
+  return(w)
 }
 
-# plot.MWW.nested.test creates a utility plot of the test result
-plot.MWW.nested.test = function(test.dat) {
-  title = deparse(substitute(test.dat))
-  bks = if (max(test.dat$Z.weighted) > 1 || min(test.dat$Z.weighted) < -1)
-          200
-        else
-          seq(-1,1,0.05)
-  hist(test.dat$Z.weighted,
-       breaks=bks,
-       col="lightblue",
-       border=NA,
-       main=paste0(title, " weighted between-tmt_levels Z-score\nacross all groups, P = ", 
-                   attr(test.dat, "P.obs")),
-       xlab="Weighted between-year Z-score",
-       ylab=paste0("Frequency (out of ", attr(test.dat, "n.iter"), ")"))
-  abline(v=attr(test.dat, "Z.weighted.obs"), col="red", lty=2, lwd=2)
+#
+print.htest_boot <- function(x, ...) {
+  NextMethod(x, ...)
+  cat("bootstrap iterations =", x$n.iter, "\ngroup weights:\n")
+  print(x$weights, ...)
+  invisible(x)
+}
+
+# plot.htest_boot creates a utility plot of class htest_boot results
+plot.htest_boot = function(x, breaks, col = "lightblue", border = NA, 
+                           p.col = "red", p.lty = 2, p.lwd = 2,
+                           main = paste0(x$method, ", ", x$data.name, "\n",
+                                         names(x$statistic), " = ", 
+                                         round(x$statistic, ceiling(log10(x$n.iter))), 
+                                         ", P = ", x$p.value),
+                           xlab = "Distribution of Z-scores", 
+                           ylab = paste0("Frequency (out of ", x$n.iter, ")"),
+                           ...) {
+  if (missing(breaks))
+    breaks <- min(x$n.iter / 50, 100)
+  hist(x$null.distribution, breaks = breaks, col = col, border = border, 
+       main = main, xlab = xlab, ylab = ylab, ...)
+  abline(v = x$statistic, col = p.col, lty = p.lty, lwd = p.lwd, ...)
 }
 
