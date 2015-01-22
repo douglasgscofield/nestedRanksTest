@@ -1,535 +1,535 @@
-Species	Year	Granary	Sample	Dist
-agrifolia	2006	10	1	10.9
-agrifolia	2006	10	2	10.9
-agrifolia	2006	10	3	10.9
-agrifolia	2006	10	4	10.9
-agrifolia	2006	10	5	10.9
-agrifolia	2006	10	6	10.9
-agrifolia	2006	10	7	10.9
-agrifolia	2006	10	8	10.9
-agrifolia	2006	10	9	10.9
-agrifolia	2006	10	10	10.9
-agrifolia	2006	10	11	10.9
-agrifolia	2006	10	12	10.9
-agrifolia	2006	31	1	46
-agrifolia	2006	31	2	46
-agrifolia	2006	31	3	46
-agrifolia	2006	31	4	46
-agrifolia	2006	31	5	46
-agrifolia	2006	31	9	50.8
-agrifolia	2006	31	10	50.8
-agrifolia	2006	31	6	59.8
-agrifolia	2006	31	7	84.4
-agrifolia	2006	31	8	84.4
-agrifolia	2006	140	4	1320.9
-agrifolia	2006	140	5	1343.9
-agrifolia	2006	140	6	1351.1
-agrifolia	2006	140	7	1351.1
-agrifolia	2006	140	8	1351.1
-agrifolia	2006	140	3	1407.1
-agrifolia	2006	140	1	1448.5
-agrifolia	2006	140	2	1448.5
-agrifolia	2006	151	1	53.6
-agrifolia	2006	151	2	53.6
-agrifolia	2006	151	3	53.6
-agrifolia	2006	151	4	53.6
-agrifolia	2006	151	5	53.6
-agrifolia	2006	151	6	53.6
-agrifolia	2006	151	7	53.6
-agrifolia	2006	151	8	53.6
-agrifolia	2006	151	9	53.6
-agrifolia	2006	151	10	53.6
-agrifolia	2006	151	11	53.6
-agrifolia	2006	151	12	53.6
-agrifolia	2006	151	13	53.6
-agrifolia	2006	151	14	53.6
-agrifolia	2006	151	15	53.6
-agrifolia	2006	151	16	53.6
-agrifolia	2006	151	17	53.6
-agrifolia	2006	151	18	53.6
-agrifolia	2006	151	19	53.6
-agrifolia	2006	151	20	53.6
-agrifolia	2006	151	21	53.6
-agrifolia	2006	151	22	53.6
-agrifolia	2006	151	23	53.6
-agrifolia	2006	151	24	53.6
-agrifolia	2006	151	25	53.6
-agrifolia	2006	151	26	53.6
-agrifolia	2006	151	27	53.6
-agrifolia	2006	151	28	53.6
-agrifolia	2006	151	29	53.6
-agrifolia	2006	151	30	53.6
-agrifolia	2006	151	31	53.6
-agrifolia	2006	151	32	53.6
-agrifolia	2006	151	33	53.6
-agrifolia	2006	151	34	53.6
-agrifolia	2006	151	35	53.6
-agrifolia	2006	151	36	53.6
-agrifolia	2006	151	37	53.6
-agrifolia	2006	151	38	53.6
-agrifolia	2006	151	39	53.6
-agrifolia	2006	151	40	53.6
-agrifolia	2006	151	41	53.6
-agrifolia	2006	151	42	53.6
-agrifolia	2006	151	43	53.6
-agrifolia	2006	151	44	53.6
-agrifolia	2006	151	45	53.6
-agrifolia	2006	151	46	53.6
-agrifolia	2006	151	47	53.6
-agrifolia	2006	152	9	52
-agrifolia	2006	152	10	52
-agrifolia	2006	152	11	52
-agrifolia	2006	152	12	52
-agrifolia	2006	152	13	52
-agrifolia	2006	152	14	52
-agrifolia	2006	152	15	52
-agrifolia	2006	152	16	52
-agrifolia	2006	152	17	52
-agrifolia	2006	152	18	52
-agrifolia	2006	152	19	52
-agrifolia	2006	152	20	52
-agrifolia	2006	152	21	52
-agrifolia	2006	152	22	52
-agrifolia	2006	152	23	52
-agrifolia	2006	152	24	52
-agrifolia	2006	152	25	52
-agrifolia	2006	152	26	52
-agrifolia	2006	152	27	52
-agrifolia	2006	152	28	52
-agrifolia	2006	152	29	52
-agrifolia	2006	152	30	52
-agrifolia	2006	152	31	52
-agrifolia	2006	152	32	52
-agrifolia	2006	152	33	52
-agrifolia	2006	152	34	52
-agrifolia	2006	152	35	52
-agrifolia	2006	152	36	52
-agrifolia	2006	152	37	52
-agrifolia	2006	152	38	52
-agrifolia	2006	152	39	52
-agrifolia	2006	152	40	52
-agrifolia	2006	152	41	52
-agrifolia	2006	152	42	52
-agrifolia	2006	152	44	90.7
-agrifolia	2006	152	45	90.7
-agrifolia	2006	152	46	90.7
-agrifolia	2006	152	47	90.7
-agrifolia	2006	152	48	90.7
-agrifolia	2006	152	49	90.7
-agrifolia	2006	152	1	94
-agrifolia	2006	152	2	94
-agrifolia	2006	152	3	94
-agrifolia	2006	152	4	94
-agrifolia	2006	152	5	94
-agrifolia	2006	152	6	94
-agrifolia	2006	152	7	94
-agrifolia	2006	152	8	94
-agrifolia	2006	152	43	104.3
-agrifolia	2006	938	22	30.9
-agrifolia	2006	938	23	30.9
-agrifolia	2006	938	12	39.7
-agrifolia	2006	938	13	39.7
-agrifolia	2006	938	14	39.7
-agrifolia	2006	938	15	39.7
-agrifolia	2006	938	16	39.7
-agrifolia	2006	938	17	39.7
-agrifolia	2006	938	18	39.7
-agrifolia	2006	938	19	39.7
-agrifolia	2006	938	20	39.7
-agrifolia	2006	938	21	39.7
-agrifolia	2006	938	24	55.8
-agrifolia	2006	938	25	55.8
-agrifolia	2006	938	1	58
-agrifolia	2006	938	2	58
-agrifolia	2006	938	3	58
-agrifolia	2006	938	4	58
-agrifolia	2006	938	5	58
-agrifolia	2006	938	6	58
-agrifolia	2006	938	7	58
-agrifolia	2006	938	8	58
-agrifolia	2006	938	9	58
-agrifolia	2006	938	10	58
-agrifolia	2006	938	11	58
-agrifolia	2006	938	26	88.1
-agrifolia	2006	938	27	88.1
-agrifolia	2006	938	28	88.1
-agrifolia	2006	938	29	88.1
-agrifolia	2006	938	30	88.1
-agrifolia	2006	938	31	88.1
-agrifolia	2006	938	32	88.1
-agrifolia	2006	938	33	88.1
-agrifolia	2006	938	34	88.1
-agrifolia	2006	938	35	88.1
-agrifolia	2006	938	36	88.1
-agrifolia	2006	938	37	88.1
-agrifolia	2006	938	38	88.1
-agrifolia	2006	938	39	88.1
-agrifolia	2006	938	40	88.1
-agrifolia	2006	938	41	88.1
-agrifolia	2006	938	42	88.1
-agrifolia	2006	938	43	88.1
-agrifolia	2006	938	44	88.1
-agrifolia	2006	938	45	143.2
-agrifolia	2006	938	46	168.2
-agrifolia	2006	938	47	168.2
-agrifolia	2006	942	1	52.6
-agrifolia	2006	942	2	52.6
-agrifolia	2006	942	3	52.6
-agrifolia	2006	942	4	52.6
-agrifolia	2006	942	5	52.6
-agrifolia	2006	942	6	52.6
-agrifolia	2006	942	7	52.6
-agrifolia	2006	942	8	52.6
-agrifolia	2006	942	9	52.6
-agrifolia	2006	942	10	52.6
-agrifolia	2006	942	11	52.6
-agrifolia	2006	942	12	52.6
-agrifolia	2006	942	13	52.6
-agrifolia	2006	942	14	52.6
-agrifolia	2006	942	15	52.6
-agrifolia	2006	942	16	52.6
-agrifolia	2006	942	17	52.6
-agrifolia	2006	942	18	52.6
-agrifolia	2006	942	19	52.6
-agrifolia	2006	942	20	52.6
-agrifolia	2006	942	21	52.6
-agrifolia	2006	942	22	52.6
-agrifolia	2006	942	23	52.6
-agrifolia	2006	942	24	52.6
-agrifolia	2006	942	25	52.6
-agrifolia	2006	942	26	52.6
-agrifolia	2006	942	27	52.6
-agrifolia	2006	942	28	52.6
-agrifolia	2006	942	29	52.6
-agrifolia	2006	942	30	52.6
-agrifolia	2006	942	31	52.6
-agrifolia	2006	942	32	52.6
-agrifolia	2006	942	33	66.9
-agrifolia	2006	942	34	66.9
-agrifolia	2006	942	35	66.9
-agrifolia	2006	942	36	66.9
-agrifolia	2006	942	37	66.9
-agrifolia	2006	942	38	66.9
-agrifolia	2006	942	39	66.9
-agrifolia	2006	942	40	66.9
-agrifolia	2006	942	41	66.9
-agrifolia	2006	942	42	66.9
-agrifolia	2006	942	43	66.9
-agrifolia	2006	942	44	66.9
-agrifolia	2007	10	1	10.9
-agrifolia	2007	10	2	10.9
-agrifolia	2007	10	3	10.9
-agrifolia	2007	10	4	10.9
-agrifolia	2007	10	13	71.8
-agrifolia	2007	10	14	71.8
-agrifolia	2007	10	5	71.9
-agrifolia	2007	10	6	71.9
-agrifolia	2007	10	7	71.9
-agrifolia	2007	10	8	71.9
-agrifolia	2007	10	9	71.9
-agrifolia	2007	10	10	71.9
-agrifolia	2007	10	11	71.9
-agrifolia	2007	10	12	78.1
-agrifolia	2007	31	1	46
-agrifolia	2007	31	14	50.8
-agrifolia	2007	31	15	50.8
-agrifolia	2007	31	2	64.1
-agrifolia	2007	31	3	84.4
-agrifolia	2007	31	4	84.4
-agrifolia	2007	31	5	84.4
-agrifolia	2007	31	6	84.4
-agrifolia	2007	31	7	84.4
-agrifolia	2007	31	8	84.4
-agrifolia	2007	31	9	84.4
-agrifolia	2007	31	10	84.4
-agrifolia	2007	31	11	84.4
-agrifolia	2007	31	12	84.4
-agrifolia	2007	31	13	84.4
-agrifolia	2007	140	1	59.4
-agrifolia	2007	140	2	59.4
-agrifolia	2007	140	3	59.4
-agrifolia	2007	140	4	84.4
-agrifolia	2007	140	5	84.4
-agrifolia	2007	140	6	84.4
-agrifolia	2007	140	7	84.4
-agrifolia	2007	140	8	84.4
-agrifolia	2007	140	9	84.4
-agrifolia	2007	140	10	84.4
-agrifolia	2007	151	1	53.6
-agrifolia	2007	151	2	53.6
-agrifolia	2007	151	3	53.6
-agrifolia	2007	151	4	53.6
-agrifolia	2007	151	5	53.6
-agrifolia	2007	151	6	53.6
-agrifolia	2007	151	7	53.6
-agrifolia	2007	151	8	53.6
-agrifolia	2007	151	9	53.6
-agrifolia	2007	151	10	53.6
-agrifolia	2007	152	1	94
-agrifolia	2007	152	2	94
-agrifolia	2007	152	3	94
-agrifolia	2007	152	4	94
-agrifolia	2007	152	5	94
-agrifolia	2007	152	6	94
-agrifolia	2007	152	7	94
-agrifolia	2007	152	8	94
-agrifolia	2007	152	9	94
-agrifolia	2007	152	10	94
-agrifolia	2007	152	11	94
-agrifolia	2007	152	12	94
-agrifolia	2007	152	13	94
-agrifolia	2007	152	14	94
-agrifolia	2007	152	15	94
-agrifolia	2007	152	16	94
-agrifolia	2007	152	17	94
-agrifolia	2007	152	18	94
-agrifolia	2007	152	19	94
-agrifolia	2007	152	20	113.1
-agrifolia	2007	938	12	39.7
-agrifolia	2007	938	13	39.7
-agrifolia	2007	938	14	39.7
-agrifolia	2007	938	15	39.7
-agrifolia	2007	938	16	39.7
-agrifolia	2007	938	17	39.7
-agrifolia	2007	938	18	39.7
-agrifolia	2007	938	19	39.7
-agrifolia	2007	938	11	58
-agrifolia	2007	938	20	89.1
-agrifolia	2007	938	1	186.5
-agrifolia	2007	938	2	186.5
-agrifolia	2007	938	3	186.5
-agrifolia	2007	938	4	186.5
-agrifolia	2007	938	5	186.5
-agrifolia	2007	938	6	186.5
-agrifolia	2007	938	7	186.5
-agrifolia	2007	938	8	186.5
-agrifolia	2007	938	9	186.5
-agrifolia	2007	938	10	186.5
-agrifolia	2007	942	4	44.2
-agrifolia	2007	942	5	44.2
-agrifolia	2007	942	6	44.2
-agrifolia	2007	942	7	44.2
-agrifolia	2007	942	8	44.2
-agrifolia	2007	942	9	44.2
-agrifolia	2007	942	1	52.6
-agrifolia	2007	942	2	52.6
-agrifolia	2007	942	3	52.6
-agrifolia	2007	942	10	66.9
-lobata	2002	9	1	52
-lobata	2002	9	2	52
-lobata	2002	9	3	52
-lobata	2002	9	4	52
-lobata	2002	9	5	52
-lobata	2002	9	6	52
-lobata	2002	9	7	52
-lobata	2002	9	8	52
-lobata	2002	9	9	52
-lobata	2002	9	10	52
-lobata	2002	9	11	52
-lobata	2002	10	4	13.1
-lobata	2002	10	11	22.7
-lobata	2002	10	1	50.7
-lobata	2002	10	2	50.7
-lobata	2002	10	3	50.7
-lobata	2002	10	6	50.7
-lobata	2002	10	7	50.7
-lobata	2002	10	8	50.7
-lobata	2002	10	9	50.7
-lobata	2002	10	10	50.7
-lobata	2002	10	12	50.7
-lobata	2002	10	13	50.7
-lobata	2002	10	14	50.7
-lobata	2002	10	15	50.7
-lobata	2002	10	16	50.7
-lobata	2002	10	17	50.7
-lobata	2002	10	5	246
-lobata	2002	33	1	0
-lobata	2002	33	2	0
-lobata	2002	33	3	0
-lobata	2002	33	5	0
-lobata	2002	33	6	0
-lobata	2002	33	7	0
-lobata	2002	33	8	0
-lobata	2002	33	9	0
-lobata	2002	33	4	33.4
-lobata	2002	39	1	109.5
-lobata	2002	39	3	109.5
-lobata	2002	39	5	109.5
-lobata	2002	39	6	109.5
-lobata	2002	39	8	109.5
-lobata	2002	39	9	109.5
-lobata	2002	39	10	109.5
-lobata	2002	39	12	109.5
-lobata	2002	39	13	109.5
-lobata	2002	39	14	109.5
-lobata	2002	39	2	293.4
-lobata	2002	39	7	293.4
-lobata	2002	39	11	592.2
-lobata	2002	39	4	896.8
-lobata	2002	48	2	0
-lobata	2002	48	3	25.2
-lobata	2002	48	1	1837.5
-lobata	2002	107	1	0
-lobata	2002	107	2	0
-lobata	2002	107	3	0
-lobata	2002	107	5	0
-lobata	2002	107	6	0
-lobata	2002	107	7	0
-lobata	2002	107	8	0
-lobata	2002	107	9	0
-lobata	2002	107	11	0
-lobata	2002	107	12	0
-lobata	2002	107	13	0
-lobata	2002	107	14	0
-lobata	2002	107	15	0
-lobata	2002	107	16	0
-lobata	2002	107	4	13.1
-lobata	2002	107	10	13.1
-lobata	2002	163	1	0
-lobata	2002	163	2	0
-lobata	2002	163	4	0
-lobata	2002	163	5	0
-lobata	2002	163	8	0
-lobata	2002	163	3	13.3
-lobata	2002	163	6	78.1
-lobata	2002	163	7	78.1
-lobata	2002	532	4	0
-lobata	2002	532	5	0
-lobata	2002	532	10	0
-lobata	2002	532	1	22.8
-lobata	2002	532	2	22.8
-lobata	2002	532	3	22.8
-lobata	2002	532	6	22.8
-lobata	2002	532	7	22.8
-lobata	2002	532	8	22.8
-lobata	2002	532	11	22.8
-lobata	2002	532	9	458.2
-lobata	2002	912	14	61.8
-lobata	2002	912	1	66.1
-lobata	2002	912	2	66.1
-lobata	2002	912	4	66.1
-lobata	2002	912	8	66.1
-lobata	2002	912	10	66.1
-lobata	2002	912	11	66.1
-lobata	2002	912	3	79.5
-lobata	2002	912	7	79.5
-lobata	2002	912	13	79.5
-lobata	2002	912	9	97.8
-lobata	2002	912	6	141.9
-lobata	2002	912	5	146.5
-lobata	2002	912	12	180.8
-lobata	2004	9	1	52
-lobata	2004	9	2	52
-lobata	2004	9	3	52
-lobata	2004	9	4	52
-lobata	2004	9	5	52
-lobata	2004	9	6	52
-lobata	2004	9	7	52
-lobata	2004	9	8	52
-lobata	2004	9	9	52
-lobata	2004	9	10	52
-lobata	2004	9	11	52
-lobata	2004	9	12	52
-lobata	2004	10	1	50.7
-lobata	2004	10	2	50.7
-lobata	2004	10	3	50.7
-lobata	2004	10	4	50.7
-lobata	2004	10	5	50.7
-lobata	2004	10	6	50.7
-lobata	2004	10	7	50.7
-lobata	2004	10	8	50.7
-lobata	2004	10	9	50.7
-lobata	2004	10	10	50.7
-lobata	2004	10	11	50.7
-lobata	2004	10	12	50.7
-lobata	2004	10	13	50.7
-lobata	2004	10	14	50.7
-lobata	2004	10	15	50.7
-lobata	2004	10	16	50.7
-lobata	2004	10	17	50.7
-lobata	2004	10	18	50.7
-lobata	2004	10	19	50.7
-lobata	2004	10	20	50.7
-lobata	2004	10	21	50.7
-lobata	2004	33	1	0
-lobata	2004	33	2	0
-lobata	2004	33	3	0
-lobata	2004	33	4	0
-lobata	2004	33	5	0
-lobata	2004	33	6	0
-lobata	2004	33	7	0
-lobata	2004	33	8	0
-lobata	2004	33	9	0
-lobata	2004	33	10	0
-lobata	2004	33	11	0
-lobata	2004	33	12	0
-lobata	2004	33	13	0
-lobata	2004	33	14	0
-lobata	2004	33	15	176.3
-lobata	2004	39	1	109.5
-lobata	2004	39	2	109.5
-lobata	2004	39	3	109.5
-lobata	2004	39	4	109.5
-lobata	2004	39	5	109.5
-lobata	2004	39	6	109.5
-lobata	2004	39	7	109.5
-lobata	2004	39	8	109.5
-lobata	2004	39	9	109.5
-lobata	2004	39	10	109.5
-lobata	2004	39	11	109.5
-lobata	2004	39	12	109.5
-lobata	2004	39	13	109.5
-lobata	2004	39	14	109.5
-lobata	2004	48	1	0
-lobata	2004	48	2	0
-lobata	2004	48	3	0
-lobata	2004	48	4	0
-lobata	2004	48	5	0
-lobata	2004	48	6	0
-lobata	2004	48	7	0
-lobata	2004	48	8	0
-lobata	2004	48	9	0
-lobata	2004	107	1	0
-lobata	2004	107	2	0
-lobata	2004	107	3	0
-lobata	2004	107	4	0
-lobata	2004	107	5	0
-lobata	2004	107	6	0
-lobata	2004	107	7	0
-lobata	2004	163	1	0
-lobata	2004	163	2	0
-lobata	2004	163	5	0
-lobata	2004	163	6	0
-lobata	2004	163	3	154.6
-lobata	2004	163	4	154.6
-lobata	2004	163	7	154.6
-lobata	2004	163	8	154.6
-lobata	2004	163	9	154.6
-lobata	2004	163	10	154.6
-lobata	2004	163	11	154.6
-lobata	2004	163	12	154.6
-lobata	2004	163	13	154.6
-lobata	2004	163	14	154.6
-lobata	2004	163	15	154.6
-lobata	2004	532	8	22.8
-lobata	2004	532	9	22.8
-lobata	2004	532	2	150.8
-lobata	2004	532	4	150.8
-lobata	2004	532	5	150.8
-lobata	2004	532	6	150.8
-lobata	2004	532	1	357.9
-lobata	2004	532	3	357.9
-lobata	2004	532	7	357.9
-lobata	2004	912	1	79.5
-lobata	2004	912	2	79.5
-lobata	2004	912	3	79.5
-lobata	2004	912	4	79.5
-lobata	2004	912	5	79.5
-lobata	2004	912	6	79.5
-lobata	2004	912	7	79.5
-lobata	2004	912	8	79.5
-lobata	2004	912	9	79.5
-lobata	2004	912	10	79.5
-lobata	2004	912	11	79.5
-lobata	2004	912	12	79.5
-lobata	2004	912	13	79.5
+Species	Year	Granary	Dist
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	10	10.9
+agrifolia	2006	31	46
+agrifolia	2006	31	46
+agrifolia	2006	31	46
+agrifolia	2006	31	46
+agrifolia	2006	31	46
+agrifolia	2006	31	50.8
+agrifolia	2006	31	50.8
+agrifolia	2006	31	59.8
+agrifolia	2006	31	84.4
+agrifolia	2006	31	84.4
+agrifolia	2006	140	1320.9
+agrifolia	2006	140	1343.9
+agrifolia	2006	140	1351.1
+agrifolia	2006	140	1351.1
+agrifolia	2006	140	1351.1
+agrifolia	2006	140	1407.1
+agrifolia	2006	140	1448.5
+agrifolia	2006	140	1448.5
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	151	53.6
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	52
+agrifolia	2006	152	90.7
+agrifolia	2006	152	90.7
+agrifolia	2006	152	90.7
+agrifolia	2006	152	90.7
+agrifolia	2006	152	90.7
+agrifolia	2006	152	90.7
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	94
+agrifolia	2006	152	104.3
+agrifolia	2006	938	30.9
+agrifolia	2006	938	30.9
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	39.7
+agrifolia	2006	938	55.8
+agrifolia	2006	938	55.8
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	58
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	88.1
+agrifolia	2006	938	143.2
+agrifolia	2006	938	168.2
+agrifolia	2006	938	168.2
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	52.6
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2006	942	66.9
+agrifolia	2007	10	10.9
+agrifolia	2007	10	10.9
+agrifolia	2007	10	10.9
+agrifolia	2007	10	10.9
+agrifolia	2007	10	71.8
+agrifolia	2007	10	71.8
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	71.9
+agrifolia	2007	10	78.1
+agrifolia	2007	31	46
+agrifolia	2007	31	50.8
+agrifolia	2007	31	50.8
+agrifolia	2007	31	64.1
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	31	84.4
+agrifolia	2007	140	59.4
+agrifolia	2007	140	59.4
+agrifolia	2007	140	59.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	140	84.4
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	151	53.6
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	94
+agrifolia	2007	152	113.1
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	39.7
+agrifolia	2007	938	58
+agrifolia	2007	938	89.1
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	938	186.5
+agrifolia	2007	942	44.2
+agrifolia	2007	942	44.2
+agrifolia	2007	942	44.2
+agrifolia	2007	942	44.2
+agrifolia	2007	942	44.2
+agrifolia	2007	942	44.2
+agrifolia	2007	942	52.6
+agrifolia	2007	942	52.6
+agrifolia	2007	942	52.6
+agrifolia	2007	942	66.9
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	9	52
+lobata	2002	10	13.1
+lobata	2002	10	22.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	50.7
+lobata	2002	10	246
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	0
+lobata	2002	33	33.4
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	109.5
+lobata	2002	39	293.4
+lobata	2002	39	293.4
+lobata	2002	39	592.2
+lobata	2002	39	896.8
+lobata	2002	48	0
+lobata	2002	48	25.2
+lobata	2002	48	1837.5
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	0
+lobata	2002	107	13.1
+lobata	2002	107	13.1
+lobata	2002	163	0
+lobata	2002	163	0
+lobata	2002	163	0
+lobata	2002	163	0
+lobata	2002	163	0
+lobata	2002	163	13.3
+lobata	2002	163	78.1
+lobata	2002	163	78.1
+lobata	2002	532	0
+lobata	2002	532	0
+lobata	2002	532	0
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	22.8
+lobata	2002	532	458.2
+lobata	2002	912	61.8
+lobata	2002	912	66.1
+lobata	2002	912	66.1
+lobata	2002	912	66.1
+lobata	2002	912	66.1
+lobata	2002	912	66.1
+lobata	2002	912	66.1
+lobata	2002	912	79.5
+lobata	2002	912	79.5
+lobata	2002	912	79.5
+lobata	2002	912	97.8
+lobata	2002	912	141.9
+lobata	2002	912	146.5
+lobata	2002	912	180.8
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	9	52
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	10	50.7
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	0
+lobata	2004	33	176.3
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	39	109.5
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	48	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	107	0
+lobata	2004	163	0
+lobata	2004	163	0
+lobata	2004	163	0
+lobata	2004	163	0
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	163	154.6
+lobata	2004	532	22.8
+lobata	2004	532	22.8
+lobata	2004	532	150.8
+lobata	2004	532	150.8
+lobata	2004	532	150.8
+lobata	2004	532	150.8
+lobata	2004	532	357.9
+lobata	2004	532	357.9
+lobata	2004	532	357.9
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
+lobata	2004	912	79.5
