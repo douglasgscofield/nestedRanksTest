@@ -7,13 +7,16 @@
 # distribution which assumes no influence of treatment.  When there is just one
 # group, this test is identical to a standard MWW test.
 #
+# These statistical tools were developed in collaboration with Peter Smouse
+# (Rutgers University) and Victoria Sork (UCLA) and were funded by U.S.
+# National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
+#
 # Reference:
 #
 # Thompson PG, Smouse PE, Scofield DG, Sork VL. 2014.  What seeds tell us 
 # about birds: a multi-year analysis of acorn woodpecker foraging movements.
-# Movement Ecology 2:12. doi:10.1186/2051- 3933-2-12, data at 
-# doi:10.5061/dryad.64jk6
-
+# Movement Ecology 2:12. doi:10.1186/2051-3933-2-12.
+#
 # TODO: General package documentation, can we use Roxygen?
 # TODO: Update documentation for each function, including interface following
 #       the Roxygen stuff from dev_tools
@@ -23,22 +26,9 @@
 # TODO: Can the permutations in nestedRanksTest.default() be sped up?
 
 
-# MWW.nested.test performs the nested ranks test
-#    dat    : data frame containing group, treatment and value columns
-#    dat    : column 1: value
-#           : column 2: treatment
-#           : column 3: group
-#    n.iter : number of iterations for permutation (n.iter - 1 are random, n.iter-th is data)
-# The result of the test is printed, and if the return value is
-# assigned, it is a data.frame containing the complete set of permuted values
-# for all granaries with the test answers attached as attributes with the
-# results of the test attached as attributes.  The data.frame can be passed to
-# plot.MWW.nested.test() to plot the test results.
-
-
 nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
 {
-  # initial version largely copied from stats:::t.test
+  # initial version largely copied from stats:::t.test, extensively modified since
   if (missing(formula) || (length(formula) != 3L) || (length(attr(terms(formula[-2L]), 
                                                                   "term.labels")) != 1L))
     stop("'formula' missing or incorrect")
