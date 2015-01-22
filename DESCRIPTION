@@ -1,9 +1,10 @@
 Package: nestedRanksTest
 Type: Package
-Title: Perform a Mann-Whitney-Wilcoxon test when data are grouped
+Title: Mann-Whitney-Wilcoxon Test When Observations Are Grouped
 Version: 0.1
-Date: 2015-01-12
 Author: Douglas G. Scofield
 Maintainer: Douglas G. Scofield <douglasgscofield@gmail.com>
-Description: Calculate a Mann-Whitney-Wilcoxon (MWW) test using nested ranks.  Data are structured into several groups and each group has received two treatment levels. The rankings are compared between treatment levels, taking group structure and size into account.  A null distribution is constructed by permuting ranks, assuming no influence of treatment.  When there is just one group, this test is identical to a standard MWW test. 
+Description: Perform a Mann-Whitney-Wilcoxon (MWW) test using nested ranks. Used when data are structured into several groups and each group has received both treatments. The rankings are compared between treatment levels while taking group structure and size into account, using a null distribution constructed by permuting ranks assuming no influence of treatment.  When there is just one group, this test is identical to a standard MWW test. 
+ByteCompile: yes
+URL: https://github.com/douglasgscofield/nestedRanksTest
 License: LGPL-3 | file LICENSE

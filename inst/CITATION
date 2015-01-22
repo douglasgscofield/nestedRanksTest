@@ -1,0 +1,29 @@
+if (! exists("meta") || is.null(meta)) meta <- packageDescription("nestedRanksTest")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+vers <- paste("R package version", meta$Version)
+pkgname <- meta$Package
+pkgtitle <- meta$Title
+
+citHeader(paste0("To cite the '", pkgname, "' package in publications use:"))
+
+citEntry(entry  = "Manual",
+         title  = pkgtitle,
+         author = personList(as.person("Douglas G. Scofield")),
+         year   = year,
+         note   = vers,
+         url    = paste0("http://CRAN.R-project.org/package=", pkgname))
+
+citEntry(entry    = "Article",
+         title    = "What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements",
+         author   = personList(as.person("Pamela G. Thompson"),
+                               as.person("Peter E. Smouse"),
+                               as.person("Douglas G. Scofield"),
+                               as.person("Victoria L. Sork")),
+         journal  = "Movement Ecology",
+         volume   = "2",
+         pages    = "12",
+         textVersion = paste("Thompson, P. G., Smouse, P. E., Scofield, D. G. & Sork, V. L. (2014)",
+  	                         "What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.",
+                             "Movement Ecology 2:12"),
+         url = "http://www.movementecologyjournal.com/content/2/1/12")
