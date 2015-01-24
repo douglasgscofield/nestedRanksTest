@@ -28,13 +28,14 @@
 # TODO: Update documentation for each function
 # TODO: Check documentation for plot.htest_boot, make sure params interleaved
 #       with comments
-# TODO: Figure out how to register the *.formula and *.default methods
-# TODO: Do the *MWW and *weights functions need to remain internal?
 # TODO: Set up testing structure
 # TODO: Can the permutations in nestedRanksTest.default() be sped up?
 
+#' Generic
+#'
+nestedRanksTest <- function(x, ...) UseMethod("nestedRanksTest")
 
-nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
+nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...)
 {
   # initial version largely copied from stats:::t.test, extensively modified since
     if (missing(formula) || (length(formula) != 3L) || 
@@ -100,9 +101,9 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = 
     BAD.OBS <- nr - nrow(dat)
     x_levels <- levels(dat$x)
     if (length(x_levels) != 2) 
-        stop(GROUPS.NAME, "requires exactly two levels for treatment")
+        stop(X.NAME, " requires exactly two levels for treatment")
     if (any(table(dat$groups, dat$x) == 0))
-      stop(X.NAME, "must have values for all groups in both treatment levels")
+      stop(X.NAME, " must have values for all groups in both treatment levels")
     groups_df <- .nestedRanksTest_weights(dat$x, dat$groups)
     groups_levels <- row.names(groups_df)
     weights <- setNames(groups_df$weights, groups_levels)
@@ -136,7 +137,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = 
                  n.iter = n.iter,
                  weights = weights)
     if (! lightweight)
-        RVAL$null.distribution = null.distribution)
+        RVAL$null.distribution = null.distribution
     class(RVAL) <- c("htest_boot", "htest")
     return(RVAL)
 }
@@ -275,15 +276,15 @@ print.htest_boot <- function(x, ...) {
 #' @seealso \code{\link{nestedRanksTest}} for test description and 
 #'     \code{\link{print.htest_boot}} for printing test results. 
 #'
-plot.htest_boot = function(x, breaks, col = "lightblue", border = NA, 
-                           p.col = "red", p.lty = 2, p.lwd = 2,
-                           main = paste0(x$method, ", ", x$data.name, "\n",
-                                         names(x$statistic), " = ", 
-                                         round(x$statistic, ceiling(log10(x$n.iter))), 
-                                         ", P = ", x$p.value),
-                           xlab = "Distribution of Z-scores", 
-                           ylab = paste0("Frequency (out of ", x$n.iter, ")"),
-                           ...) {
+plot.htest_boot <- function(x, breaks, col = "lightblue", border = NA, 
+                            p.col = "red", p.lty = 2, p.lwd = 2,
+                            main = paste0(x$method, ", ", x$data.name, "\n",
+                                          names(x$statistic), " = ", 
+                                          round(x$statistic, ceiling(log10(x$n.iter))), 
+                                          ", P = ", x$p.value),
+                            xlab = "Distribution of Z-scores", 
+                            ylab = paste0("Frequency (out of ", x$n.iter, ")"),
+                            ...) {
     if (missing(breaks))
         breaks <- min(x$n.iter / 50, 100)
     hist(x$null.distribution, breaks = breaks, col = col, border = border, 
