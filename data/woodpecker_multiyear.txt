@@ -1,4 +1,4 @@
-Species	Year	Granary	Dist
+Species	Year	Granary	Distance
 agrifolia	2006	10	10.9
 agrifolia	2006	10	10.9
 agrifolia	2006	10	10.9

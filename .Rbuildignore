@@ -3,3 +3,5 @@
 ^testing-strategy\.txt$
 ^\.git$
 ^\.gitignore$
+^Makefile$
+^check_tmp$

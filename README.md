@@ -35,3 +35,8 @@ Reference
 
 Thompson PG, Smouse PE, Scofield DG, Sork VL.  2014.  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  [_Movement Ecology_ 2:12](http://dx.doi.org/10.1186/2051-3933-2-12), [data](http://doi.org/10.5061/dryad.64jk6).
 
+TODO
+----
+* more tests
+* update this README
+* do we need to push the .Rd files for install\_github() or will that do Roxygen2 for us automatically?
