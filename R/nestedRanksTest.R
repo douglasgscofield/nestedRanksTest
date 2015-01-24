@@ -93,7 +93,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = 
     GROUPS.NAME = deparse(substitute(groups))
     DNAME <- paste(Y.NAME, "by", X.NAME, "grouped by", GROUPS.NAME)
     METHOD <- "Nested Ranks Test"
-    STATISTIC.NAME <- "Z.weighted.obs"
+    STATISTIC.NAME <- "Z"
     dat <- data.frame(y = y, x = factor(x), groups = factor(groups))
     nr <- nrow(dat)
     #  remove any entries with NA for y, x, or groups
@@ -129,7 +129,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = 
     PVAL <- sum(null.distribution >= STATISTIC) / n.iter
     RVAL <- list(statistic = STATISTIC,
                  p.value = PVAL,
-                 alternative = paste(STATISTIC.NAME, "lies above bootstrapped values"),
+                 alternative = paste(STATISTIC.NAME, "lies above bootstrapped null values"),
                  method = METHOD,
                  data.name = DNAME,
                  bad.obs = BAD.OBS,
