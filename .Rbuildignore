@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^testing-strategy\.txt$
+^\.git$
+^\.gitignore$

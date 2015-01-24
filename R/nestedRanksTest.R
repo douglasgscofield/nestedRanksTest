@@ -17,13 +17,17 @@
 # about birds: a multi-year analysis of acorn woodpecker foraging movements.
 # Movement Ecology 2:12. doi:10.1186/2051-3933-2-12.
 #
+# TODO: make sure year and granary load as factors
+# TODO: doc "n.iter == 1 simply returns the observed Z-score"
+# TODO: see documentation for wilcox.test for how to document both interfaces
+#       at once
+# TODO: \seealso{\code{\link{wilcox.test}}
+# TODO: note also wilcox.test documentation for data=
 # TODO: Complete package documentation using Roxygen2
 # TODO: How can we generate *-package.Rd documentation using Roxygen2?
 # TODO: Update documentation for each function
 # TODO: Check documentation for plot.htest_boot, make sure params interleaved
 #       with comments
-# TODO: Consider adding lightweight= option to nestedRanksTest to not add the
-#       null distribution to the htest_boot object
 # TODO: Figure out how to register the *.formula and *.default methods
 # TODO: Do the *MWW and *weights functions need to remain internal?
 # TODO: Set up testing structure
@@ -45,7 +49,6 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
             # remove grouping from formula, add it to groups=
             GROUP.NAME <- as.character(formula[[3]][[3]])
             m$groups = formula[[3]][[3]]
-            TREATMENT.NAME <- as.character(formula[[3]][[2]])
             formula[[3]] <- formula[[3]][[2]]
             m$formula <- formula
         } else stop("invalid group specification in formula")
@@ -60,17 +63,17 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
     mf <- eval(m, parent.frame())  # mf contains our variables as y, x, "(groups)"
     if (! nrow(mf))
         stop("no data")
-    DNAME <- paste(names(mf)[1:2], collapse = " by ")
-    DNAME <- paste(DNAME, GROUP.NAME, sep = " grouped by ")
-    response <- attr(attr(mf, "terms"), "response")
-    TREATMENT.NAME <- attr(attr(mf, "terms"), "term.labels")
-    tmt <- factor(mf[[TREATMENT.NAME]])
-    if (nlevels(tmt) != 2L)
-        stop("treatment factor must have exactly 2 levels")
+    Y.NAME <- names(mf)[attr(attr(mf, "terms"), "response")]
+    X.NAME <- attr(attr(mf, "terms"), "term.labels")
+    DNAME <- paste(Y.NAME, "by", X.NAME, "grouped by", GROUP.NAME)
+    DATA <- list(y = mf[[Y.NAME]], x = factor(mf[[X.NAME]]), 
+                 groups = factor(mf[["(groups)"]]))
+    if (nlevels(DATA$x) != 2L)
+        stop(X.NAME, " must have exactly 2 levels")
     # TODO: consider renaming these...
-    DATA <- data.frame(y=mf[[response]], x=tmt, groups=mf[["(groups)"]])
-    y <- do.call("nestedRanksTest.default", 
-                 c(list(y=mf[[response]], x=tmt, groups=mf[["(groups)"]]), list(...)))
+    #DATA <- list(y = mf[[response]], x = tmt, groups = mf[["(groups)"]])
+    #y <- nestedRanksTest.default(y = TREATMENT.NAME, x = tmt, groups = mf[["(groups)"]], ...)
+    y <- do.call("nestedRanksTest.default", c(DATA, list(...)))
     y$data.name <- DNAME
     return(y)
 }
@@ -79,118 +82,131 @@ nestedRanksTest.formula = function(formula, data, groups = NULL, subset, ...)
 # must suffix with '.default' when a proper S3 class ???
 #'
 #' @keywords htest nonparametric
-nestedRanksTest.default = function(y, x, groups, n.iter=10000)
+nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = FALSE)
 {
-    Y.NAME = deparse(substitute(y))
+    # TODO: deparse substitute with do.call
+    if (n.iter < 1)
+        stop("n.iter must be greater than or equal to 1")
     X.NAME = deparse(substitute(x))
+    Y.NAME = deparse(substitute(y))
     GROUPS.NAME = deparse(substitute(groups))
     DNAME <- paste(Y.NAME, "by", X.NAME, "grouped by", GROUPS.NAME)
-    METHOD = "Nested Ranks Test"
-    STATISTIC.NAME = "Z.weighted.obs"
-    dat = data.frame(y=y, x=x, groups=groups)
-    nr = nrow(dat)
-    dat = dat[apply(dat[,1:3], 1, function(x) all(!is.na(x))), 1:3]
-    BAD.OBS = nr - nrow(dat)
-    vals = dat[, 1]
-    tmt = factor(dat[, 2])
-    grp = dat[, 3]
-    tmt_levels = unique(sort(tmt))
-    if (length(tmt_levels) != 2) 
+    METHOD <- "Nested Ranks Test"
+    STATISTIC.NAME <- "Z.weighted.obs"
+    dat <- data.frame(y = y, x = factor(x), groups = factor(groups))
+    nr <- nrow(dat)
+    #  remove any entries with NA for y, x, or groups
+    dat <- dat[apply(dat, 1, function(x) all(! is.na(x))), ]
+    BAD.OBS <- nr - nrow(dat)
+    x_levels <- levels(dat$x)
+    if (length(x_levels) != 2) 
         stop(GROUPS.NAME, "requires exactly two levels for treatment")
-    s = split(grp, tmt)
-    if (length(unique(sort(grp))) != length(intersect(s[[1]], s[[2]])))
+    if (any(table(dat$groups, dat$x) == 0))
       stop(X.NAME, "must have values for all groups in both treatment levels")
-    wt = .nestedRanksTest_weights(dat)
-    Grps = unique(sort(as.character(grp)))
-    nm.Grps = setNames(make.names(Grps, unique = TRUE), Grps)
-    weights = setNames(wt$Rel_Wt, rownames(wt))
-    p = list()
-    for (g in Grps) {
-        tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
-        tmt2.dat = dat[grp == g & tmt == tmt_levels[2], ]
-        n1 = nrow(tmt1.dat)
-        n2 = nrow(tmt2.dat)
-        this.vals = c(tmt1.dat[, 1], tmt2.dat[, 1])
-        this.z = .nestedRanksTest_MWW(this.vals, n1, n2)
-        Z = numeric(n.iter)
-        if (n.iter > 1) {
-            for (i in 1:(n.iter - 1)) {
-                d = sample(this.vals)
-                Z[i] = .nestedRanksTest_MWW(d, n1, n2)
-            }
-        }
-        Z[n.iter] = this.z
-        p[[ nm.Grps[g] ]] = Z
+    groups_df <- .nestedRanksTest_weights(dat$x, dat$groups)
+    groups_levels <- row.names(groups_df)
+    weights <- setNames(groups_df$weights, groups_levels)
+    Z = matrix(0, n.iter, length(groups_levels), dimnames = list(NULL, groups_levels))
+    for (i in seq_along(groups_levels)) {
+        group.info <- groups_df[i, ]
+        y1 <- dat$y[dat$groups == groups_levels[i] & dat$x == x_levels[1]]
+        y2 <- dat$y[dat$groups == groups_levels[i] & dat$x == x_levels[2]]
+        stopifnot(length(y1) == group.info$n1 && length(y2) == group.info$n2)
+        y.vals <- c(y1, y2)
+        this.Z <- numeric(n.iter)
+        if (n.iter > 1)
+            for (j in 1:(n.iter - 1))
+                this.Z[j] <- .nestedRanksTest_MWW(sample(y.vals), group.info$n1, group.info$n2)
+        this.Z[n.iter] <- .nestedRanksTest_MWW(y.vals, group.info$n1, group.info$n2)
+        Z[, i] <- this.Z
     }
-    p = as.data.frame(p)
-    if (! all(names(p) == names(weights)))
-        stop("weights out of order")
-    null.distribution <- apply(p, 1, function(x) sum(x * weights))
-    quantiles <- c(0, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 1)
-    NULL.VALUES <- quantile(null.distribution, quantiles)
-    STATISTIC = setNames(null.distribution[n.iter], STATISTIC.NAME)
-    PVAL = sum(null.distribution >= STATISTIC) / n.iter
-    RVAL = list(statistic = STATISTIC,
-                p.value = PVAL,
-                alternative = paste(STATISTIC.NAME, "lies above bootstrapped values"),
-                method = METHOD,
-                data.name = DNAME,
-                bad.obs = BAD.OBS,
-                null.values = NULL.VALUES,
-                n.iter = n.iter,
-                weights = weights,
-                null.distribution = null.distribution)
-    class(RVAL) = c("htest_boot", "htest")
+    null.distribution <- apply(Z, 1, function(x) sum(x * weights))
+    stopifnot(length(null.distribution) == n.iter)
+    quantiles <- c(0, 0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99, 1)
+    NULL.VALUES <- round(quantile(null.distribution, quantiles), ceiling(log10(n.iter)) + 1)
+    STATISTIC <- setNames(null.distribution[n.iter], STATISTIC.NAME)
+    PVAL <- sum(null.distribution >= STATISTIC) / n.iter
+    RVAL <- list(statistic = STATISTIC,
+                 p.value = PVAL,
+                 alternative = paste(STATISTIC.NAME, "lies above bootstrapped values"),
+                 method = METHOD,
+                 data.name = DNAME,
+                 bad.obs = BAD.OBS,
+                 null.values = NULL.VALUES,
+                 n.iter = n.iter,
+                 weights = weights)
+    if (! lightweight)
+        RVAL$null.distribution = null.distribution)
+    class(RVAL) <- c("htest_boot", "htest")
     return(RVAL)
 }
 
-# .nestedRanksTest_MWW calculates the Mann-Whitney-Wilcoxon Z-score
-#    x  : values
-#    n1 : the first n1 of x belong to the first level
-#    n2 : the final n2 of x belong to the second level
-# The return value is the calculated Z-score
-.nestedRanksTest_MWW = function(x, n1, n2) {
-    r = rank(x)
-    r1 = r[1:n1]
-    r2 = r[(n1+1):(n1+n2)]
-    R1 = sum(r1)
-    R2 = sum(r2)
-    n1.n2 = n1 * n2
-    U1 = (R1 - (((n1+1)*n1)/2))
-    U2 = (R2 - (((n2+1)*n2)/2))
-    Z.12 = (U2 - U1) / n1.n2
+#' Calculates Mann-Whitney-Wilcoxon Z-score
+#'
+#' \code{.nestedRanksTest_MWW} calculates the Mann-Whitney-Wilcoxon
+#' Z-score for the ranks of \code{x} divided into two treatment
+#' levels, the first \code{n1} of \code{x} and the final \code{n2}
+#' of \code{x}.
+#'
+#' @param x    Values to be ranked for the test.  Its length must
+#'             be equal to the sum of \code{n1} and \code{n2}.
+#' @param n1   The first \code{n1} values in \code{x} belong to the
+#'             first treatment level.
+#' @param n2   The final \code{n2} values in \code{x} belong to the
+#'             second treatment level.
+#' 
+#' @return The calculated Z-score
+#'
+#' @seealso \code{\link{nestedRanksTest}}, \code{\link{wilcox.test}}
+.nestedRanksTest_MWW <- function(x, n1, n2) {
+    stopifnot(length(x) == n1 + n2)
+    r <- rank(x)
+    r1 <- r[1:n1]
+    r2 <- r[(n1 + 1):(n1 + n2)]
+    R1 <- sum(r1)
+    R2 <- sum(r2)
+    n1.n2 <- n1 * n2
+    U1 <- R1 - (((n1 + 1) * n1) / 2)
+    U2 <- R2 - (((n2 + 1) * n2) / 2)
+    Z.12 <- (U2 - U1) / n1.n2
     return(Z.12)
 }
 
 
-# MWW.weights calculates sample-size weights
-.nestedRanksTest_weights = function(dat) {
-    vals = dat[, 1]
-    tmt = dat[, 2]
-    grp = dat[, 3]
-    tmt_levels = unique(sort(tmt))
-    Grps = unique(sort(as.character(grp)))
-    w = data.frame()
-    for (g in Grps) {
-        #gdat = subset(dat, grp == g)
-        #tmt1.dat = subset(gdat, treatment == tmt_levels[1])
-        #tmt2.dat = subset(gdat, treatment == tmt_levels[2])
-        tmt1.dat = dat[grp == g & tmt == tmt_levels[1], ]
-        tmt2.dat = dat[grp == g & tmt == tmt_levels[2], ]
-        n1 = nrow(tmt1.dat)
-        n2 = nrow(tmt2.dat)
-        n1.n2 = n1 * n2
-        w = rbind(w, list(group = g,
-                          n1    = n1,
-                          n2    = n2,
-                          n1.n2 = n1.n2))
-    }
-    w = transform(w, Rel_Wt = n1.n2 / sum(n1.n2))
-    rownames(w) = make.names(w$group, unique = TRUE)
+#' Calculates weights for \code{nestedRanksTest} based on group sizes
+#'
+#' \code{.ntestedRanksTest_weights} calculates weights for 
+#' \code{nestedRanksTest} based on group sizes.  The number of group members
+#' in each of the two treatment levels is determined (\code{n1} and \code{n2})
+#' together with their product (\code{n1.n2}), and the group-specific weight
+#' is calculated by dividing \code{n1.n2} by the sum of \code{n1.n2} for all
+#' groups.
+#'
+#' @param  x      Treatments, coerced to factor.  Must contain two levels.
+#' @param  groups Groups, coerced to factor, with elements in the same order
+#'                as for \code{x}.
+#'
+#' @return \code{data.frame} containing weights and other information for
+#'         each group: columns \code{group}, a factor of group names, also 
+#'         used for row names; \code{n1}, \code{n2}, and \code{n1.n2} for 
+#'         integer group sizes in the first and second treatment levels and 
+#'         their product; and numeric \code{weights} for the calculated 
+#'         weights.
+#'
+#' @seealso \code{\link{nestedRanksTest}}
+#'
+.nestedRanksTest_weights <- function(x, groups) {
+    x_levels <- levels(x <- factor(x))
+    w <- table(groups <- factor(groups), x)
+    w <- data.frame(groups = row.names(w), n1 = w[, x_levels[1]], 
+                    n2 = w[, x_levels[2]])
+    row.names(w) <- w$groups
+    w <- transform(w, groups = factor(groups), n1.n2 = n1 * n2)
+    w$weights <- w$n1.n2 / sum(w$n1.n2)
     return(w)
 }
 
-#' Print result of nestedRanksTest.
+#' Print result of \code{nestedRanksTest}.
 #'
 #' \code{print.htest_boot} prints the return value of 
 #' \code{\link{nestedRanksTest}}, #' a list of class \code{"htest_boot"} 
@@ -213,6 +229,7 @@ nestedRanksTest.default = function(y, x, groups, n.iter=10000)
 #'   \code{\link{plot.htest_boot}} for a graphical plot of test
 #'   results, and \code{\link{print.htest}} for the print method of
 #'   the base class.
+#'
 print.htest_boot <- function(x, ...) {
     NextMethod(x, ...)
     cat("bootstrap iterations =", x$n.iter, "\ngroup weights:\n")
