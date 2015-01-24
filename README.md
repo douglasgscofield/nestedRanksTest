@@ -8,10 +8,6 @@ results of the test.  The nested ranks test may be used when observations are
 structured into several groups and each group has received both treatment
 levels.  The p-value is determined via bootstrapping.
 
-The principle function is `nestedRanksTest()`, with two interfaces.  The
-formula interface allows specification of quantitative measures, treatments,
-and group membership using formula syntax.
-
 The development version is hosted here and can be installed via:
 
 ```R
@@ -21,14 +17,24 @@ The development version is hosted here and can be installed via:
 
 Help is available via `help("nestedRanksTest")`.
 
+* * *
+These statistical tools were developed in collaboration with Peter E.
+Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by
+U.S. National Science Foundation awards NSF-DEB-0514956 and
+NSF-DEB-0516529.
+* * *
+
 
 To Use It
 ---------
 
+The principle function is `nestedRanksTest()`, with two interfaces.  The
+formula interface allows specification of quantitative measures, treatments,
+and group membership using formula syntax.
+
 ```R
 data(woodpecker_multiyear)
-result <- nestedRanksTest(Distance ~ Year | Granary, n.iter = 1000,
-                          data = woodpecker_multiyear,
+result <- nestedRanksTest(Distance ~ Year | Granary, data = woodpecker_multiyear,
                           subset = Species == "agrifolia")
 print(result)
 ```
