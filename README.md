@@ -127,7 +127,7 @@ References
 
 Thompson PG, Smouse PE, Scofield DG, Sork VL.  2014.  What seeds tell us about
 birds: a multi-year analysis of acorn woodpecker foraging movements.  _Movement
-Ecology_ **2**: 12], available open-access at
+Ecology_ **2**: 12, available as Open Access at
 <http://www.movementecologyjournal.com/content/2/1/12>
 
 <https://github.com/douglasgscofield/nestedRanksTest>
