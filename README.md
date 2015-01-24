@@ -11,8 +11,9 @@ levels.  The p-value is determined via bootstrapping.
 The development version is hosted here and can be installed via:
 
 ```R
-> install.packages("devtools")
-> devtools::install_github("douglasgscofield/nestedRanksTest")
+install.packages("devtools")
+devtools::install_github("douglasgscofield/nestedRanksTest")
+library(nestedRanksTest)
 ```
 
 Help is available via `help("nestedRanksTest")`.

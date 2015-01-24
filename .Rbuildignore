@@ -6,4 +6,5 @@
 ^Makefile$
 ^check_tmp$
 ^example_plot.png$
+^README.md$
 ^NEWS.md$
