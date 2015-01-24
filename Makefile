@@ -20,7 +20,7 @@ vars:
 	echo CHECKDIR = "$(CHECKDIR)"
 
 doc:
-	R -e 'devtools::document()'
+	R --quiet -e 'devtools::document()'
 
 build: $(TARBALL_LOC)
 

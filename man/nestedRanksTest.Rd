@@ -134,7 +134,7 @@ foraging movements.  \emph{Movement Ecology} 2:12.
 \url{https://github.com/douglasgscofield/nestedRanksTest}
 }
 \seealso{
-\code{\link{wilcox.test}}, \code{\link{print.htest_boot}}
+\code{\link{wilcox.test}}, \code{\link{print.htest_boot}},
          \code{\link{plot.htest_boot}}
 }
 \keyword{htest}
