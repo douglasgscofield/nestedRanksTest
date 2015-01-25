@@ -1,21 +1,19 @@
-# TODO: Set up testing structure
-# TODO: Can the permutations in nestedRanksTest.default() be sped up?
-# more tests
-# update this README
-# do we need to push the .Rd files for install_github() or will that do Roxygen2 for us automatically?
-
-
 #' Mann-Whitney-Wilcoxon ranks test when data are in groups.
 #'
 #' Calculate a Mann-Whitney-Wilcoxon test for a difference between treatment
 #' levels using nested ranks.  This test can be used when observations are
 #' structured into several groups and each group has received both treatment
-#' levels.  The p-value is determined via bootstrapping.
+#' levels.  The p-value is determined via bootstrapping.  This test is 
+#' intended to be a mixed-model extension of the \code{\link{wilcox.test}},
+#' for which treatment is a fixed effect and group membership is a random 
+#' effect.
 #'
 #' The main function is \code{\link{nestedRanksTest}}, which includes a
-#' formula interface.  The value returned is a list of class
-#' \code{"htest_boot"}, which extends class \code{"htest"}.  \code{print} and
-#' \code{plot} methods are provided to print and visualise results.
+#' formula interface implementing the familiar \code{"|"} syntax for
+#' specifying group membership on the right-hand side of the formula.
+#' The value returned is a list of class \code{"htest_boot"}, which 
+#' extends class \code{"htest"}.  \code{print} and \code{plot} methods 
+#' are provided to print and visualise results.
 #'
 #' These statistical tools were developed in collaboration with Peter E.
 #' Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by
@@ -46,10 +44,14 @@ NULL
 #' comparing the observed Z-score against a distribution of Z-scores
 #' calculated by bootstrapping ranks assuming no influence of treatment while
 #' respecting group sizes. When there is just one group, this test is
-#' essentially identical to a standard Mann-Whitney-Wilcoxon test.
+#' essentially identical to a standard Mann-Whitney-Wilcoxon test.  This test
+#' is intended to be a mixed-model extension of the \code{\link{wilcox.test}},
+#' for which treatment is a fixed effect and group membership is a random 
+#' effect.
 #'
-#' @note The generation of a null distribution can take some time; for
-#'       example completing the default \code{n.iter = 10000} may require
+#' @note The generation of a null distribution can take some time.  For
+#'       example, if any use of \code{nestedRanksTest} in the examples were 
+#'       run with the default \code{n.iter = 10000}, completion would require
 #'       a few seconds.
 #'
 #' @param x       a (non-empty) vector of treatments for each \code{y},
@@ -84,30 +86,34 @@ NULL
 #'                error if so.
 #' @param ...     further arguments to be passed to or from methods
 #'
-#' @return A list with class \code{"htest_boot"} containing the following
-#'         components:
-#'
+#' @return A list with class \code{"htest_boot"} based on class 
+#'         \code{"htest"} containing the following components.  Components
+#'         marked with \code{"*"} are additions to \code{"htest"}.
 #' \tabular{ll}{
-#'     \code{statistic}         \tab the value of the observed Z-score.\cr
-#'     \code{p.value}           \tab the p-value for the test.\cr
-#'     \code{weights}           \tab the weights for groups, calculated by
-#'                                   \code{nestedRanksTest_weights}\cr
-#'     \code{n.iter}            \tab the number of bootstrap iterations used
-#'                                   for generating the null distribution\cr
-#'     \code{null.values}       \tab quantiles of the null distribution used
-#'                                   for calculating the p-value\cr
-#'     \code{null.distribution} \tab vector containing null distribution of
-#'                                   Z-scores, with \code{statistic} the last
-#'                                   value.\cr
-#'     \code{alternative}       \tab a character string describing the
-#'                                   alternative hypothesis.\cr
-#'     \code{method}            \tab a character string indicating the nested
-#'                                   ranks test performed.\cr
-#'     \code{data.name}         \tab a character string giving the name(s) of
-#'                                   the data.\cr
-#'     \code{bad.obs}           \tab the number of observations in the data
-#'                                   excluded because of \code{NA} values.\cr
+#'     \code{statistic}           \tab the value of the observed Z-score.\cr
+#'     \code{p.value}             \tab the p-value for the test.\cr
+#'     \code{alternative}         \tab a character string describing the
+#'                                     alternative hypothesis.\cr
+#'     \code{method}              \tab a character string indicating the nested
+#'                                     ranks test performed.\cr
+#'     \code{data.name}           \tab a character string giving the name(s) of
+#'                                     the data.\cr
+#'     \code{bad.obs}             \tab the number of observations in the data
+#'                                     excluded because of \code{NA} values.\cr
+#'     \code{null.values}         \tab quantiles of the null distribution used
+#'                                     for calculating the p-value\cr
+#'     \code{n.iter*}             \tab the number of bootstrap iterations used
+#'                                     for generating the null distribution\cr
+#'     \code{weights*}            \tab the weights for groups, calculated by
+#'                                     \code{nestedRanksTest_weights}\cr
+#'     \code{null.distribution*}  \tab vector containing null distribution of
+#'                                     Z-scores, with \code{statistic} the last
+#'                                     value.\cr
 #' }
+#' The length of \code{null.distribution} equals \code{n.iter}.  Note that
+#' \code{null.distribution} will not be present if the 
+#' \code{lightweight = TRUE} option was given to \code{nestedRanksTest}.
+#' 
 #'
 #' @examples
 #' require(graphics)

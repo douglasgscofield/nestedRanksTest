@@ -55,30 +55,33 @@ calling \code{plot} on the return value will produce an
 error if so.}
 }
 \value{
-A list with class \code{"htest_boot"} containing the following
-        components:
-
+A list with class \code{"htest_boot"} based on class
+        \code{"htest"} containing the following components.  Components
+        marked with \code{"*"} are additions to \code{"htest"}.
 \tabular{ll}{
-    \code{statistic}         \tab the value of the observed Z-score.\cr
-    \code{p.value}           \tab the p-value for the test.\cr
-    \code{weights}           \tab the weights for groups, calculated by
-                                  \code{nestedRanksTest_weights}\cr
-    \code{n.iter}            \tab the number of bootstrap iterations used
-                                  for generating the null distribution\cr
-    \code{null.values}       \tab quantiles of the null distribution used
-                                  for calculating the p-value\cr
-    \code{null.distribution} \tab vector containing null distribution of
-                                  Z-scores, with \code{statistic} the last
-                                  value.\cr
-    \code{alternative}       \tab a character string describing the
-                                  alternative hypothesis.\cr
-    \code{method}            \tab a character string indicating the nested
-                                  ranks test performed.\cr
-    \code{data.name}         \tab a character string giving the name(s) of
-                                  the data.\cr
-    \code{bad.obs}           \tab the number of observations in the data
-                                  excluded because of \code{NA} values.\cr
+    \code{statistic}           \tab the value of the observed Z-score.\cr
+    \code{p.value}             \tab the p-value for the test.\cr
+    \code{alternative}         \tab a character string describing the
+                                    alternative hypothesis.\cr
+    \code{method}              \tab a character string indicating the nested
+                                    ranks test performed.\cr
+    \code{data.name}           \tab a character string giving the name(s) of
+                                    the data.\cr
+    \code{bad.obs}             \tab the number of observations in the data
+                                    excluded because of \code{NA} values.\cr
+    \code{null.values}         \tab quantiles of the null distribution used
+                                    for calculating the p-value\cr
+    \code{n.iter*}             \tab the number of bootstrap iterations used
+                                    for generating the null distribution\cr
+    \code{weights*}            \tab the weights for groups, calculated by
+                                    \code{nestedRanksTest_weights}\cr
+    \code{null.distribution*}  \tab vector containing null distribution of
+                                    Z-scores, with \code{statistic} the last
+                                    value.\cr
 }
+The length of \code{null.distribution} equals \code{n.iter}.  Note that
+\code{null.distribution} will not be present if the
+\code{lightweight = TRUE} option was given to \code{nestedRanksTest}.
 }
 \description{
 The statistic for the nested ranks test is a Z-score calculated by
@@ -87,11 +90,15 @@ to the final Z-score weighted by group size.  The p-value is determined by
 comparing the observed Z-score against a distribution of Z-scores
 calculated by bootstrapping ranks assuming no influence of treatment while
 respecting group sizes. When there is just one group, this test is
-essentially identical to a standard Mann-Whitney-Wilcoxon test.
+essentially identical to a standard Mann-Whitney-Wilcoxon test.  This test
+is intended to be a mixed-model extension of the \code{\link{wilcox.test}},
+for which treatment is a fixed effect and group membership is a random
+effect.
 }
 \note{
-The generation of a null distribution can take some time; for
-      example completing the default \code{n.iter = 10000} may require
+The generation of a null distribution can take some time.  For
+      example, if any use of \code{nestedRanksTest} in the examples were
+      run with the default \code{n.iter = 10000}, completion would require
       a few seconds.
 }
 \examples{

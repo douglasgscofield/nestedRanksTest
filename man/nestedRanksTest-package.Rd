@@ -8,13 +8,18 @@
 Calculate a Mann-Whitney-Wilcoxon test for a difference between treatment
 levels using nested ranks.  This test can be used when observations are
 structured into several groups and each group has received both treatment
-levels.  The p-value is determined via bootstrapping.
+levels.  The p-value is determined via bootstrapping.  This test is
+intended to be a mixed-model extension of the \code{\link{wilcox.test}},
+for which treatment is a fixed effect and group membership is a random
+effect.
 }
 \details{
 The main function is \code{\link{nestedRanksTest}}, which includes a
-formula interface.  The value returned is a list of class
-\code{"htest_boot"}, which extends class \code{"htest"}.  \code{print} and
-\code{plot} methods are provided to print and visualise results.
+formula interface implementing the familiar \code{"|"} syntax for
+specifying group membership on the right-hand side of the formula.
+The value returned is a list of class \code{"htest_boot"}, which
+extends class \code{"htest"}.  \code{print} and \code{plot} methods
+are provided to print and visualise results.
 
 These statistical tools were developed in collaboration with Peter E.
 Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by
