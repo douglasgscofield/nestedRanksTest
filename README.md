@@ -22,7 +22,7 @@ devtools::install_github("douglasgscofield/nestedRanksTest")
 library(nestedRanksTest)
 ```
 
-Help is available via `help("nestedRanksTest")`.
+Help is available via `?nestedRanksTest`.
 
 * * *
 These statistical tools were developed in collaboration with Peter E.
