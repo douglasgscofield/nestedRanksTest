@@ -216,7 +216,8 @@ nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...) {
 #'
 #' @export
 #'
-nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = FALSE, ...) {
+nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, 
+                                    lightweight = FALSE, ...) {
     if (n.iter < 1)
         stop("n.iter must be greater than or equal to 1")
     X.NAME = deparse(substitute(x))
@@ -227,23 +228,24 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, lightweight = 
     STATISTIC.NAME <- "Z"
     dat <- data.frame(y = y, x = factor(x), groups = factor(groups))
     nr <- nrow(dat)
-    # remove any entries with NA for y, x, or groups
+    # remove any entries with NA for y, x, or groups, and refactor
     dat <- dat[apply(dat, 1, function(x) all(! is.na(x))), ]
+    dat <- transform(dat, x = factor(x), groups = factor(groups))
     BAD.OBS <- nr - nrow(dat)
-    x_levels <- levels(dat$x)
-    # In the below error messages, we have to use 'x' because if this
+    # In error messages, we have to use 'x' here because if this
     # is called from the formula method, deparse(substitute(x)) gives
     # us values rather than the name, and I haven't figured out a
     # clean way around that.
-    if (length(x_levels) != 2)
+    if (nlevels(dat$x) != 2)
         stop("'x' requires exactly two treatment levels")
     if (any(table(dat$groups, dat$x) == 0))
-      stop("'x' must have values for all groups in both treatment levels")
+        stop("'x' must have values for all groups in both treatment levels")
     groups_df <- nestedRanksTest_weights(dat$x, dat$groups)
     groups_levels <- row.names(groups_df)
     weights <- setNames(groups_df$weights, groups_levels)
     Z = matrix(0, n.iter, length(groups_levels),
                dimnames = list(NULL, groups_levels))
+    x_levels <- levels(dat$x)
     for (i in seq_along(groups_levels)) {
         group.info <- groups_df[i, ]
         y1 <- dat$y[dat$groups == groups_levels[i] & dat$x == x_levels[1]]
