@@ -128,8 +128,9 @@ Component |  Contents
 `weights*` | the weights for groups, calculated by `nestedRanksTest_weights`.
 `null.distribution*` | vector containing null distribution of Z-scores, with `statistic` the last value.
 
+The output of `str(result)` for the example above is:
+
 ```R
-str(result)
 List of 10
  $ statistic        : Named num 0.277
   ..- attr(*, "names")= chr "Z"
