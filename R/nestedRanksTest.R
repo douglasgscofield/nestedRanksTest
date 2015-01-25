@@ -96,11 +96,9 @@ NULL
 #'                                   for generating the null distribution\cr
 #'     \code{null.values}       \tab quantiles of the null distribution used
 #'                                   for calculating the p-value\cr
-#'     \code{null.distribution} \tab (missing when \code{lightweight = TRUE})
-#'                                   vector of length \code{n.iter} containing
-#'                                   all values of the null distribution of
-#'                                   Z-scores, with \code{statistic} as the 
-#'                                   last value.\cr
+#'     \code{null.distribution} \tab vector containing null distribution of
+#'                                   Z-scores, with \code{statistic} the last
+#'                                   value.\cr
 #'     \code{alternative}       \tab a character string describing the
 #'                                   alternative hypothesis.\cr
 #'     \code{method}            \tab a character string indicating the nested
