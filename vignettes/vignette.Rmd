@@ -9,6 +9,39 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+# Motivation for developing the test
+
+Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
+were examining year-to-year differences in acorn movement by acorn woodpeckers
+in an oak savannah in central California.  Drs. Sork and Smouse have
+collaborated for several years studying patterns of genetic diversity in oak
+populations, unraveling the ways in which genetic diversity moves around the
+landscape via dispersal of pollen and seeds, and developing analytic methods to
+study these topics and help others do so as well.  I did a post-doc in Dr.
+Sork's lab, publishing several papers together.  We continued to develop
+methods for characterising dispersal in plant populations.  All the methods I
+was involved in developing have been described and used in our published
+research, and all have been implemented in R.  Source code for these
+methods was always available via Dr. Sork's lab website and later via my own
+collection of [Github repositories](https://github.com/douglasgscofield), but it has been only recently that I have begun releasing this code via R packages.
+
+Acorn woodpeckers are highly social,
+and each social group maintains its own granary in which it stores acorns.  The
+woodpeckers are highly territorial and occupy relatively stable territories,
+each containing a number of mature oak trees at varying distances from the
+granary.  Because each granary has its own neighbourhood of oak trees, it would
+not be a very precise test to look for overall differences in acorn movement
+within the entire savannah, on the other hand looking for differences within
+each granary individually would have required greater than practical sample
+sizes to have sufficient statistical power.  We chose instead to test whether
+the distance ranks differ between years within each granary, and combine
+results across granaries for an aggregate between-year test.
+
+
+We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
+2:12](http://www.movementecologyjournal.com/content/2/1/12).
+
+
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
 - Never uses retina figures
