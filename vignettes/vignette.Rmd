@@ -9,6 +9,10 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
+```
+
 # Motivation for developing the test
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
@@ -46,102 +50,117 @@ What was our motivation for why we expected the years to be different?
 Table with the data counts:
 
 ```{r}
+library(nestedRanksTest)
 data(woodpecker_multiyear)
-d.Qagrifolia <- subset(woodpecker_multiyear, Species == "agrifolia")
 d.Qlobata <- subset(woodpecker_multiyear, Species == "lobata")
+d.Qagrifolia <- subset(woodpecker_multiyear, Species == "agrifolia")
+table(d.Qlobata$Year, d.Qlobata$Granary)
 table(d.Qagrifolia$Year, d.Qagrifolia$Granary)
-table(d.Qagrifolia$Year, d.Qagrifolia$Granary)
 ```
 
-Because each granary has its own neighbourhood of oak trees varying in
-distance:
+Relatively few seed movements are longer than 500 m:
 
 ```{r}
-cat("Mean distance (m) between granaries and Q. agrifolia seed trees\n")
-with(d.Qagrifolia, unlist(lapply(split(Distance, Granary), mean)))
-cat("Mean distance (m) between granaries and Q. lobata seed trees\n")
-with(d.Qlobata, unlist(lapply(split(Distance, Granary), mean)))
-# put in a dotplot for each Quercus with granary along bottom and jittered
-# distance to seed source tree above
+sum(d.Qlobata$Distance > 500)
+sum(d.Qagrifolia$Distance > 500)
 ```
 
-it is not be a very precise test to look for overall differences in acorn
-movement within the entire savannah.
+so for clarity we exclude these from our exploratory plots using `xlim = c(0,
+500)`.  Seeds moved 0 m were harvested from the same tree that is hosting the
+granary.  *Q. agrifolia* never host granaries.
+
+```{r, fig.width = 5, fig.height = 2.5}
+opa <- par(mar = c(3, 3, 0, 0), las = 1)
+stripchart(Distance ~ Granary, data = d.Qlobata, subset = Year == "2002",
+           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
+           method = "jitter", jitter = 0.2, xlim = c(0, 500), 
+           frame.plot = FALSE)
+stripchart(Distance ~ Granary, data = d.Qlobata, subset = Year == "2004",
+           pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
+legend("bottomright", legend = c("2002", "2004"), pch = 1, bty = "n", 
+       col = c("blue", "red"), title = "Q. lobata acorn movement") 
+stripchart(Distance ~ Granary, data = d.Qagrifolia, subset = Year == "2006",
+           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
+           method = "jitter", jitter = 0.2, xlim = c(0, 500),
+           frame.plot = FALSE)
+stripchart(Distance ~ Granary, data = d.Qagrifolia, subset = Year == "2007",
+           pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
+legend("bottomright", legend = c("2006", "2007"), pch = 1, bty = "n", 
+       col = c("blue", "red"), title = "Q. agrifolia acorn movement") 
+par(opa)
+```
+
+Clearly there is a lot of spatial structure to the data in each year; this is
+because each granary has its own neighbourhood of oak trees at varying
+distances.  Treating each unique distance as a unique seed tree, we calculate
+mean distance to seed trees around each granary.
 
 ```{r}
-wilcox.test(Distance ~ Year, data = d.Qagrifolia)
+mean.rounded <- function(x, digits = 1) round(mean(x), digits)
+with(d.Qlobata, unlist(lapply(lapply(split(Distance, Granary), unique), mean.rounded)))
+with(d.Qagrifolia, unlist(lapply(lapply(split(Distance, Granary), unique), mean.rounded)))
+```
+
+Forging ahead, we perform Mann-Whitney-Wilcoxon test for rank differences
+between years:
+
+```{r}
 wilcox.test(Distance ~ Year, data = d.Qlobata)
-```
-
-On the other hand, looking for differences within each granary individually
-would have required greater sample sizes than is practical.  The woodpeckers
-collect hundreds and thousands of acorns each year (Walt's book) but we can't!
-
-```{r}
-# R code to split d.Qagrifolia by granary and perform the test between year
-# for each granary
 wilcox.test(Distance ~ Year, data = d.Qagrifolia)
-wilcox.test(Distance ~ Year, data = d.Qlobata)
 ```
 
-The situation is a bit frustrating, because we can visually see that there are
-year-to-year differences in the distances woodpeckers moved seeds.
+While the test result for *Q. agrifolia* is highly significant, nonetheless it
+is unsatisfying to stop there while ignore spatial structure that we know
+exists.  A first step toward addressing this could be to apply `wilcox.test` to
+each granary individually.  For *Q. lobata*:
 
 ```{r}
-# put in a dotplot for each Quercus with granary along bottom and jittered
-# distance to seed source tree above, with each dot coloured by year
+wilcox.p.value <- function(x) wilcox.test(Distance ~ Year, data = x, exact = FALSE)$p.value
+# here we split the dataframe by granary
+round(unlist(lapply(split(d.Qlobata, d.Qlobata$Granary), wilcox.p.value)), 4)
+round(unlist(lapply(split(d.Qagrifolia, d.Qagrifolia$Granary), wilcox.p.value)), 4)
 ```
 
-We chose instead to test whether the distance ranks differ between years within
-each granary, and combine results across granaries for an aggregate
-between-year test.
+This also feels not quite on the mark.  We can tally up successes and failures
+but it still does not seem like an answer that fits the scale of our original
+question: are there overall differences in seed movement between high- and
+low-crop years?  A better test would consider differences in distances between
+years while allowing for differences in spatial structure of seed sources among
+granaries, in other words would treat year as a fixed effect and granary as a
+random effect.  Hence our motivation for developing this test.
 
-
-
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` setion of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r}
+(result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlobata, n.iter = 1000))
+(result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagrifolia, n.iter = 1000))
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"` by including some members that allow for further description of the bootstrap process and null distribution.  Components marked with `"*"` are additions to `"htest"`.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+| Component |  Contents |
+| ----------|---------- |
+| `statistic` | the value of the observed Z-score. |
+| `p.value` | the p-value for the test. |
+| `alternative` | a character string describing the alternative hypothesis. |
+| `method` | a character string indicating the nested ranks test performed. |
+| `data.name` | a character string giving the name(s) of the data.. |
+| `bad.obs` | the number of observations in the data excluded because of `NA` values. |
+| `null.values` | quantiles of the null distribution used for calculating the p-value. |
+| `n.iter*` | the number of bootstrap iterations used for generating the null distribution. |
+| `weights*` | the weights for groups, calculated by `nestedRanksTest_weights`. |
+| `null.distribution*` | vector containing null distribution of Z-scores, with `statistic` the last value. |
 
-## More Examples
+The structure of the class is:
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+str(result.Ql)
 ```
 
-Also a quote using `>`:
+There is also a `plot` method defined for class `"htest_boot"`, which prints a diagnostic figure showing the null distribution and observed value.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r, fig.width = 5, fig.height = 4}
+opa = par(mfrow = c(2, 1), mar = c(4, 3, 2, 0), mgp = c(2, 0.5, 0), cex = 0.8)
+plot(result.Ql)
+plot(result.Qa, main = "Quercus agrifolia", col = "lightgreen", p.col = "brown4", p.lty = 1)
+par(opa)
+```
