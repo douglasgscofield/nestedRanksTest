@@ -41,6 +41,62 @@ results across granaries for an aggregate between-year test.
 We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
 2:12](http://www.movementecologyjournal.com/content/2/1/12).
 
+What was our motivation for why we expected the years to be different?
+
+Table with the data counts:
+
+```{r}
+data(woodpecker_multiyear)
+d.Qagrifolia <- subset(woodpecker_multiyear, Species == "agrifolia")
+d.Qlobata <- subset(woodpecker_multiyear, Species == "lobata")
+table(d.Qagrifolia$Year, d.Qagrifolia$Granary)
+table(d.Qagrifolia$Year, d.Qagrifolia$Granary)
+```
+
+Because each granary has its own neighbourhood of oak trees varying in
+distance:
+
+```{r}
+cat("Mean distance (m) between granaries and Q. agrifolia seed trees\n")
+with(d.Qagrifolia, unlist(lapply(split(Distance, Granary), mean)))
+cat("Mean distance (m) between granaries and Q. lobata seed trees\n")
+with(d.Qlobata, unlist(lapply(split(Distance, Granary), mean)))
+# put in a dotplot for each Quercus with granary along bottom and jittered
+# distance to seed source tree above
+```
+
+it is not be a very precise test to look for overall differences in acorn
+movement within the entire savannah.
+
+```{r}
+wilcox.test(Distance ~ Year, data = d.Qagrifolia)
+wilcox.test(Distance ~ Year, data = d.Qlobata)
+```
+
+On the other hand, looking for differences within each granary individually
+would have required greater sample sizes than is practical.  The woodpeckers
+collect hundreds and thousands of acorns each year (Walt's book) but we can't!
+
+```{r}
+# R code to split d.Qagrifolia by granary and perform the test between year
+# for each granary
+wilcox.test(Distance ~ Year, data = d.Qagrifolia)
+wilcox.test(Distance ~ Year, data = d.Qlobata)
+```
+
+The situation is a bit frustrating, because we can visually see that there are
+year-to-year differences in the distances woodpeckers moved seeds.
+
+```{r}
+# put in a dotplot for each Quercus with granary along bottom and jittered
+# distance to seed source tree above, with each dot coloured by year
+```
+
+We chose instead to test whether the distance ranks differ between years within
+each granary, and combine results across granaries for an aggregate
+between-year test.
+
+
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
