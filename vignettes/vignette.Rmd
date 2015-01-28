@@ -13,33 +13,56 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
-# Motivation for developing the test
+# Why develop the test?
+
+## Background
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
 were examining year-to-year differences in acorn movement by acorn woodpeckers
-in an oak savannah in central California.  Drs. Sork and Smouse have
+in an oak savannah in central California.  Drs Sork and Smouse have
 collaborated for several years studying patterns of genetic diversity in oak
 populations, unraveling the ways in which genetic diversity moves around the
-landscape via dispersal of pollen and seeds, and developing analytic methods to
-study these topics and help others do so as well.  I did a post-doc in Dr.
-Sork's lab, publishing several papers together.  We continued to develop
-methods for characterising dispersal in plant populations.  All the methods I
-was involved in developing have been described and used in our published
-research, and all have been implemented in R.  Source code for these
-methods was always available via Dr. Sork's lab website and later via my own
-collection of [Github repositories](https://github.com/douglasgscofield), but it has been only recently that I have begun releasing this code via R packages.
+landscape via dispersal of pollen and seeds, as well as developing analytic
+methods to help study dispersal.  I did post-doctoral research in Dr Sork's lab
+exploring these topics.
 
-Acorn woodpeckers are highly social,
-and each social group maintains its own granary in which it stores acorns.  The
-woodpeckers are highly territorial and occupy relatively stable territories,
-each containing a number of mature oak trees at varying distances from the
-granary.  Because each granary has its own neighbourhood of oak trees, it would
-not be a very precise test to look for overall differences in acorn movement
-within the entire savannah, on the other hand looking for differences within
-each granary individually would have required greater than practical sample
-sizes to have sufficient statistical power.  We chose instead to test whether
-the distance ranks differ between years within each granary, and combine
-results across granaries for an aggregate between-year test.
+[Acorn woodpeckers (*Melanerpes formicivorus*)][KoenigMumme] are highly social,
+with each social group maintains its own granary or granaries in which it
+stores up to thousands of acorns which are primarily used to augment food
+resources during breeding.  [Granaries][GranaryImageSearch] are constructed by
+the woodpeckers; they drill many closely spaced holes into bark or wood which
+they fill during times of acorn production.  In our study site, granaries are
+nearly always constructed in the thick bark of [valley oak (*Quercus
+lobata*)][ValleyOak].
+
+Oaks are [mast-seeding][MastSeeding] species; their acorn production can vary a
+great deal from year to year.  One of the questions we asked during our
+year-to-year comparisons was: Do woodpeckers forage for acorns farther from their
+granaries during years of low acorn production?  This is a common-sense
+prediction from [optimal foraging theory][OptimalForagingTheory]; if there is
+food available close to home, why travel far?  In years of high acorn
+production, acorns tend to be readily available throughout the landscape, but
+time and energy are saved by foraging from trees closer to the granary.  When
+acorn production is low, more travel is required to find acorns, and
+woodpeckers are likely to gather acorns from trees that are on average farther
+away from their granaries.
+
+Acorn woodpecker territories contain a number of mature oak trees at varying
+distances from the granary.  Because each granary has its own neighbourhood of
+oak trees, it would not be a very precise test to look for overall differences
+in acorn movement within the entire savannah, on the other hand looking for
+differences within each granary individually would have required greater than
+practical sample sizes to have sufficient statistical power.
+
+We chose instead to test whether the distance ranks differ between years within
+each granary, and combine results across granaries for an aggregate
+between-year test.
+
+[KoenigMumme]: http://www.amazon.com/gp/product/0691084645/ref=as_li_tl?tag=itsbadnindeof-20
+[GranaryImageSearch]: https://www.google.com/search?q=acorn+woodpecker+granaries&num=100&newwindow=1&hl=en&tbm=isch
+[ValleyOak]: http://en.wikipedia.org/wiki/Quercus_lobata
+[MastSeeding]: http://www.hastingsreserve.org/oakstory/AmerSciMastKoenig_05.pdf
+[OptimalForagingTheory]: http://en.wikipedia.org/wiki/Optimal_foraging_theory
 
 
 We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
