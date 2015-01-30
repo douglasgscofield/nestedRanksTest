@@ -22,7 +22,7 @@ in an oak savannah in central California.  Drs Sork and Smouse have
 collaborated for several years studying patterns of genetic diversity in oak
 populations, unraveling the ways in which genetic diversity moves around the
 landscape via dispersal of pollen and seeds.  This usually involves the
-development of analytic methods to help study dispersal. 
+development of analytic methods to help study patterns of dispersal. 
 
 [Acorn woodpeckers (*Melanerpes formicivorus*)][KoenigMumme] are highly social
 and highly territorial, with each social group maintaining its own granary in
@@ -30,7 +30,8 @@ which it stores up to thousands of acorns.  [Granaries][GranaryImageSearch] are
 constructed by the woodpeckers; they drill many closely spaced holes into bark
 or wood which they fill during times of acorn production.  In our study site,
 granaries are nearly always constructed in the thick bark of [valley oak
-(*Quercus lobata*)][ValleyOak].
+(*Quercus lobata*)][ValleyOak], while acorns were harvested from both valley oak
+and [coast live oak (*Quercus agrifolia*)][LiveOak].
 
 ![](sedgwick_landscape_fewtrees.jpg)
 
@@ -49,6 +50,7 @@ away from their granaries.
 [KoenigMumme]: http://www.amazon.com/gp/product/0691084645/ref=as_li_tl?tag=itsbadnindeof-20
 [GranaryImageSearch]: https://www.google.com/search?q=acorn+woodpecker+granaries&num=100&newwindow=1&hl=en&tbm=isch
 [ValleyOak]: http://en.wikipedia.org/wiki/Quercus_lobata
+[LiveOak]: http://en.wikipedia.org/wiki/Quercus_agrifolia
 [MastSeeding]: http://www.hastingsreserve.org/oakstory/AmerSciMastKoenig_05.pdf
 [OptimalForagingTheory]: http://en.wikipedia.org/wiki/Optimal_foraging_theory
 
@@ -61,91 +63,129 @@ sizes are.
 ```{r}
 library(nestedRanksTest)
 data(woodpecker_multiyear)
-d.Qlobata <- subset(woodpecker_multiyear, Species == "lobata")
-d.Qagrifolia <- subset(woodpecker_multiyear, Species == "agrifolia")
-table(d.Qlobata$Year, d.Qlobata$Granary)
-table(d.Qagrifolia$Year, d.Qagrifolia$Granary)
+d.Qlob <- subset(woodpecker_multiyear, Species == "lobata")
+d.Qagr <- subset(woodpecker_multiyear, Species == "agrifolia")
+table(d.Qlob$Year, d.Qlob$Granary)
+table(d.Qagr$Year, d.Qagr$Granary)
 ```
 
 We create exploratory plots to see if any obvious structure appears.
 Relatively few seed movements are longer than 500 m:
 
 ```{r}
-sum(d.Qlobata$Distance > 500)
-sum(d.Qagrifolia$Distance > 500)
+sum(d.Qlob$Distance > 500)
+sum(d.Qagr$Distance > 500)
 ```
 
-so for clarity we exclude these from these first plots.  Seeds moved 0 m were
-harvested from the same tree that is hosting the granary.  Granaries are not constructed in *Q. agrifolia* trees in our field site.
+so for clarity we exclude outliers from these plots.  To reduce overplotting
+and give us a better sense of acorn numbers at each distance, we also jitter
+the y-position of the points just a bit.
 
 ```{r, fig.width = 5, fig.height = 5}
-opa <- par(mfcol = c(2, 1), mar = c(3, 3, 0, 0), las = 1)
-stripchart(Distance ~ Granary, data = d.Qlobata, subset = Year == "2002",
+opa <- par(mfcol = c(2, 1), cex = 0.8, mar = c(3, 3, 0, 0), las = 1, 
+           mgp = c(2, 0.5, 0), tcl = -0.3)
+stripchart(Distance ~ Granary, data = d.Qlob, subset = Year == "2002",
            xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
            method = "jitter", jitter = 0.2, xlim = c(0, 500), 
            frame.plot = FALSE)
-stripchart(Distance ~ Granary, data = d.Qlobata, subset = Year == "2004",
+stripchart(Distance ~ Granary, data = d.Qlob, subset = Year == "2004",
            pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
 legend("bottomright", legend = c("2002", "2004"), pch = 1, bty = "n", 
-       col = c("blue", "red"), title = "Q. lobata\nacorn movement") 
-stripchart(Distance ~ Granary, data = d.Qagrifolia, subset = Year == "2006",
+       col = c("blue", "red"), title = "Valley oak acorns") 
+stripchart(Distance ~ Granary, data = d.Qagr, subset = Year == "2006",
            xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
            method = "jitter", jitter = 0.2, xlim = c(0, 500),
            frame.plot = FALSE)
-stripchart(Distance ~ Granary, data = d.Qagrifolia, subset = Year == "2007",
+stripchart(Distance ~ Granary, data = d.Qagr, subset = Year == "2007",
            pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
 legend("bottomright", legend = c("2006", "2007"), pch = 1, bty = "n", 
-       col = c("blue", "red"), title = "Q. agrifolia\nacorn movement") 
+       col = c("blue", "red"), title = "Live oak acorns") 
 par(opa)
 ```
 
-There appear to be differences between years for each oak species, but clearly
-there is also a lot of granary-specific structure to the distances acorns are
-moved.  Each granary has its own neighbourhood of oak trees at varying
-distances, and because of their territoriality, acorn woodpeckers are most
-likely to forage in their neighbourhood, creating this structre.  The package
-dataset does not include seed source tree identities, but because of the
-relative sparseness of the trees in the landscape, we can treat each unique
-distance as a unique tree to calculate mean distance to seed trees around each
-granary.
+Seeds moved 0 m (always valley oak) were harvested from the same tree that
+hosted the granary.
+
+There do appear to be between-year differences for each oak species, but
+clearly there is also a lot of granary-specific structure.  This occurs because
+each granary has its own neighbourhood of oak trees at varying distances, and
+the territorial acorn woodpeckers are most likely to forage in their specific
+neighbourhood and have a neighbourhood-specific collection of seed movement
+distances.  The `woodpecker_multiyear` dataset does not include seed source
+tree identities, but we can treat each unique distance as the identity of a
+unique tree because of the relative sparseness of the trees in the landscape.
+Calculating the median distance to seed trees used, we do see a great deal of
+variation.
 
 ```{r}
-with(d.Qlobata, unlist(lapply(lapply(split(Distance, Granary), unique), 
-                              median)))
-with(d.Qagrifolia, unlist(lapply(lapply(split(Distance, Granary), unique), 
-                                 median)))
+with(d.Qlob, unlist(lapply(lapply(split(Distance, Granary), unique), median)))
+with(d.Qagr, unlist(lapply(lapply(split(Distance, Granary), unique), median)))
 ```
 
-A test of between-year differences in foraging distances:
-```{r}
-wilcox.test(Distance ~ Year, data = d.Qlobata)
-wilcox.test(Distance ~ Year, data = d.Qagrifolia)
-```
-reveals significant differences for *Q. agrifolia*, but not *Q. lobata*.  But
-this approach is unsatisfying, because it ignores spatial structure we can see
-in the data.  One possibility might be to test for year-to-year differences for
-each granary individually.  For *Q. lobata*:
+We discussed the unusually long acorn movement distances of coast live oak for
+granary 140 in Scofield *et al*. (2010).
+
+Because of the variation in distances, a nonparametric test such as the
+Mann-Whitney-Wilcoxon test (`wilcox.test`) is preferred to a parametric test
+such as `t.test`.
 
 ```{r}
-wilcox.p <- function(x) wilcox.test(Distance ~ Year, data = x, 
-                                    exact = FALSE)$p.value
-round(unlist(lapply(split(d.Qlobata, d.Qlobata$Granary), wilcox.p)), 4)
-round(unlist(lapply(split(d.Qagrifolia, d.Qagrifolia$Granary), wilcox.p)), 4)
+wilcox.test(Distance ~ Year, data = d.Qlob)
+wilcox.test(Distance ~ Year, data = d.Qagr)
 ```
 
-This also feels not quite on the mark.  We can tally up successes and failures
-but it still does not seem like an answer that fits the scale of our original
-question: are there *overall* differences in seed movement between high- and
+The results reveals significant differences for live oak but not valley oak.
+However, this approach is unsatisfying because it ignores spatial structure we
+can see in the data.  One possibility might be to test for year-to-year
+differences for each granary individually.  For brevity we examine just the
+p-values for each test:
+
+```{r}
+wilcox.p.value <- 
+    function(x) wilcox.test(Distance ~ Year, data = x, exact = FALSE)$p.value
+round(unlist(lapply(split(d.Qlob, d.Qlob$Granary), wilcox.p.value)), 4)
+round(unlist(lapply(split(d.Qagr, d.Qagr$Granary), wilcox.p.value)), 4)
+```
+
+This also feels not quite on the mark.  I'm sure we can find or develop a
+technique to combine the p-values while taking into account the individual
+successes and failures, but it still does not fit the scale of our original
+question: Are there *overall* differences in seed movement between high- and
 low-crop years?
 
-A better test would consider differences in distances between
-years while allowing for differences in spatial structure of seed sources among
-granaries, in other words would treat year as a fixed effect and granary as a
-random effect.  This was our motivation for developing `nestedRanksTest`.
+A better test would consider differences in distances between years while
+allowing for our observation that different spatial structure of seed sources
+surrounding individual granaries creates differences among granaries in seed
+movement distance independent of any year-to-year variation in acorn crop size.
+In model terms, a better test would treat year as a fixed effect and granary as
+a random effect, akin to a [mixed model][MixedModel].  This was our motivation
+for developing `nestedRanksTest`.
+
+[MixedModel]: http://en.wikipedia.org/wiki/Mixed_model
+
+# Nested ranks test: What you should know
+
+Syntax differences and different interface expectations.
+Conversions to factors for both treatment and group.
+Weights, why?  
+Calculation of weights.
+Appearance in htest_boot
+Function for calculating weights.
+Calculation of MWW statistic.
+Bootstrap procedure.
+
+Distance ~ Year | Granary
+Distance ~ Year, groups = Granary
+Year, Distance, Granary
+x = Year, y = Distance, groups = Granary
+
+
 
 ```{r}
-(result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlobata, n.iter = 2000))
-(result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagrifolia, n.iter = 2000))
+result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
+print(result.Ql)
+result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
+print(result.Ql)
 ```
 
 We can also plot the results:
@@ -190,3 +230,9 @@ There is also a `plot` method defined for class `"htest_boot"`, which prints a d
 
 We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
 2:12](http://www.movementecologyjournal.com/content/2/1/12).
+
+# References
+
+Scofield, D. G., Sork, V. L., and Smouse, P. E.  (2010)  Influence of acorn woodpecker social behaviour on transport of coast live oak (*Quercus agrifolia*) acorns in a southern California oak savanna.  *Journal of Ecology* **98**: 561-572.
+
+Thompson, P. G., Smouse, P. E., Scofield, D. G., and Sork, V. L. (2014)  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  *Movement Ecology* **2**: 12. <http://www.movementecologyjournal.com/content/2/1/12>
