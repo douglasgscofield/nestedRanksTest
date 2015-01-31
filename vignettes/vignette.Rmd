@@ -164,22 +164,44 @@ for developing `nestedRanksTest`.
 
 [MixedModel]: http://en.wikipedia.org/wiki/Mixed_model
 
-# Nested ranks test: What you should know
+# Using the test
 
-* Syntax differences and different interface expectations.
-* Conversions to factors for both treatment and group.
+The `nestedRanksTest` takes three variables:
+
+* Continuous response, named `y`
+* Treatment factor with exactly two levels, named `x`, this will be coerced to a factor if it is not already
+* Grouping factor, named `groups`, this too will be coerced to a factor
+
+There are two interfaces for the test: 
+
+* a formula interface, which may be the simplest to use and takes a formula of the form `y ~ x | groups`
+* a default interface, that accepts `y`, `x` and `groups` as separate arguments
+
+The grouping factor may be provided using the `groups =` argument in either the
+formula or default interfaces.  This argument can be used when the formula has
+the formula `y ~ x`; it is an error to provide a grouping factor twice, even
+the same grouping factor, using both the formula and the argument.
+
+```{r, eval = FALSE}
+## All valid and identical in results
+d.Qlob <- subset(woodpecker_multiyear, Species == "lobata")
+result <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob)
+result <- nestedRanksTest(Distance ~ Year, groups = Granary, data = d.Qlob)
+result <- nestedRanksTest(Year, Distance, Granary, data = d.Qlob)
+result <- with(d.Qlob, nestedRanksTest(y = Distance, x = Year, groups = Granary))
+##
+## An error, grouping specified twice
+result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
+## An error, no grouping specified
+result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
+```
+
 * Weights, why?  
 * Calculation of weights.
 * Appearance in htest_boot
 * Function for calculating weights.
 * Calculation of MWW statistic.
 * Bootstrap procedure.
-* interfaces:
-  * Distance ~ Year | Granary
-  * Distance ~ Year, groups = Granary
-  * Year, Distance, Granary
-  * x = Year, y = Distance, groups = Granary
-
 
 
 ```{r}
