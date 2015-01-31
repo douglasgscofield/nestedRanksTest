@@ -13,7 +13,6 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
-
 # Background
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
@@ -167,19 +166,19 @@ for developing `nestedRanksTest`.
 
 # Nested ranks test: What you should know
 
-Syntax differences and different interface expectations.
-Conversions to factors for both treatment and group.
-Weights, why?  
-Calculation of weights.
-Appearance in htest_boot
-Function for calculating weights.
-Calculation of MWW statistic.
-Bootstrap procedure.
-
-Distance ~ Year | Granary
-Distance ~ Year, groups = Granary
-Year, Distance, Granary
-x = Year, y = Distance, groups = Granary
+* Syntax differences and different interface expectations.
+* Conversions to factors for both treatment and group.
+* Weights, why?  
+* Calculation of weights.
+* Appearance in htest_boot
+* Function for calculating weights.
+* Calculation of MWW statistic.
+* Bootstrap procedure.
+* interfaces:
+  * Distance ~ Year | Granary
+  * Distance ~ Year, groups = Granary
+  * Year, Distance, Granary
+  * x = Year, y = Distance, groups = Granary
 
 
 

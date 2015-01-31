@@ -8,6 +8,7 @@ PARENTDIR = ..
 TARBALL = $(PACKAGE)_$(VERSION).tar.gz
 TARBALL_LOC = $(PARENTDIR)/$(TARBALL)
 CHECKDIR = check_tmp
+PANDOC = pandoc
 
 all: vars doc
 
@@ -18,20 +19,24 @@ vars:
 	echo TARBALL = "$(TARBALL)"
 	echo TARBALL_LOC = "$(TARBALL_LOC)"
 	echo CHECKDIR = "$(CHECKDIR)"
+	echo PANDOC = "$(PANDOC)"
 
 doc:
 	R --quiet -e 'devtools::document()'
 
-build: $(TARBALL_LOC)
+NEWS: NEWS.md
+	$(PANDOC) -f markdown -t plain -o $@ $^
 
-$(TARBALL_LOC): doc R/*.R man/*.Rd data/* inst/*
-	cd $(PARENTDIR) && R CMD build $(PACKAGE)
+vignettes:
+	R --quiet -e 'devtools::build_vignettes()'
 
 $(CHECKDIR): $(TARBALL_LOC)
 	rm -rf $(CHECKDIR) && mkdir $(CHECKDIR) && cp $(TARBALL_LOC) $(CHECKDIR)
 
-vignettes:
-	R --quiet -e 'devtools::build_vignettes()'
+$(TARBALL_LOC): NEWS doc vignettes R/*.R man/*.Rd data/* inst/*
+	cd $(PARENTDIR) && R CMD build $(PACKAGE)
+
+build: $(TARBALL_LOC)
 
 check: $(CHECKDIR)
 	cd $(CHECKDIR) && R CMD check $(TARBALL)
@@ -43,4 +48,4 @@ clean:
 	rm -rf $(CHECKDIR)
 	rm -f $(TARBALL_LOC)
 
-.PHONY: doc build vignettes
+.PHONY: vars doc build vignettes
