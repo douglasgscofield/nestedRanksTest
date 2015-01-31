@@ -77,6 +77,11 @@ l.resf6 <- with(subset(woodpecker_multiyear, Species == "lobata"),
 set.seed(42)
 ldat <- subset(woodpecker_multiyear, Species == "lobata")
 l.resf7 <- nestedRanksTest(ldat$Year, ldat$Distance, ldat$Granary, n.iter = it)
+set.seed(42)
+l.resf8 <- nestedRanksTest(Distance ~ Year, group = Granary,
+                           data = woodpecker_multiyear,
+                           subset = Species == "lobata",
+                           n.iter = it)
 
 test_that("results identical between formula and default interfaces", {
     expect_equal(a.resf1, a.resf5)
@@ -85,6 +90,7 @@ test_that("results identical between formula and default interfaces", {
     expect_equal(l.resf1, l.resf6)
     expect_identical(l.resf6$statistic, l.resf7$statistic)
     expect_identical(l.resf6$p.value, l.resf7$p.value)
+    expect_equal(l.resf1, l.resf8)
 })
 
 test_that("object identities correct regardless of interface", {
