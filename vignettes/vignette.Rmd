@@ -30,10 +30,12 @@ which it stores up to thousands of acorns.  [Granaries][GranaryImageSearch] are
 constructed by the woodpeckers; they drill many closely spaced holes into bark
 or wood which they fill during times of acorn production.  In our study site,
 granaries are nearly always constructed in the thick bark of [valley oak
-(*Quercus lobata*)][ValleyOak], while acorns were harvested from both valley oak
-and [coast live oak (*Quercus agrifolia*)][LiveOak].
+(*Quercus lobata*)][ValleyOak], while acorns were harvested from both valley
+oak and [coast live oak (*Quercus agrifolia*)][LiveOak].  Coast live oaks have
+darker-green canopies in the picture below, while live oaks have lighter-green
+canopies.
 
-![](sedgwick_landscape_fewtrees.jpg)
+![Figueroa valley, Sedgwick Natural Reserve, Santa Barbara County, California](sedgwick_landscape_fewtrees.jpg "Figueroa valley, Sedgwick Natural Reserve, Santa Barbara County, California")
 
 Oaks are [mast-seeding][MastSeeding] species; their acorn production can vary a
 great deal from year to year.  One of the questions we asked during our

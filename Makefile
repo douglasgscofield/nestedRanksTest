@@ -30,6 +30,9 @@ $(TARBALL_LOC): doc R/*.R man/*.Rd data/* inst/*
 $(CHECKDIR): $(TARBALL_LOC)
 	rm -rf $(CHECKDIR) && mkdir $(CHECKDIR) && cp $(TARBALL_LOC) $(CHECKDIR)
 
+vignettes:
+	R --quiet -e 'devtools::build_vignettes()'
+
 check: $(CHECKDIR)
 	cd $(CHECKDIR) && R CMD check $(TARBALL)
 
@@ -40,4 +43,4 @@ clean:
 	rm -rf $(CHECKDIR)
 	rm -f $(TARBALL_LOC)
 
-.PHONY: doc build
+.PHONY: doc build vignettes
