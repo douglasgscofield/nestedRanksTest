@@ -11,3 +11,4 @@
 * TODO: manage References better in the vignette, include internal links
 * TODO: complete the description of the interface
 * TODO: complete test suite by adding error checks
+* TODO: how to actually run/view a vignette?  test this.
