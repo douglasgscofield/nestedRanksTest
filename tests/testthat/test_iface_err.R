@@ -19,3 +19,13 @@ test_that("Errors produced when other variable missing", {
                 "object 'Year' not found")
 })
 
+test_that("Errors produced when wrong number of levels in treatment", {
+    expect_error(nestedRanksTest(Distance ~ Year | Granary, 
+                                 data = woodpecker_multiyear),
+                 "must have exactly 2 levels")
+    expect_error(nestedRanksTest(Distance ~ Year | Granary, 
+                                 data = adat,
+                                 subset = Year == "2007"),
+                 "must have exactly 2 levels")
+})
+
