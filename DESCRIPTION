@@ -8,5 +8,6 @@ Description: Calculate a Mann-Whitney-Wilcoxon test for a difference between tre
 ByteCompile: yes
 URL: https://github.com/douglasgscofield/nestedRanksTest
 License: LGPL-3 | file LICENSE
-Suggests: knitr
+Suggests: knitr,
+    testthat
 VignetteBuilder: knitr

@@ -1,6 +1,5 @@
 # nestedRanksTest 1.0
 
-
 * Initial release, available via `devtools::install_github()` but not yet 
   submitted to CRAN
 * Provides S3 generic `nestedRanksTest()`, with function and default methods
@@ -11,3 +10,4 @@
 * TODO: modify Makefile to build both html and pdf vignettes
 * TODO: manage References better in the vignette, include internal links
 * TODO: complete the description of the interface
+* TODO: complete test suite by adding error checks
