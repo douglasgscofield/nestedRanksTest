@@ -272,11 +272,14 @@ str(result.Ql)
 
 # Details
 
-* Weights, why?  
-* Calculation of weights.
-* Calculation of MWW statistic.
-* Bootstrap procedure.
-* Conclusions
+I will fill in more details on the following as time permits:
+
+* Calculation of the Z-statistic
+* Calculation of group weights
+* The bootstrap procedure
+
+Details are also available in the supplemental information of [Thompson *et
+al*. (2014)](#Thompson2014).
 
 
 
