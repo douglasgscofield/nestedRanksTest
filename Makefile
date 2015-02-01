@@ -10,25 +10,25 @@ TARBALL_LOC = $(PARENTDIR)/$(TARBALL)
 CHECKDIR = check_tmp
 PANDOC = pandoc
 
-all: vars doc
+all: vars NEWS doc vignettes
 
 vars:
-	echo PACKAGE = "$(PACKAGE)"
-	echo VERSION = "$(VERSION)"
-	echo PARENTDIR = "$(PARENTDIR)"
-	echo TARBALL = "$(TARBALL)"
-	echo TARBALL_LOC = "$(TARBALL_LOC)"
-	echo CHECKDIR = "$(CHECKDIR)"
-	echo PANDOC = "$(PANDOC)"
-
-doc:
-	R --quiet -e 'devtools::document()'
+	@echo PACKAGE = "$(PACKAGE)"
+	@echo VERSION = "$(VERSION)"
+	@echo PARENTDIR = "$(PARENTDIR)"
+	@echo TARBALL = "$(TARBALL)"
+	@echo TARBALL_LOC = "$(TARBALL_LOC)"
+	@echo CHECKDIR = "$(CHECKDIR)"
+	@echo PANDOC = "$(PANDOC)"
 
 NEWS: NEWS.md
 	$(PANDOC) -f markdown -t plain -o $@ $^
 
+doc:
+	R --quiet -e 'devtools::document()'
+
 vignettes:
-	R --quiet -e 'devtools::build_vignettes()'
+	RSTUDIO_PANDOC=`which pandoc` R --quiet -e 'devtools::build_vignettes()'
 
 $(CHECKDIR): $(TARBALL_LOC)
 	rm -rf $(CHECKDIR) && mkdir $(CHECKDIR) && cp $(TARBALL_LOC) $(CHECKDIR)

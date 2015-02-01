@@ -22,9 +22,9 @@ coerced to factor.  Must contain exactly two levels.}
 \item{formula}{a formula of the form \code{lhs ~ rhs} or
 \code{lhs ~ rhs | groups}, where \code{lhs}
 is a numeric variable giving the data values, \code{rhs}
-is a variable obeying conditions for \code{x} above, and
+is a variable obeying conditions for \code{x}, and
 \code{groups} is a variable obeying conditions for
-\code{groups} above.  If \code{"| groups"} is not included
+\code{groups}.  If \code{"| groups"} is not included
 in the formula, group membership must be specified with
 the \code{groups} argument.}
 
