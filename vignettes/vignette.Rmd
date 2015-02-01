@@ -13,6 +13,10 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
+The nested ranks test was first described in detail in the supplemental
+information of [Thompson *et al*.
+(2014)](http://www.movementecologyjournal.com/content/2/1/12).
+
 # Background
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
@@ -174,25 +178,27 @@ The `nestedRanksTest` takes three variables:
 
 There are two interfaces for the test: 
 
-* a formula interface, which may be the simplest to use and takes a formula of the form `y ~ x | groups`
+* a formula interface, the easiest to use, takes a formula of the form `y ~ x | groups` and includes `data` and `subset` arguments
 * a default interface, that accepts `y`, `x` and `groups` as separate arguments
 
 The grouping factor may be provided using the `groups =` argument in either the
 formula or default interfaces.  This argument can be used when the formula has
-the formula `y ~ x`; it is an error to provide a grouping factor twice, even
-the same grouping factor, using both the formula and the argument.
+the formula `y ~ x`.  All of the following are valid and produce identical results.
 
 ```{r, eval = FALSE}
-d.Qlob <- subset(woodpecker_multiyear, Species == "lobata")
-## All valid and identical in results
 result <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob)
 result <- nestedRanksTest(Distance ~ Year, groups = Granary, data = d.Qlob)
-result <- nestedRanksTest(Year, Distance, Granary, data = d.Qlob)
+result <- with(d.Qlob, nestedRanksTest(Year, Distance, Granary))
 result <- with(d.Qlob, nestedRanksTest(y = Distance, x = Year, groups = Granary))
-##
-## An error, grouping specified twice
+```
+
+The grouping factor is required, and it is an error to provide a grouping
+factor twice using both the formula and the argument.
+
+```{r, eval = FALSE}
+## Error, grouping specified twice
 result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
-## An error, no grouping specified
+## Error, no grouping specified
 result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
 ```
 
@@ -207,22 +213,23 @@ result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
 ```{r}
 result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
 print(result.Ql)
+#
+#
 result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
-print(result.Ql)
+print(result.Qa)
 ```
 
-We can also plot the results:
+We can also plot the results.
 
 ```{r, fig.width = 6, fig.height = 3}
 plot(result.Ql)
 ```
 
-This shows the default plot format.  The titles, colours and line styles may be modified in `plot`.
+Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
 plot(result.Qa, main = "Quercus agrifolia", col = "lightgreen", 
-     p.col = "brown4", p.lty = 1, mar = c(3, 2, 2, 0), mgp = c(2, 0.5, 0), 
-     cex = 0.8)
+     p.col = "brown4", p.lty = 1, p.lwd = 3)
 ```
 
 # Return value
@@ -248,11 +255,6 @@ The structure of the class is:
 ```{r}
 str(result.Ql)
 ```
-
-There is also a `plot` method defined for class `"htest_boot"`, which prints a diagnostic figure showing the null distribution and observed value.
-
-We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
-2:12](http://www.movementecologyjournal.com/content/2/1/12).
 
 # References
 
