@@ -11,6 +11,7 @@ vignette: >
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
+options(width = 80)
 ```
 
 We first described the nested ranks test in detail in the supplemental
@@ -198,6 +199,7 @@ the form `y ~ x`.  All of the following are valid and produce identical results.
 ```{r, eval = FALSE}
 result <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob)
 result <- nestedRanksTest(Distance ~ Year, groups = Granary, data = d.Qlob)
+## Because no data= for default interface, here we use with()
 result <- with(d.Qlob, nestedRanksTest(Year, Distance, Granary))
 result <- with(d.Qlob, nestedRanksTest(y = Distance, x = Year, groups = Granary))
 ```
@@ -205,9 +207,9 @@ result <- with(d.Qlob, nestedRanksTest(y = Distance, x = Year, groups = Granary)
 The grouping factor is required, and it is an error to provide a grouping
 factor twice using both the formula and the argument.
 
-```{r, eval = FALSE}
+```{r, error = TRUE}
 ## Error, no grouping specified
-result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
+result <- with(d.Qlob, nestedRanksTest(Year, Distance))
 ## Error, grouping specified twice
 result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
 ```

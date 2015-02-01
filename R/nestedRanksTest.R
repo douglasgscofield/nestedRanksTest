@@ -220,6 +220,8 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
                                     lightweight = FALSE, ...) {
     if (n.iter < 1)
         stop("n.iter must be greater than or equal to 1")
+    if (missing(groups))
+        stop("'groups' missing")
     X.NAME = deparse(substitute(x))
     Y.NAME = deparse(substitute(y))
     GROUPS.NAME = deparse(substitute(groups))
