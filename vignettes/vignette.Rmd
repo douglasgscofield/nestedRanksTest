@@ -53,7 +53,7 @@ Oaks are [mast-seeding][MastSeeding] species; their acorn production can vary a
 great deal from year to year.  One of the questions we asked during our
 year-to-year comparisons was: Do woodpeckers forage for acorns farther from
 their granaries during years of low acorn production?  This is a common-sense
-prediction from [optimal foraging theory][OptimalForagingTheory]; if there is
+prediction from [optimal foraging theory][OptimalForagingTheory]: if there is
 food available close to home, why travel far?  In years of high acorn
 production, acorns tend to be readily available throughout the landscape, but
 time and energy are saved by foraging from trees closer to the granary.  When
@@ -163,11 +163,12 @@ round(unlist(lapply(split(d.Qlob, d.Qlob$Granary), wilcox.p.value)), 4)
 round(unlist(lapply(split(d.Qagr, d.Qagr$Granary), wilcox.p.value)), 4)
 ```
 
-This also feels not quite on the mark.  I'm sure we can find or develop a
-technique to combine the p-values while taking into account the individual
-successes and failures, but it still does not fit the scale of our original
-question: Are there *overall* differences in seed movement between high- and
-low-crop years?
+This also feels not quite on the mark, in addition to having problems meeting
+`wilcox.test` assumptions for granary 151 with coast live oak.  We could find
+or develop a technique to combine the p-values while taking into account the
+individual successes and failures, but this solution still does not fit the
+scale of our original question: Are there *overall* differences in seed
+movement between high- and low-crop years?
 
 A better test would consider differences in distances between years while
 allowing for our observation that different spatial structure of seed sources
