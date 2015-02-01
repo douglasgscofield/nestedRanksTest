@@ -9,6 +9,5 @@
 * Provides dataset `woodpecker_multiyear`, distances acorn woodpeckers moved
   acorns of two different oak species from source tree to storage granary during
   two years per oak species
-* TODO: manage References better in the vignette, include internal links
 * TODO: complete the description of the interface
 * TODO: how to actually run/view a vignette?  test this.

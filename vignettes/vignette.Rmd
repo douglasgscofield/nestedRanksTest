@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
 The nested ranks test was first described in detail in the supplemental
-information of [Thompson *et al*. (2014)][Thompson2014].
+information of [Thompson *et al*. (2014)](#Thompson2014).
 
 # Background
 
@@ -27,13 +27,14 @@ landscape via dispersal of pollen and seeds.  This usually involves the
 development of analytic methods to help study patterns of dispersal. 
 
 [Acorn woodpeckers (*Melanerpes formicivorus*)][KoenigMumme] are highly social
-and highly territorial, with each social group maintaining its own granary in
-which it stores up to thousands of acorns.  [Granaries][GranaryImageSearch] are
-constructed by the woodpeckers; they drill many closely spaced holes into bark
-or wood which they fill during times of acorn production.  In our study site,
-granaries are nearly always constructed in the thick bark of [valley oak
-(*Quercus lobata*)][ValleyOak], while acorns were harvested from both valley
-oak and [coast live oak (*Quercus agrifolia*)][LiveOak].  Coast live oaks have
+and highly territorial, with each woodpecker group [breeding
+cooperatively][StaceyKoenig] and maintaining its own granary in which it stores
+up to thousands of acorns.  [Granaries][GranaryImageSearch] are constructed by
+the woodpeckers; they drill many closely spaced holes into bark or wood which
+they fill during times of acorn production.  In our study site, granaries are
+nearly always constructed in the thick bark of [valley oak (*Quercus
+lobata*)][ValleyOak], while acorns were harvested from both valley oak and
+[coast live oak (*Quercus agrifolia*)][LiveOak].  Coast live oaks have
 darker-green canopies in the picture below, while live oaks have lighter-green
 canopies.
 
@@ -52,6 +53,7 @@ woodpeckers are likely to gather acorns from trees that are on average farther
 away from their granaries.
 
 [KoenigMumme]: http://www.amazon.com/gp/product/0691084645/ref=as_li_tl?tag=itsbadnindeof-20
+[StaceyKoenig]: http://www.amazon.com/gp/product/0521378907/ref=as_li_tl?tag=itsbadnindeof-20
 [GranaryImageSearch]: https://www.google.com/search?q=acorn+woodpecker+granaries&num=100&newwindow=1&hl=en&tbm=isch
 [ValleyOak]: http://en.wikipedia.org/wiki/Quercus_lobata
 [LiveOak]: http://en.wikipedia.org/wiki/Quercus_agrifolia
@@ -115,11 +117,12 @@ clearly there is also a lot of granary-specific structure.  This occurs because
 each granary has its own neighbourhood of oak trees at varying distances, and
 the territorial acorn woodpeckers are most likely to forage in their specific
 neighbourhood and have a neighbourhood-specific collection of seed movement
-distances.  The `woodpecker_multiyear` dataset does not include seed source
-tree identities, but we can treat each unique distance as the identity of a
-unique tree because of the relative sparseness of the trees in the landscape.
-Calculating the median distance to seed trees used, we do see a great deal of
-variation.
+distances ([Scofield *et al*. 2010](#Scofield2010), [Scofield *et al*.
+2011](#Scofield2011), [Thompson *et al*. 2014](#Thompson2014)).  The
+`woodpecker_multiyear` dataset does not include seed source tree identities,
+but we can treat each unique distance as the identity of a unique tree because
+of the relative sparseness of the trees in the landscape.  Calculating the
+median distance to seed trees used, we do see a great deal of variation.
 
 ```{r}
 with(d.Qlob, unlist(lapply(lapply(split(Distance, Granary), unique), median)))
@@ -127,7 +130,7 @@ with(d.Qagr, unlist(lapply(lapply(split(Distance, Granary), unique), median)))
 ```
 
 We discussed the unusually long acorn movement distances of coast live oak for
-granary 140 in [Scofield *et al*. (2010)][Scofield2010].
+granary 140 in [Scofield *et al*. (2010)](#Scofield2010).
 
 Because of the variation in distances, a nonparametric test such as the
 Mann-Whitney-Wilcoxon test (`wilcox.test`) is preferred to a parametric test
@@ -268,8 +271,11 @@ str(result.Ql)
 # References
 
 [Scofield2010]: http://dx.doi.org/10.1111/j.1365-2745.2010.01649.x
+[Scofield2011]: http://dx.doi.org/10.1007/s00442-010-1828-5
 [Thompson2014]: http://www.movementecologyjournal.com/content/2/1/12
 
-Scofield, D. G., Sork, V. L., and Smouse, P. E.  (2010)  Influence of acorn woodpecker social behaviour on transport of coast live oak (*Quercus agrifolia*) acorns in a southern California oak savanna.  [*Journal of Ecology* **98**: 561-572][Scofield2010].
+<a name="Scofield2010">Scofield, D. G., Sork, V. L., and Smouse, P. E.</a>  (2010)  Influence of acorn woodpecker social behaviour on transport of coast live oak (*Quercus agrifolia*) acorns in a southern California oak savanna.  [*Journal of Ecology* **98**: 561-572][Scofield2010].
 
-Thompson, P. G., Smouse, P. E., Scofield, D. G., and Sork, V. L. (2014)  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  [*Movement Ecology* **2**: 12][Thompson2014].
+<a name="Scofield2011">Scofield, D. G., Alvaro, V. R., Sork, V. L., Grivet, D., Martinez, E., Pluess, A., Koenig, W. D. and Smouse, P. E.</a>  (2011)  Foraging patterns of acorn woodpeckers (*Melanerpes formicivorus*) on valley oak (*Quercus lobata* N&eacute;e) in two California oak savannah-woodlands.  [*Oecologia* **168**: 187-196][Scofield2011].
+
+<a name="Thompson2014">Thompson, P. G., Smouse, P. E., Scofield, D. G., and Sork, V. L.</a> (2014)  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  [*Movement Ecology* **2**: 12][Thompson2014].

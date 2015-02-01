@@ -20,6 +20,7 @@ vars:
 	@echo TARBALL_LOC = "$(TARBALL_LOC)"
 	@echo CHECKDIR = "$(CHECKDIR)"
 	@echo PANDOC = "$(PANDOC)"
+	@echo
 
 NEWS: NEWS.md
 	$(PANDOC) -f markdown -t plain -o $@ $^
