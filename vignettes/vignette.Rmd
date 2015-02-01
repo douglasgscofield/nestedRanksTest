@@ -13,8 +13,16 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
-The nested ranks test was first described in detail in the supplemental
+We first described the nested ranks test in detail in the supplemental
 information of [Thompson *et al*. (2014)](#Thompson2014).
+
+* * *
+
+These statistical tools were developed in collaboration with Peter E. Smouse
+(Rutgers University) and Victoria L. Sork (UCLA) and were funded by U.S.
+National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
+
+* * *
 
 # Background
 
