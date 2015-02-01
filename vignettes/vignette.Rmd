@@ -14,8 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 ```
 
 The nested ranks test was first described in detail in the supplemental
-information of [Thompson *et al*.
-(2014)](http://www.movementecologyjournal.com/content/2/1/12).
+information of [Thompson *et al*. (2014)][Thompson2014].
 
 # Background
 
@@ -128,7 +127,7 @@ with(d.Qagr, unlist(lapply(lapply(split(Distance, Granary), unique), median)))
 ```
 
 We discussed the unusually long acorn movement distances of coast live oak for
-granary 140 in Scofield *et al*. (2010).
+granary 140 in [Scofield *et al*. (2010)][Scofield2010].
 
 Because of the variation in distances, a nonparametric test such as the
 Mann-Whitney-Wilcoxon test (`wilcox.test`) is preferred to a parametric test
@@ -179,7 +178,7 @@ The `nestedRanksTest` takes three variables:
 There are two interfaces for the test: 
 
 * a formula interface, the easiest to use, takes a formula of the form `y ~ x | groups` and includes `data` and `subset` arguments
-* a default interface, that accepts `y`, `x` and `groups` as separate arguments
+* a default interface, that accepts `x`, `y` and `groups` as separate arguments
 
 The grouping factor may be provided using the `groups =` argument in either the
 formula or default interfaces.  This argument can be used when the formula has
@@ -196,27 +195,22 @@ The grouping factor is required, and it is an error to provide a grouping
 factor twice using both the formula and the argument.
 
 ```{r, eval = FALSE}
-## Error, grouping specified twice
-result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
 ## Error, no grouping specified
 result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
+## Error, grouping specified twice
+result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
 ```
 
-* Weights, why?  
-* Calculation of weights.
-* Appearance in htest_boot
-* Function for calculating weights.
-* Calculation of MWW statistic.
-* Bootstrap procedure.
+# Test results
 
+The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"`.  `print` and `plot` methods are provided.
 
 ```{r}
 result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
 print(result.Ql)
 #
 #
-result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
-print(result.Qa)
+nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
 ```
 
 We can also plot the results.
@@ -228,13 +222,14 @@ plot(result.Ql)
 Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Qa, main = "Quercus agrifolia", col = "lightgreen", 
-     p.col = "brown4", p.lty = 1, p.lwd = 3)
+plot(result.Ql, main = expression(italic("Quercus lobata")), col = "lightgreen", 
+     p.col = "brown4", p.lty = 1, p.lwd = 4, mgp = c(2.5, 0.5, 0), las = 1, tcl = -0.4)
 ```
+
 
 # Return value
 
-The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"` by including some members that allow for further description of the bootstrap process and null distribution.  Components marked with `"*"` are additions to `"htest"`.
+The return value of `nestedRanksTest` is a list of class `"htest_boot"`, which extends the often-used class `"htest"` by including some members that allow for further description of the bootstrap process and null distribution.  Components marked with `"*"` are additions to `"htest"`.
 
 
 | Component |  Contents |
@@ -256,8 +251,20 @@ The structure of the class is:
 str(result.Ql)
 ```
 
+# Details
+
+* Weights, why?  
+* Calculation of weights.
+* Calculation of MWW statistic.
+* Bootstrap procedure.
+
+
+
 # References
 
-Scofield, D. G., Sork, V. L., and Smouse, P. E.  (2010)  Influence of acorn woodpecker social behaviour on transport of coast live oak (*Quercus agrifolia*) acorns in a southern California oak savanna.  *Journal of Ecology* **98**: 561-572.
+[Scofield2010]: http://dx.doi.org/10.1111/j.1365-2745.2010.01649.x
+[Thompson2014]: http://www.movementecologyjournal.com/content/2/1/12
 
-Thompson, P. G., Smouse, P. E., Scofield, D. G., and Sork, V. L. (2014)  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  *Movement Ecology* **2**: 12. <http://www.movementecologyjournal.com/content/2/1/12>
+Scofield, D. G., Sork, V. L., and Smouse, P. E.  (2010)  Influence of acorn woodpecker social behaviour on transport of coast live oak (*Quercus agrifolia*) acorns in a southern California oak savanna.  [*Journal of Ecology* **98**: 561-572][Scofield2010].
+
+Thompson, P. G., Smouse, P. E., Scofield, D. G., and Sork, V. L. (2014)  What seeds tell us about birds: a multi-year analysis of acorn woodpecker foraging movements.  [*Movement Ecology* **2**: 12][Thompson2014].
