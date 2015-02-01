@@ -11,7 +11,7 @@ test_that("Errors produced when specifying groups", {
     expect_error(nestedRanksTest(Distance ~ Year | G, data = adat),
                 "object 'G' not found")
     expect_error(nestedRanksTest(adat$Year, adat$Distance),
-                "argument \"groups\" is missing, with no default")
+                "'groups' missing")
     expect_error(nestedRanksTest(Distance ~ Year | Granary, 
                                  groups = Granary, data = adat),
                 "groups are specified with '|' in formula or with groups= argument, but not both")

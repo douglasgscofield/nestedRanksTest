@@ -207,10 +207,12 @@ result <- with(d.Qlob, nestedRanksTest(y = Distance, x = Year, groups = Granary)
 The grouping factor is required, and it is an error to provide a grouping
 factor twice using both the formula and the argument.
 
-```{r, error = TRUE}
-## Error, no grouping specified
+```{r, eval = FALSE}
+## Error: 'groups' missing
 result <- with(d.Qlob, nestedRanksTest(Year, Distance))
-## Error, grouping specified twice
+## Error: invalid group specification in formula
+result <- nestedRanksTest(Distance ~ Year, data = d.Qlob)
+## Error: groups are specified with '|' in formula or with groups= argument, but not both
 result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
 ```
 
