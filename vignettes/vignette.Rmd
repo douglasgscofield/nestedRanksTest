@@ -182,7 +182,7 @@ There are two interfaces for the test:
 
 The grouping factor may be provided using the `groups =` argument in either the
 formula or default interfaces.  This argument can be used when the formula has
-the formula `y ~ x`.  All of the following are valid and produce identical results.
+the form `y ~ x`.  All of the following are valid and produce identical results.
 
 ```{r, eval = FALSE}
 result <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob)
@@ -201,7 +201,7 @@ result <- nestedRanksTest(Distance ~ Year, Distance, data = d.Qlob)
 result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
 ```
 
-# Test results
+# Examining results
 
 The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"`.  `print` and `plot` methods are provided.
 
@@ -210,7 +210,8 @@ result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 
 print(result.Ql)
 #
 #
-nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
+result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
+print(result.Qa)
 ```
 
 We can also plot the results.
@@ -222,14 +223,17 @@ plot(result.Ql)
 Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Ql, main = expression(italic("Quercus lobata")), col = "lightgreen", 
+plot(result.Qa, main = expression(italic("Quercus agrifolia")), col = "lightgreen", 
      p.col = "brown4", p.lty = 1, p.lwd = 4, mgp = c(2.5, 0.5, 0), las = 1, tcl = -0.4)
 ```
 
 
 # Return value
 
-The return value of `nestedRanksTest` is a list of class `"htest_boot"`, which extends the often-used class `"htest"` by including some members that allow for further description of the bootstrap process and null distribution.  Components marked with `"*"` are additions to `"htest"`.
+The return value of `nestedRanksTest` is a list of class `"htest_boot"`, which
+extends the often-used class `"htest"` by including some members that allow for
+further description of the bootstrap process and null distribution.  Components
+marked with `"*"` are additions to `"htest"`.
 
 
 | Component |  Contents |
@@ -257,6 +261,7 @@ str(result.Ql)
 * Calculation of weights.
 * Calculation of MWW statistic.
 * Bootstrap procedure.
+* Conclusions
 
 
 
