@@ -217,24 +217,24 @@ result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.
 The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"`.  `print` and `plot` methods are provided.
 
 ```{r}
-result.Ql <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
-print(result.Ql)
+result.Qlob <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
+print(result.Qlob)
 #
 #
-result.Qa <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
-print(result.Qa)
+result.Qagr <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qagr, n.iter = 2000)
+print(result.Qagr)
 ```
 
 We can also plot the results.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Ql)
+plot(result.Qlob)
 ```
 
 Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Qa, main = expression(italic("Quercus agrifolia")), col = "lightgreen", 
+plot(result.Qagr, main = expression(italic("Quercus agrifolia")), col = "lightgreen", 
      p.col = "brown4", p.lty = 1, p.lwd = 4, mgp = c(2.5, 0.5, 0), las = 1, tcl = -0.4)
 ```
 
@@ -267,7 +267,7 @@ given to `nestedRanksTest`.
 The structure of the class is:
 
 ```{r}
-str(result.Ql)
+str(result.Qlob)
 ```
 
 # Details
