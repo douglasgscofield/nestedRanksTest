@@ -54,13 +54,13 @@ NULL
 #'       run with the default \code{n.iter = 10000}, completion would require
 #'       a few seconds.
 #'
-#' @param x       a (non-empty) vector of treatments for each \code{y},
+#' @param x       A (non-empty) vector of treatments for each \code{y},
 #'                coerced to factor.  Must contain exactly two levels.
-#' @param y       a (non-empty) numeric vector of data values.
-#' @param groups  a (non-empty) vector specifying group membership for each
+#' @param y       A (non-empty) numeric vector of data values.
+#' @param groups  A (non-empty) vector specifying group membership for each
 #'                \code{y}, coerced to a factor.  There must be at least one
 #'                \code{y} in each group for each treatment level.
-#' @param formula a formula of the form \code{lhs ~ rhs} or
+#' @param formula A formula of the form \code{lhs ~ rhs} or
 #'                \code{lhs ~ rhs | groups}, where \code{lhs}
 #'                is a numeric variable giving the data values, \code{rhs}
 #'                is a variable obeying conditions for \code{x}, and
@@ -68,23 +68,23 @@ NULL
 #'                \code{groups}.  If \code{"| groups"} is not included
 #'                in the formula, group membership must be specified with
 #'                the \code{groups} argument.
-#' @param data    an optional matrix or data frame (or similar: see
+#' @param data    An optional matrix or data frame (or similar: see
 #'                \code{\link{model.frame}}) containing the variables in the
 #'                formula \code{formula}.  By default the variables are taken
 #'                from \code{environment(formula)}.
-#' @param subset  an optional vector specifying a subset of observations to
+#' @param subset  An optional vector specifying a subset of observations to
 #'                be used.
-#' @param n.iter  number of bootstrap iterations to perform.  The value of
+#' @param n.iter  Number of bootstrap iterations to perform.  The value of
 #'                the final iteration is provided by the observed Z-score.
 #'                Using \code{n.iter = 1} simply returns the observed Z-score.
-#' @param lightweight  if \code{TRUE}, the vector of individual values of
+#' @param lightweight  If \code{TRUE}, the vector of individual values of
 #'                the null distribution is excluded from the return value of
 #'                class \code{"htest_boot"}.  By default the null distribution
 #'                is included. If \code{n.iter} is large, specifying
 #'                \code{TRUE} for this option can save space, but note that
 #'                calling \code{plot} on the return value will produce an
 #'                error if so.
-#' @param ...     further arguments to be passed to or from methods
+#' @param ...     Further arguments to be passed to or from methods.
 #'
 #' @return A list with class \code{"htest_boot"} based on class 
 #'         \code{"htest"} containing the following components.  Components
@@ -101,14 +101,13 @@ NULL
 #'     \code{bad.obs}             \tab the number of observations in the data
 #'                                     excluded because of \code{NA} values.\cr
 #'     \code{null.values}         \tab quantiles of the null distribution used
-#'                                     for calculating the p-value\cr
+#'                                     for calculating the p-value.\cr
 #'     \code{n.iter*}             \tab the number of bootstrap iterations used
-#'                                     for generating the null distribution\cr
+#'                                     for generating the null distribution.\cr
 #'     \code{weights*}            \tab the weights for groups, calculated by
-#'                                     \code{nestedRanksTest_weights}\cr
-#'     \code{null.distribution*}  \tab vector containing null distribution of
-#'                                     Z-scores, with \code{statistic} the last
-#'                                     value.\cr
+#'                                     \code{nestedRanksTest_weights}.\cr
+#'     \code{null.distribution*}  \tab null distribution of Z-scores, with 
+#'                                     \code{statistic} the last value.\cr
 #' }
 #' The length of \code{null.distribution} equals \code{n.iter}.  Note that
 #' \code{null.distribution} will not be present if the 
@@ -159,8 +158,11 @@ NULL
 #'
 #' @export
 #'
-nestedRanksTest <- function(x, ...) UseMethod("nestedRanksTest")
+#' @name nestedRanksTest
+NULL
 
+# Don't document this, just the methods
+nestedRanksTest <- function(x, ...) UseMethod("nestedRanksTest")
 
 
 
@@ -378,8 +380,8 @@ nestedRanksTest_weights <- function(x, groups) {
 #' \code{\link{plot.htest_boot}}.
 #'
 #' @param  x      Value of class \code{"htest_boot"} as returned by
-#'                \code{nestedRanksTest}
-#' @param  \dots  Additional arguments passed to \code{print.htest}
+#'                \code{nestedRanksTest}.
+#' @param  \dots  Additional arguments passed to \code{print.htest}.
 #'
 #' @return The value of x is returned invisibly.
 #'
@@ -421,20 +423,20 @@ print.htest_boot <- function(x, ...) {
 #' \code{nestedRanksTest}, this function produces an error.
 #'
 #' @param  x       Value of class \code{"htest_boot"} as returned by
-#'                 \code{nestedRanksTest}
+#'                 \code{nestedRanksTest}.
 #' @param  breaks  The number of breaks to use when plotting the distribution,
 #'                 the default is calculated from \code{n.iter} of the call to
 #'                 \code{nestedRanksTest}.
-#' @param  col     Fill color for histogram bars, passed to \code{hist}
-#' @param  border  Border color for histogram bars, passed to \code{hist}
-#' @param  main    Main title, passed to \code{hist}
-#' @param  xlab    X-axis label, passed to \code{hist}
-#' @param  ylab    Y-axis label, passed to \code{hist}
-#' @param  p.col   Observed value line colour, passed to \code{abline}
-#' @param  p.lty   Observed value line type, passed to \code{abline}
-#' @param  p.lwd   Observed value line width, passed to \code{abline}
+#' @param  col     Fill color for histogram bars, passed to \code{hist}.
+#' @param  border  Border color for histogram bars, passed to \code{hist}.
+#' @param  main    Main title, passed to \code{hist}.
+#' @param  xlab    X-axis label, passed to \code{hist}.
+#' @param  ylab    Y-axis label, passed to \code{hist}.
+#' @param  p.col   Observed value line colour, passed to \code{abline}.
+#' @param  p.lty   Observed value line type, passed to \code{abline}.
+#' @param  p.lwd   Observed value line width, passed to \code{abline}.
 #' @param  \dots   Additional arguments passed to \code{hist} and
-#'                 \code{abline} for plotting
+#'                 \code{abline} for plotting.
 #'
 #' @return None
 #'

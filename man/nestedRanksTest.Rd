@@ -6,20 +6,13 @@
 \alias{nestedRanksTest.formula}
 \title{Mann-Whitney-Wilcoxon ranks test when data are in groups.}
 \usage{
-nestedRanksTest(x, ...)
-
 \method{nestedRanksTest}{formula}(formula, data, groups = NULL, subset, ...)
 
 \method{nestedRanksTest}{default}(x, y, groups, n.iter = 10000,
   lightweight = FALSE, ...)
 }
 \arguments{
-\item{x}{a (non-empty) vector of treatments for each \code{y},
-coerced to factor.  Must contain exactly two levels.}
-
-\item{...}{further arguments to be passed to or from methods}
-
-\item{formula}{a formula of the form \code{lhs ~ rhs} or
+\item{formula}{A formula of the form \code{lhs ~ rhs} or
 \code{lhs ~ rhs | groups}, where \code{lhs}
 is a numeric variable giving the data values, \code{rhs}
 is a variable obeying conditions for \code{x}, and
@@ -28,25 +21,30 @@ is a variable obeying conditions for \code{x}, and
 in the formula, group membership must be specified with
 the \code{groups} argument.}
 
-\item{data}{an optional matrix or data frame (or similar: see
+\item{data}{An optional matrix or data frame (or similar: see
 \code{\link{model.frame}}) containing the variables in the
 formula \code{formula}.  By default the variables are taken
 from \code{environment(formula)}.}
 
-\item{groups}{a (non-empty) vector specifying group membership for each
+\item{groups}{A (non-empty) vector specifying group membership for each
 \code{y}, coerced to a factor.  There must be at least one
 \code{y} in each group for each treatment level.}
 
-\item{subset}{an optional vector specifying a subset of observations to
+\item{subset}{An optional vector specifying a subset of observations to
 be used.}
 
-\item{y}{a (non-empty) numeric vector of data values.}
+\item{...}{Further arguments to be passed to or from methods.}
 
-\item{n.iter}{number of bootstrap iterations to perform.  The value of
+\item{x}{A (non-empty) vector of treatments for each \code{y},
+coerced to factor.  Must contain exactly two levels.}
+
+\item{y}{A (non-empty) numeric vector of data values.}
+
+\item{n.iter}{Number of bootstrap iterations to perform.  The value of
 the final iteration is provided by the observed Z-score.
 Using \code{n.iter = 1} simply returns the observed Z-score.}
 
-\item{lightweight}{if \code{TRUE}, the vector of individual values of
+\item{lightweight}{If \code{TRUE}, the vector of individual values of
 the null distribution is excluded from the return value of
 class \code{"htest_boot"}.  By default the null distribution
 is included. If \code{n.iter} is large, specifying
@@ -70,14 +68,13 @@ A list with class \code{"htest_boot"} based on class
     \code{bad.obs}             \tab the number of observations in the data
                                     excluded because of \code{NA} values.\cr
     \code{null.values}         \tab quantiles of the null distribution used
-                                    for calculating the p-value\cr
+                                    for calculating the p-value.\cr
     \code{n.iter*}             \tab the number of bootstrap iterations used
-                                    for generating the null distribution\cr
+                                    for generating the null distribution.\cr
     \code{weights*}            \tab the weights for groups, calculated by
-                                    \code{nestedRanksTest_weights}\cr
-    \code{null.distribution*}  \tab vector containing null distribution of
-                                    Z-scores, with \code{statistic} the last
-                                    value.\cr
+                                    \code{nestedRanksTest_weights}.\cr
+    \code{null.distribution*}  \tab null distribution of Z-scores, with
+                                    \code{statistic} the last value.\cr
 }
 The length of \code{null.distribution} equals \code{n.iter}.  Note that
 \code{null.distribution} will not be present if the

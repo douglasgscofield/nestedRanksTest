@@ -5,37 +5,38 @@
 \title{Diagnostic plot of result from nestedRanksTest.}
 \usage{
 \method{plot}{htest_boot}(x, breaks, col = "lightblue", border = NA,
-  main = paste0(x$method, ", ", x$data.name, "\\n", names(x$statistic), " = ",
-  round(x$statistic, ceiling(log10(x$n.iter))), ", P = ", x$p.value),
-  xlab = "Distribution of Z-scores", ylab = paste0("Frequency (out of ",
-  x$n.iter, ")"), p.col = "red", p.lty = 2, p.lwd = 2, ...)
+  main = paste(sep = "", x$method, ", ", x$data.name, "\\n",
+  names(x$statistic), " = ", round(x$statistic, ceiling(log10(x$n.iter))),
+  ", P = ", x$p.value), xlab = "Distribution of Z-scores", ylab = paste(sep
+  = "", "Frequency (out of ", x$n.iter, ")"), p.col = "red", p.lty = 2,
+  p.lwd = 2, ...)
 }
 \arguments{
 \item{x}{Value of class \code{"htest_boot"} as returned by
-\code{nestedRanksTest}}
+\code{nestedRanksTest}.}
 
 \item{breaks}{The number of breaks to use when plotting the distribution,
 the default is calculated from \code{n.iter} of the call to
 \code{nestedRanksTest}.}
 
-\item{col}{Fill color for histogram bars, passed to \code{hist}}
+\item{col}{Fill color for histogram bars, passed to \code{hist}.}
 
-\item{border}{Border color for histogram bars, passed to \code{hist}}
+\item{border}{Border color for histogram bars, passed to \code{hist}.}
 
-\item{main}{Main title, passed to \code{hist}}
+\item{main}{Main title, passed to \code{hist}.}
 
-\item{xlab}{X-axis label, passed to \code{hist}}
+\item{xlab}{X-axis label, passed to \code{hist}.}
 
-\item{ylab}{Y-axis label, passed to \code{hist}}
+\item{ylab}{Y-axis label, passed to \code{hist}.}
 
-\item{p.col}{Observed value line colour, passed to \code{abline}}
+\item{p.col}{Observed value line colour, passed to \code{abline}.}
 
-\item{p.lty}{Observed value line type, passed to \code{abline}}
+\item{p.lty}{Observed value line type, passed to \code{abline}.}
 
-\item{p.lwd}{Observed value line width, passed to \code{abline}}
+\item{p.lwd}{Observed value line width, passed to \code{abline}.}
 
 \item{\dots}{Additional arguments passed to \code{hist} and
-                \code{abline} for plotting}
+                \code{abline} for plotting.}
 }
 \value{
 None

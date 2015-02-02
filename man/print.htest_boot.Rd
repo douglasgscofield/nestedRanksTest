@@ -8,9 +8,9 @@
 }
 \arguments{
 \item{x}{Value of class \code{"htest_boot"} as returned by
-\code{nestedRanksTest}}
+\code{nestedRanksTest}.}
 
-\item{\dots}{Additional arguments passed to \code{print.htest}}
+\item{\dots}{Additional arguments passed to \code{print.htest}.}
 }
 \value{
 The value of x is returned invisibly.
