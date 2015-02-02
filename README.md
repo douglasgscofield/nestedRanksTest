@@ -8,9 +8,10 @@ results of the test.  The nested ranks test may be used when observations are
 structured into several groups and each group has received both treatment
 levels.  The p-value is determined via bootstrapping.
 
-The `nestedRanksTest` is intended to be a mixed-model extension of the
-[`wilcox.test`][wilcox], for which treatment is a fixed effect and group
-membership is a random effect.
+The `nestedRanksTest` is intended to be one possible mixed-model extension of
+the Mann-Whitney-Wilcoxon test, for which treatment is a fixed effect and group
+membership is a random effect.  The standard Mann-Whitney-Wilcoxon test is
+available in R as [`wilcox.test`][wilcox].
 
 [wilcox]: https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html
 

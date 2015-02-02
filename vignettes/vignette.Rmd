@@ -167,11 +167,11 @@ This solution still does not fit the scale of our original question: are there
 could find or develop a technique to combine the p-values, this still feels off
 the mark.
 
-A better test would allow for the differences between granaries that we can see,
-while testing for an aggregate between-year difference in acorn movement distances
-that we are curious about.  In model terms, a better test would treat year as a
-fixed effect and granary as a random effect, akin to a [mixed
-model][MixedModel].  This was our motivation for developing `nestedRanksTest`.
+A better test would allow for differences between granaries, while testing for
+an aggregate between-year difference in acorn movement distances that we are
+curious about.  In model terms, a better test would treat year as a fixed
+effect and granary as a random effect, akin to a [mixed model][MixedModel].
+This was our motivation for developing `nestedRanksTest`.
 
 [MixedModel]: http://en.wikipedia.org/wiki/Mixed_model
 
