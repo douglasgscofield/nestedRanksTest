@@ -468,13 +468,15 @@ print.htest_boot <- function(x, ...) {
 #' @export
 #'
 plot.htest_boot <- function(x, breaks, col = "lightblue", border = NA,
-                            main = paste0(x$method, ", ", x$data.name, "\n",
-                                          names(x$statistic), " = ",
-                                          round(x$statistic,
-                                                ceiling(log10(x$n.iter))),
-                                          ", P = ", x$p.value),
+                            main = paste(sep = "",
+                                         x$method, ", ", x$data.name, "\n",
+                                         names(x$statistic), " = ",
+                                         round(x$statistic,
+                                               ceiling(log10(x$n.iter))),
+                                         ", P = ", x$p.value),
                             xlab = "Distribution of Z-scores",
-                            ylab = paste0("Frequency (out of ", x$n.iter, ")"),
+                            ylab = paste(sep = "",
+                                         "Frequency (out of ", x$n.iter, ")"),
                             p.col = "red", p.lty = 2, p.lwd = 2,
                             ...) {
     if (is.null(x$null.distribution) || x$n.iter == 1)
