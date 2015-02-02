@@ -157,26 +157,21 @@ differences for each granary individually.  For brevity we examine just the
 p-values for each test:
 
 ```{r}
-wilcox.p.value <- 
-    function(x) wilcox.test(Distance ~ Year, data = x, exact = FALSE)$p.value
+wilcox.p.value <- function(x) wilcox.test(Distance ~ Year, data = x, exact = FALSE)$p.value
 round(unlist(lapply(split(d.Qlob, d.Qlob$Granary), wilcox.p.value)), 4)
 round(unlist(lapply(split(d.Qagr, d.Qagr$Granary), wilcox.p.value)), 4)
 ```
 
-This also feels not quite on the mark, in addition to having problems meeting
-`wilcox.test` assumptions for granary 151 with coast live oak.  We could find
-or develop a technique to combine the p-values while taking into account the
-individual successes and failures, but this solution still does not fit the
-scale of our original question: Are there *overall* differences in seed
-movement between high- and low-crop years?
+This solution still does not fit the scale of our original question: are there
+*overall* differences in seed movement between high- and low-crop years?  We
+could find or develop a technique to combine the p-values, this still feels off
+the mark.
 
-A better test would consider differences in distances between years while
-allowing for our observation that different spatial structure of seed sources
-surrounding individual granaries creates differences among granaries in seed
-movement distance independent of any year-to-year variation in acorn crop size.
-In model terms, a better test would treat year as a fixed effect and granary as
-a random effect, akin to a [mixed model][MixedModel].  This was our motivation
-for developing `nestedRanksTest`.
+A better test would allow for the differences between granaries that we can see,
+while testing for an aggregate between-year difference in acorn movement distances
+that we are curious about.  In model terms, a better test would treat year as a
+fixed effect and granary as a random effect, akin to a [mixed
+model][MixedModel].  This was our motivation for developing `nestedRanksTest`.
 
 [MixedModel]: http://en.wikipedia.org/wiki/Mixed_model
 
@@ -190,7 +185,7 @@ The `nestedRanksTest` takes three variables:
 
 There are two interfaces for the test: 
 
-* a formula interface, the easiest to use, takes a formula of the form `y ~ x | groups` and includes `data` and `subset` arguments
+* a formula interface, the simplest to use, takes a formula of the form `y ~ x | groups` and includes `data` and `subset` arguments
 * a default interface, that accepts `x`, `y` and `groups` as separate arguments
 
 The grouping factor may be provided using the `groups =` argument in either the
@@ -264,6 +259,10 @@ marked with `"*"` are additions to `"htest"`.
 | `n.iter*` | the number of bootstrap iterations used for generating the null distribution. |
 | `weights*` | the weights for groups, calculated by `nestedRanksTest_weights`. |
 | `null.distribution*` | vector containing null distribution of Z-scores, with `statistic` the last value. |
+
+The length of `null.distribution` equals `n.iter`.  Note that
+`null.distribution` will not be present if the `lightweight = TRUE` option was
+given to `nestedRanksTest`.
 
 The structure of the class is:
 

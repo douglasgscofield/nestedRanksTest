@@ -36,7 +36,7 @@ To Use It
 ---------
 
 The principle function is `nestedRanksTest()`, with two interfaces.  The
-formula interface is perhaps the simplest to use. It allows specification of 
+formula interface is the simplest to use. It allows specification of 
 quantitative measures, treatments and group membership using R's familiar
 formula syntax.  Treat group membership as a random factor or
 grouping variable by using `"|"`;
@@ -88,11 +88,10 @@ ranks assuming no influence of treatment while respecting group sizes. When
 there is just one group, this test is essentially identical to a standard
 Mann-Whitney-Wilcoxon test.
 
-We first described this test in [Thompson _et al._ 2014 _Movement Ecology_
-2:12](http://www.movementecologyjournal.com/content/2/1/12).   We examined
-year-to-year differences in acorn movement by acorn woodpeckers in an oak
-savannah in central California.  Acorn woodpeckers are highly social, and each
-social group maintains its own granary in which it stores acorns.  The
+We first described this test in [Thompson _et al._ (2014)](#Thompson2014).  We
+examined year-to-year differences in acorn movement by acorn woodpeckers in an
+oak savannah in central California.  Acorn woodpeckers are highly social, and
+each social group maintains its own granary in which it stores acorns.  The
 woodpeckers are highly territorial and occupy relatively stable territories,
 each containing a number of mature oak trees at varying distances from the
 granary.  Because each granary has its own neighbourhood of oak trees, it would
@@ -128,60 +127,26 @@ Component |  Contents
 `weights*` | the weights for groups, calculated by `nestedRanksTest_weights`.
 `null.distribution*` | vector containing null distribution of Z-scores, with `statistic` the last value.
 
-The output of `str(result)` for the example above is:
-
-```R
-List of 10
- $ statistic        : Named num 0.277
-  ..- attr(*, "names")= chr "Z"
- $ p.value          : num 1e-04
- $ alternative      : chr "Z lies above bootstrapped null values"
- $ method           : chr "Nested Ranks Test"
- $ data.name        : chr "Distance by Year grouped by Granary"
- $ bad.obs          : int 0
- $ null.values      : Named num [1:11] -0.2404 -0.1527 -0.1115 -0.0874 -0.0462 ...
-  ..- attr(*, "names")= chr [1:11] "0%" "1%" "5%" "10%" ...
- $ n.iter           : num 10000
- $ weights          : Named num [1:7] 0.052 0.0465 0.0248 0.1456 0.3036 ...
-  ..- attr(*, "names")= chr [1:7] "10" "31" "140" "151" ...
- $ null.distribution: num [1:10000] -0.033147 -0.02974 0.000929 0.127633 -0.034387 ...
- - attr(*, "class")= chr [1:2] "htest_boot" "htest"
-
-```
-
 The length of `null.distribution` equals `n.iter`.  Note that
 `null.distribution` will not be present if the `lightweight = TRUE` option was
 given to `nestedRanksTest`.
 
 
-
 Dataset
 -------
 
-The package also includes a dataset, `woodpecker_multiyear`, which includes the
+The package also includes a dataset, `woodpecker_multiyear`, which contains the
 data on woodpecker acorn movement underlying Figure 2 in [Thompson _et al._
-2014 _Movement Ecology_ 2:12](http://www.movementecologyjournal.com/content/2/1/12).
-
-
-To Do
------
-
-Features left to implement before submitting version 1.0 to CRAN:
-
-* a vignette comparing the results of `wilcox.test` and `nestedRanksTest` following analysis comments under Details above
-* more tests
-* can the bootstrapping be sped up?
-* can we add a trigger that does `make doc` before any `git commit`, to automatically keep the `man/*.Rd` files up to date?
-
+(2014)](#Thompson2014).
 
 
 References
 ----------
 
-Thompson PG, Smouse PE, Scofield DG, Sork VL.  2014.  What seeds tell us about
-birds: a multi-year analysis of acorn woodpecker foraging movements.  _Movement
-Ecology_ **2**: 12, available as Open Access at
-<http://www.movementecologyjournal.com/content/2/1/12>
+<a name="Thompson2014">Thompson PG, Smouse PE, Scofield DG, Sork VL</a>.  2014.
+What seeds tell us about birds: a multi-year analysis of acorn woodpecker
+foraging movements.  [_Movement Ecology_ **2**: 12](http://www.movementecologyjournal.com/content/2/1/12),
+Open Access
 
 <https://github.com/douglasgscofield/nestedRanksTest>
 
