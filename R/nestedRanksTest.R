@@ -169,7 +169,9 @@ nestedRanksTest <- function(x, ...) UseMethod("nestedRanksTest")
 #' @export
 #'
 nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...) {
-    # initial version drawn from stats:::t.test.formula
+    # initial inspiration drawn from stats:::t.test.formula, trying to follow
+    # its basic features, structure and naming conventions for both formula and 
+    # default methods
     if (missing(formula) || (length(formula) != 3L) ||
         (length(attr(terms(formula[-2L]), "term.labels")) != 1L))
         stop("'formula' missing or incorrect")
@@ -194,7 +196,7 @@ nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...) {
     }
     m[[1L]] <- quote(stats::model.frame)  # handles subset= for us
     m$... <- NULL
-    mf <- eval(m, parent.frame())  # columns: y x "(groups)"
+    mf <- eval(m, parent.frame())  # columns in returned mf: y x "(groups)"
     if (! nrow(mf))
         stop("no data")
     Y.NAME <- names(mf)[attr(attr(mf, "terms"), "response")]
@@ -270,16 +272,16 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
                          max(ceiling(log10(n.iter)) + 1, 3))
     STATISTIC <- setNames(null.distribution[n.iter], STATISTIC.NAME)
     PVAL <- sum(null.distribution >= STATISTIC) / n.iter
-    RVAL <- list(statistic = STATISTIC,
-                 p.value = PVAL,
+    RVAL <- list(statistic   = STATISTIC,
+                 p.value     = PVAL,
                  alternative = paste(STATISTIC.NAME,
                                      "lies above bootstrapped null values"),
-                 method = METHOD,
-                 data.name = DNAME,
-                 bad.obs = BAD.OBS,
+                 method      = METHOD,
+                 data.name   = DNAME,
+                 bad.obs     = BAD.OBS,
                  null.values = NULL.VALUES,
-                 n.iter = n.iter,
-                 weights = weights)
+                 n.iter      = n.iter,
+                 weights     = weights)
     if (! lightweight)
         RVAL$null.distribution = null.distribution
     class(RVAL) <- c("htest_boot", "htest")
