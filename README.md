@@ -74,7 +74,8 @@ plot(result)
 The default interface uses arguments for specifying the variables.
 
 ```R
-result <- nestedRanksTest(Year, Distance, Granary, ...)
+result <- with(subset(woodpecker_multiyear, Species == "agrifolia"),
+               nestedRanksTest(Year, Distance, Granary, ...))
 ```
 
 Details
