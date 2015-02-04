@@ -302,10 +302,10 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' Values across both treatments are ranked using the base R function
 #' \code{rank} with \code{ties.method = "average"}, which assigns
 #' tied values their average rank.  The Mann-Whitney-Wilcoxon test
-#' statistic is then computed.  Because the scale of this statistic
-#' is sample-size dependent (between \eqn{- n_1 n_2} and
-#' \eqn{+ n_1 n_2}), it is scaled to be \eqn{[-1, +1]} by dividing by
-#' \eqn{n_1 n_2}.
+#' statistic is computed from these ranks.  Because the value of the
+#' statistic is sample-size dependent (between \code{-n1*n_2} and
+#' \code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
+#' \eqn{n1*n2}.
 #'
 #' @param x    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.

@@ -286,8 +286,8 @@ sample size.
 
 Values across both treatments are ranked using the base R function `rank` with
 `ties.method = "average"`, which assigns tied values their average rank.  The
-Mann-Whitney-Wilcoxon test statistic is then computed.  The scale of this
-statistic is sample-size dependent, between
+Mann-Whitney-Wilcoxon test statistic is computed from these ranks.  The value 
+of this statistic is sample-size dependent, between
 -*n*<sub>1</sub>&times;*n*<sub>2</sub> and
 *n*<sub>1</sub>&times;*n*<sub>2</sub>, where *n*<sub>1</sub> and
 *n*<sub>2</sub> are group-specific sample sizes for each treatment level.  The
