@@ -290,8 +290,8 @@ Mann-Whitney-Wilcoxon test statistic is then computed.  The scale of this
 statistic is sample-size dependent, between
 -*n*<sub>1</sub>&times;*n*<sub>2</sub> and
 *n*<sub>1</sub>&times;*n*<sub>2</sub>, where *n*<sub>1</sub> and
-*n*<sub>2</sub> are group-specific sample sizes for treatment levels 1 and 2,
-respectively. The statistic is scaled to [-1, +1] by dividing by
+*n*<sub>2</sub> are group-specific sample sizes for each treatment level.  The
+statistic is scaled to [-1, +1] by dividing by
 *n*<sub>1</sub>&times;*n*<sub>2</sub>.
 
 Help for the function performing this calculation is available via
