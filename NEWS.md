@@ -1,7 +1,7 @@
 # nestedRanksTest 1.0
 
 * Initial release, available via `devtools::install_github()` but not yet
-  submitted to CRAN
+  submitted to CRAN.  See the README for instructions.
 * Provides S3 generic `nestedRanksTest()`, with function and default methods
 * Provides `print` and `plot` methods for class `'htest_boot'`, which extends
   class `'htest'` by including information on the generation and content of the

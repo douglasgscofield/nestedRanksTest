@@ -19,7 +19,7 @@ The development version is hosted here and can be installed via:
 
 ```R
 install.packages("devtools")
-devtools::install_github("douglasgscofield/nestedRanksTest")
+devtools::install_github("douglasgscofield/nestedRanksTest", build_vignettes = TRUE)
 library(nestedRanksTest)
 ```
 
