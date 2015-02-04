@@ -4,16 +4,16 @@
 \alias{nestedRanksTest_Z}
 \title{Calculates Z-score from ranks.}
 \usage{
-nestedRanksTest_Z(x, n1, n2)
+nestedRanksTest_Z(y, n1, n2)
 }
 \arguments{
-\item{x}{Values to be ranked for the test.  Its length must
+\item{y}{Values to be ranked for the test.  Its length must
 be equal to the sum of \code{n1} and \code{n2}.}
 
-\item{n1}{The first \code{n1} values in \code{x} belong to the
+\item{n1}{The first \code{n1} values in \code{y} belong to the
 first treatment level.}
 
-\item{n2}{The final \code{n2} values in \code{x} belong to the
+\item{n2}{The final \code{n2} values in \code{y} belong to the
             second treatment level.}
 }
 \value{
@@ -21,20 +21,19 @@ The calculated Z-score
 }
 \description{
 \code{nestedRanksTest_Z} is used by \code{nestedRanksTest} to
-calculate the Z-score for the ranks of \code{x} divided into two
-treatment levels.
+calculate the Z-score for the ranks of responses \code{y} divided
+into two treatment levels.
 }
 \details{
 Values across both treatments are ranked using the base R function
 \code{rank} with \code{ties.method = "average"}, which assigns
 tied values their average rank.  The Mann-Whitney-Wilcoxon test
-statistic is then computed.  Because the scale of this statistic
-is sample-size dependent (between \eqn{- n_1 n_2} and
-\eqn{+ n_1 n_2}), it is scaled to be \eqn{[-1, +1]} by dividing by
-\eqn{n_1 n_2}.
+statistic is computed from these ranks.  Because the value of the
+statistic is sample-size dependent (between \code{-n1*n2} and
+\code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
+\code{n1*n2}.
 }
 \seealso{
 \code{\link{nestedRanksTest}}, \code{\link{wilcox.test}}
 }
-\keyword{internal}
 

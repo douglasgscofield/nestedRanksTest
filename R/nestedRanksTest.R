@@ -296,35 +296,33 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' Calculates Z-score from ranks.
 #'
 #' \code{nestedRanksTest_Z} is used by \code{nestedRanksTest} to
-#' calculate the Z-score for the ranks of \code{x} divided into two
-#' treatment levels.
+#' calculate the Z-score for the ranks of responses \code{y} divided
+#' into two treatment levels.
 #'
 #' Values across both treatments are ranked using the base R function
 #' \code{rank} with \code{ties.method = "average"}, which assigns
 #' tied values their average rank.  The Mann-Whitney-Wilcoxon test
 #' statistic is computed from these ranks.  Because the value of the
-#' statistic is sample-size dependent (between \code{-n1*n_2} and
+#' statistic is sample-size dependent (between \code{-n1*n2} and
 #' \code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
-#' \eqn{n1*n2}.
+#' \code{n1*n2}.
 #'
-#' @param x    Values to be ranked for the test.  Its length must
+#' @param y    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.
-#' @param n1   The first \code{n1} values in \code{x} belong to the
+#' @param n1   The first \code{n1} values in \code{y} belong to the
 #'             first treatment level.
-#' @param n2   The final \code{n2} values in \code{x} belong to the
+#' @param n2   The final \code{n2} values in \code{y} belong to the
 #'             second treatment level.
 #'
 #' @return The calculated Z-score
 #'
 #' @seealso \code{\link{nestedRanksTest}}, \code{\link{wilcox.test}}
 #'
-#' @keywords internal
-#'
 #' @export
 #'
-nestedRanksTest_Z <- function(x, n1, n2) {
-    stopifnot(length(x) == n1 + n2)
-    r <- rank(x, ties.method = "average")
+nestedRanksTest_Z <- function(y, n1, n2) {
+    stopifnot(length(y) == n1 + n2)
+    r <- rank(y, ties.method = "average")
     r1 <- r[1:n1]
     r2 <- r[(n1 + 1):(n1 + n2)]
     R1 <- sum(r1)
@@ -359,8 +357,6 @@ nestedRanksTest_Z <- function(x, n1, n2) {
 #'         weights.
 #'
 #' @seealso \code{\link{nestedRanksTest}}
-#'
-#' @keywords internal
 #'
 #' @export
 #'

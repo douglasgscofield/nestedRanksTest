@@ -31,5 +31,4 @@ groups.
 \seealso{
 \code{\link{nestedRanksTest}}
 }
-\keyword{internal}
 
