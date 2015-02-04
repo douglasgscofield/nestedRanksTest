@@ -96,7 +96,7 @@ Mann-Whitney-Wilcoxon test.
 For further details, please see the vignette for this package:
 
 ```R
-vignette(package = "nestedRanksTest")
+vignette("nestedRanksTest", package = "nestedRanksTest")
 ```
 
 Notes

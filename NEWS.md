@@ -7,7 +7,7 @@
   class `'htest'` by including information on the generation and content of the
   underlying bootstrapped null distribution used for generating p-values
 * Provides a vignette giving details on package usage and operation, available
-  via `vignette(package = "nestedRanksTest")`
+  via `vignette("nestedRanksTest", package = "nestedRanksTest")`
 * Provides dataset `woodpecker_multiyear`, distances acorn woodpeckers moved
   acorns of two different oak species from source tree to storage granary during
   two years per oak species
