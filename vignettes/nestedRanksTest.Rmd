@@ -17,14 +17,6 @@ options(width = 80)
 We first described the nested ranks test in detail in the supplemental
 information of [Thompson *et al*. (2014)](#Thompson2014).
 
-* * *
-
-These statistical tools were developed in collaboration with Peter E. Smouse
-(Rutgers University) and Victoria L. Sork (UCLA) and were funded by U.S.
-National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
-
-* * *
-
 # Empirical background
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
@@ -32,7 +24,7 @@ were examining year-to-year differences in acorn movement by acorn woodpeckers
 in an oak savannah in central California.  Drs Sork and Smouse have
 collaborated for several years studying patterns of genetic diversity in oak
 populations, unraveling the ways in which genetic diversity moves around the
-landscape via dispersal of pollen and seeds.  This usually involves the
+landscape via dispersal of pollen and seeds.  This work usually involves the
 development of analytic methods to help study patterns of dispersal.
 
 [Acorn woodpeckers (*Melanerpes formicivorus*)][KoenigMumme] are highly social
@@ -343,6 +335,14 @@ The p-value is calculated by counting the number of elements in the vector
 greater than or equal to the Z-score for the observed data.  Because the
 observed Z-score is an element of this vector, the p-value can never be less
 than 1 / `n.iter`.
+
+* * *
+
+These statistical tools were developed in collaboration with Peter E. Smouse
+(Rutgers University) and Victoria L. Sork (UCLA) and were funded by U.S.
+National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
+
+* * *
 
 
 # References
