@@ -40,7 +40,7 @@ The principle function is `nestedRanksTest()`, with two interfaces.  The
 formula interface is the simplest to use. It allows specification of 
 quantitative measures, treatments and group membership using R's familiar
 formula syntax.  Treat group membership as a random factor or
-grouping variable by using `"|"`;
+grouping variable by using `"|"`:
 
 ```R
 data(woodpecker_multiyear)
@@ -57,8 +57,10 @@ data:  Distance by Year grouped by Granary
 Z = 0.277, p-value = 1e-04
 alternative hypothesis: Z lies above bootstrapped null values
 null values:
-      0%       1%       5%      10%      25%      50%      75%      90%      95%      99%     100% 
--0.29492 -0.15583 -0.11059 -0.08705 -0.04554 -0.00124  0.04430  0.08488  0.10936  0.15335  0.27695 
+      0%       1%       5%      10%      25%      50%      75%      90%      95%
+-0.29492 -0.15583 -0.11059 -0.08705 -0.04554 -0.00124  0.04430  0.08488  0.10936
+     99%     100% 
+ 0.15335  0.27695 
 
 bootstrap iterations = 10000 
 group weights:
@@ -75,8 +77,9 @@ plot(result)
 The default interface uses arguments for specifying the variables.
 
 ```R
+# Make variables accessible using with()
 result <- with(subset(woodpecker_multiyear, Species == "agrifolia"),
-               nestedRanksTest(Year, Distance, Granary, ...))
+               nestedRanksTest(y = Distance, x = Year, groups = Granary))
 ```
 
 Details
@@ -90,30 +93,25 @@ ranks assuming no influence of treatment while respecting group sizes. When
 there is just one group, this test is essentially identical to a standard
 Mann-Whitney-Wilcoxon test.
 
-We first described this test in [Thompson _et al._ (2014)](#Thompson2014).  We
-examined year-to-year differences in acorn movement by acorn woodpeckers in an
-oak savannah in central California.  Acorn woodpeckers are highly social, and
-each social group maintains its own granary in which it stores acorns.  The
-woodpeckers are highly territorial and occupy relatively stable territories,
-each containing a number of mature oak trees at varying distances from the
-granary.  Because each granary has its own neighbourhood of oak trees, it would
-not be a very precise test to look for overall differences in acorn movement
-within the entire savannah, on the other hand looking for differences within
-each granary individually would have required greater than practical sample
-sizes to have sufficient statistical power.  We chose instead to test whether
-the distance ranks differ between years within each granary, and combine
-results across granaries for an aggregate between-year test.
+For further details, please see the vignette for this package:
 
-Note: The generation of a null distribution can take some time.  For example,
+```R
+vignette(package = "nestedRanksTest")
+```
+
+Notes
+-----
+
+The generation of a null distribution can take some time.  For example,
 if any use of `nestedRanksTest()` in the examples were run with the default 
 `n.iter = 10000`, completion would require a few seconds.
 
 Return value
 ------------
 
-`nestedRanksTest()` returns a list of class `"htest_boot"` based on class
-`"htest"` containing the following components.  Components marked with `"*"`
-are additions to `"htest"`.
+`nestedRanksTest()` returns a list of class `'htest_boot'` based on class
+`'htest'` containing the following components.  Components marked with `*`
+are additions to `'htest'`.
 
 
 Component |  Contents

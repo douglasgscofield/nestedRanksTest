@@ -11,8 +11,8 @@
 #' The main function is \code{\link{nestedRanksTest}}, which includes a
 #' formula interface implementing the familiar \code{"|"} syntax for
 #' specifying group membership on the right-hand side of the formula.
-#' The value returned is a list of class \code{"htest_boot"}, which 
-#' extends class \code{"htest"}.  \code{print} and \code{plot} methods 
+#' The value returned is a list of class \code{"htest_boot"}, which
+#' extends class \code{"htest"}.  \code{print} and \code{plot} methods
 #' are provided to print and visualise results.
 #'
 #' These statistical tools were developed in collaboration with Peter E.
@@ -46,11 +46,11 @@ NULL
 #' respecting group sizes. When there is just one group, this test is
 #' essentially identical to a standard Mann-Whitney-Wilcoxon test.  This test
 #' is intended to be a mixed-model extension of the \code{\link{wilcox.test}},
-#' for which treatment is a fixed effect and group membership is a random 
+#' for which treatment is a fixed effect and group membership is a random
 #' effect.
 #'
 #' @note The generation of a null distribution can take some time.  For
-#'       example, if any use of \code{nestedRanksTest} in the examples were 
+#'       example, if any use of \code{nestedRanksTest} in the examples were
 #'       run with the default \code{n.iter = 10000}, completion would require
 #'       a few seconds.
 #'
@@ -86,7 +86,7 @@ NULL
 #'                error if so.
 #' @param ...     Further arguments to be passed to or from methods.
 #'
-#' @return A list with class \code{"htest_boot"} based on class 
+#' @return A list with class \code{"htest_boot"} based on class
 #'         \code{"htest"} containing the following components.  Components
 #'         marked with \code{"*"} are additions to \code{"htest"}.
 #' \tabular{ll}{
@@ -106,13 +106,13 @@ NULL
 #'                                     for generating the null distribution.\cr
 #'     \code{weights*}            \tab the weights for groups, calculated by
 #'                                     \code{nestedRanksTest_weights}.\cr
-#'     \code{null.distribution*}  \tab null distribution of Z-scores, with 
+#'     \code{null.distribution*}  \tab null distribution of Z-scores, with
 #'                                     \code{statistic} the last value.\cr
 #' }
 #' The length of \code{null.distribution} equals \code{n.iter}.  Note that
-#' \code{null.distribution} will not be present if the 
+#' \code{null.distribution} will not be present if the
 #' \code{lightweight = TRUE} option was given to \code{nestedRanksTest}.
-#' 
+#'
 #'
 #' @examples
 #' require(graphics)
@@ -172,7 +172,7 @@ nestedRanksTest <- function(x, ...) UseMethod("nestedRanksTest")
 #'
 nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...) {
     # initial inspiration drawn from stats:::t.test.formula, trying to follow
-    # its basic features, structure and naming conventions for both formula and 
+    # its basic features, structure and naming conventions for both formula and
     # default methods
     if (missing(formula) || (length(formula) != 3L) ||
         (length(attr(terms(formula[-2L]), "term.labels")) != 1L))
@@ -220,7 +220,7 @@ nestedRanksTest.formula <- function(formula, data, groups = NULL, subset, ...) {
 #'
 #' @export
 #'
-nestedRanksTest.default <- function(x, y, groups, n.iter = 10000, 
+nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
                                     lightweight = FALSE, ...) {
     if (n.iter < 1)
         stop("n.iter must be greater than or equal to 1")
@@ -261,8 +261,8 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
         this.Z <- numeric(n.iter)
         if (n.iter > 1)
             for (j in 1:(n.iter - 1))
-                this.Z[j] <- nestedRanksTest_Z(sample(y.vals), group.info$n1,
-                                               group.info$n2)
+                this.Z[j] <- nestedRanksTest_Z(sample(y.vals, replace = FALSE),
+                                               group.info$n1, group.info$n2)
         this.Z[n.iter] <- nestedRanksTest_Z(y.vals, group.info$n1,
                                             group.info$n2)
         Z[, i] <- this.Z
@@ -299,6 +299,14 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' calculate the Z-score for the ranks of \code{x} divided into two
 #' treatment levels.
 #'
+#' Values across both treatments are ranked using the base R function
+#' \code{rank} with \code{ties.method = "average"}, which assigns
+#' tied values their average rank.  The Mann-Whitney-Wilcoxon test
+#' statistic is then computed.  Because the scale of this statistic
+#' is sample-size dependent (between \eqn{- n_1 n_2} and
+#' \eqn{+ n_1 n_2}), it is scaled to be \eqn{[-1, +1]} by dividing by
+#' \eqn{n_1 n_2}.
+#'
 #' @param x    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.
 #' @param n1   The first \code{n1} values in \code{x} belong to the
@@ -316,7 +324,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #'
 nestedRanksTest_Z <- function(x, n1, n2) {
     stopifnot(length(x) == n1 + n2)
-    r <- rank(x)
+    r <- rank(x, ties.method = "average")
     r1 <- r[1:n1]
     r2 <- r[(n1 + 1):(n1 + n2)]
     R1 <- sum(r1)

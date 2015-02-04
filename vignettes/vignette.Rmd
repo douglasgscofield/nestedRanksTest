@@ -33,7 +33,7 @@ in an oak savannah in central California.  Drs Sork and Smouse have
 collaborated for several years studying patterns of genetic diversity in oak
 populations, unraveling the ways in which genetic diversity moves around the
 landscape via dispersal of pollen and seeds.  This usually involves the
-development of analytic methods to help study patterns of dispersal. 
+development of analytic methods to help study patterns of dispersal.
 
 [Acorn woodpeckers (*Melanerpes formicivorus*)][KoenigMumme] are highly social
 and highly territorial, with each woodpecker group [breeding
@@ -72,8 +72,8 @@ away from their granaries.
 
 # Initial analyses
 
-First, we prepare our datasets and generate tables to see how big our sample
-sizes are.
+<a name="InitialAnalyses">First</a>, we prepare our datasets and generate
+tables to see how big our sample sizes are.
 
 ```{r}
 library(nestedRanksTest)
@@ -97,24 +97,24 @@ and give us a better sense of acorn numbers at each distance, we also jitter
 the y-position of the points just a bit.
 
 ```{r, fig.width = 5, fig.height = 5}
-opa <- par(mfcol = c(2, 1), cex = 0.8, mar = c(3, 3, 0, 0), las = 1, 
+opa <- par(mfcol = c(2, 1), cex = 0.8, mar = c(3, 3, 0, 0), las = 1,
            mgp = c(2, 0.5, 0), tcl = -0.3)
 stripchart(Distance ~ Granary, data = d.Qlob, subset = Year == "2002",
-           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
-           method = "jitter", jitter = 0.2, xlim = c(0, 500), 
+           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue",
+           method = "jitter", jitter = 0.2, xlim = c(0, 500),
            frame.plot = FALSE)
 stripchart(Distance ~ Granary, data = d.Qlob, subset = Year == "2004",
            pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
-legend("bottomright", legend = c("2002", "2004"), pch = 1, bty = "n", 
-       col = c("blue", "red"), title = "Valley oak acorns") 
+legend("bottomright", legend = c("2002", "2004"), pch = 1, bty = "n",
+       col = c("blue", "red"), title = "Valley oak acorns")
 stripchart(Distance ~ Granary, data = d.Qagr, subset = Year == "2006",
-           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue", 
+           xlab = "Distance (m)", ylab = "Granary", pch = 1, col = "blue",
            method = "jitter", jitter = 0.2, xlim = c(0, 500),
            frame.plot = FALSE)
 stripchart(Distance ~ Granary, data = d.Qagr, subset = Year == "2007",
            pch = 1, col = "red", method = "jitter", jitter = 0.2, add = TRUE)
-legend("bottomright", legend = c("2006", "2007"), pch = 1, bty = "n", 
-       col = c("blue", "red"), title = "Live oak acorns") 
+legend("bottomright", legend = c("2006", "2007"), pch = 1, bty = "n",
+       col = c("blue", "red"), title = "Live oak acorns")
 par(opa)
 ```
 
@@ -162,16 +162,18 @@ round(unlist(lapply(split(d.Qlob, d.Qlob$Granary), wilcox.p.value)), 4)
 round(unlist(lapply(split(d.Qagr, d.Qagr$Granary), wilcox.p.value)), 4)
 ```
 
-This solution still does not fit the scale of our original question: are there
-*overall* differences in seed movement between high- and low-crop years?  We
-could find or develop a technique to combine the p-values, this still feels off
-the mark.
+This solution is still not satisfying.  The [sample sizes](#InitialAnalyses)
+are too small for convincing single-granary results, and it does not fit the
+scale of our original question:  are there *overall* differences in seed
+movement between high- and low-crop years?  We could find or develop a
+technique to combine the p-values, but this still feels off the mark.
 
 A better test would allow for differences between granaries, while testing for
-an aggregate between-year difference in acorn movement distances that we are
-curious about.  In model terms, a better test would treat year as a fixed
-effect and granary as a random effect, akin to a [mixed model][MixedModel].
-This was our motivation for developing `nestedRanksTest`.
+the aggregate between-year difference in acorn movement distances about which
+we are curious.  In model terms, a better test would evaluate all data together
+while treating year as a fixed effect and granary as a random effect, akin to a
+[mixed model][MixedModel].  This was our motivation for developing
+`nestedRanksTest`.
 
 [MixedModel]: http://en.wikipedia.org/wiki/Mixed_model
 
@@ -183,7 +185,7 @@ The `nestedRanksTest` takes three variables:
 * Treatment factor with exactly two levels, named `x`, this will be coerced to a factor if it is not already
 * Grouping factor, named `groups`, this too will be coerced to a factor
 
-There are two interfaces for the test: 
+There are two interfaces for the test:
 
 * a formula interface, the simplest to use, takes a formula of the form `y ~ x | groups` and includes `data` and `subset` arguments
 * a default interface, that accepts `x`, `y` and `groups` as separate arguments
@@ -206,7 +208,7 @@ factor twice using both the formula and the argument.
 ```{r, eval = FALSE}
 ## Error: 'groups' missing
 result <- with(d.Qlob, nestedRanksTest(Year, Distance))
-## Error: invalid group specification in formula
+## Error: invalid group specification in formula (no "| grouping.variable")
 result <- nestedRanksTest(Distance ~ Year, data = d.Qlob)
 ## Error: groups are specified with '|' in formula or with groups= argument, but not both
 result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.Qlob)
@@ -214,7 +216,7 @@ result <- nestedRanksTest(Distance ~ Year | Granary, groups = Granary, data = d.
 
 # Examining results
 
-The return value of `nestedRanksTest` is a list of class `"htest_boot"`, a class which extends the often-used class `"htest"`.  `print` and `plot` methods are provided.
+The return value of `nestedRanksTest` is a list of class `'htest_boot'`, a class which extends the often-used class `'htest'`.  `print` and `plot` methods are provided.
 
 ```{r}
 result.Qlob <- nestedRanksTest(Distance ~ Year | Granary, data = d.Qlob, n.iter = 2000)
@@ -234,30 +236,30 @@ plot(result.Qlob)
 Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Qagr, main = expression(italic("Quercus agrifolia")), col = "lightgreen", 
+plot(result.Qagr, main = expression(italic("Quercus agrifolia")), col = "lightgreen",
      p.col = "brown4", p.lty = 1, p.lwd = 4, mgp = c(2.5, 0.5, 0), las = 1, tcl = -0.4)
 ```
 
 
 # Return value
 
-The return value of `nestedRanksTest` is a list of class `"htest_boot"`, which
-extends the often-used class `"htest"` by including some members that allow for
+The return value of `nestedRanksTest` is a list of class `'htest_boot'`, which
+extends the often-used class `'htest'` by including some members that allow for
 further description of the bootstrap process and null distribution.  Components
-marked with `"*"` are additions to `"htest"`.
+marked with `"*"` are additions to `'htest'`.
 
 
-| Component |  Contents |
-| ----------|---------- |
-| `statistic` | the value of the observed Z-score. |
-| `p.value` | the p-value for the test. |
-| `alternative` | a character string describing the alternative hypothesis. |
-| `method` | a character string indicating the nested ranks test performed. |
-| `data.name` | a character string giving the name(s) of the data.. |
-| `bad.obs` | the number of observations in the data excluded because of `NA` values. |
-| `null.values` | quantiles of the null distribution used for calculating the p-value. |
-| `n.iter*` | the number of bootstrap iterations used for generating the null distribution. |
-| `weights*` | the weights for groups, calculated by `nestedRanksTest_weights`. |
+| Component            |  Contents |
+| -------------------- | --------- |
+| `statistic`          | the value of the observed Z-score. |
+| `p.value`            | the p-value for the test. |
+| `alternative`        | a character string describing the alternative hypothesis. |
+| `method`             | a character string indicating the nested ranks test performed. |
+| `data.name`          | a character string giving the name(s) of the data.. |
+| `bad.obs`            | the number of observations in the data excluded because of `NA` values. |
+| `null.values`        | quantiles of the null distribution used for calculating the p-value. |
+| `n.iter*`            | the number of bootstrap iterations used for generating the null distribution. |
+| `weights*`           | the weights for groups, calculated by `nestedRanksTest_weights`. |
 | `null.distribution*` | vector containing null distribution of Z-scores, with `statistic` the last value. |
 
 The length of `null.distribution` equals `n.iter`.  Note that
@@ -272,18 +274,77 @@ str(result.Qlob)
 
 # Details
 
-I will fill in more details on the following as time permits:
+In brief, group-specific between-treatment Z-scores are calculated, a bootstrap
+distribution of Z-scores is calculated for each group by using the same procedure
+but with ranks shuffled without regard to treatment, then the observed and
+bootstrapped Z-scores are aggregated by weighting each group's contribution by
+sample size.
 
-* Calculation of the Z-statistic
-* Calculation of group weights
-* The bootstrap procedure
+## Z-statistic
 
-Details are also available in the supplemental information of [Thompson *et
-al*. (2014)](#Thompson2014).
+Values across both treatments are ranked using the base R function `rank` with
+`ties.method = "average"`, which assigns tied values their average rank.  The
+Mann-Whitney-Wilcoxon test statistic is then computed.  Because the scale of
+this statistic is sample-size dependent (between -*n*<sub>1</sub> &times;
+*n*<sub>2</sub> and +*n*<sub>1</sub> &times; *n*<sub>2</sub>), it is scaled to
+[-1, +1] by dividing by *n*<sub>1</sub> &times; *n*<sub>2</sub>.
 
+Help for the function performing this calculation is available via
+`?nestedRanksTest_Z` and its code can be examined directly with:
+
+```{r, eval = FALSE}
+nestedRanksTest::nestedRanksTest_Z
+```
+
+## Bootstrap procedure
+
+The bootstrap procedure is performed for each group separately.  For each
+bootstrap iteration, response values are shuffled without regard to treatment
+using the base R function `sample` with `replace = FALSE`.  The Z-statistic is
+calculated using the above procedure while maintaining the same *n*<sub>1</sub>
+and *n*<sub>2</sub> values.  This is repeated `n.iter - 1` times for each
+group, and the bootstrapped Z-statistics are placed in a vector with the
+observed Z-statistic as the `n.iter`-th value.  The vectors for each group are
+collected into the columns of a matrix.
+
+## Group weights
+
+Weights are calculated for each group by multiplying the treatment-specific
+sample sizes for each group (*n*<sub>1</sub> &times; *n*<sub>2</sub>), and then
+dividing each by their sum.  Thus the weights sum to 1.
+
+Help for the function performing this calculation is available via
+`?nestedRanksTest_weights` and its code can be examined directly with:
+
+```{r, eval = FALSE}
+nestedRanksTest::nestedRanksTest_weights
+```
+
+The return value is a `data.frame` with group-specific information including
+sample sizes in each treatment and weights.
+
+## Aggregate Z-score and p-value
+
+The aggregate Z-core for the observed data and each bootstrap iteration by
+multiplying each row of the matrix described in the bootstrap procedure by the
+weights, and then summing the values in each row, resulting in a vector of
+aggregate Z-scores of length `n.iter` with the Z-score for the observed data as
+the `n.iter`-th value.  This vector is returned in the `null.distribution`
+element of class `'htest_boot'`, but is not returned if the `lightweight =
+TRUE` option was used when invoking `nestedRanksTest`.
+
+The p-value is calculated by counting the number of elements in the vector
+greater than or equal to the Z-score for the observed data.  Because the
+observed Z-score is an element of this vector, the p-value can never be less
+than 1 / `n.iter`.
 
 
 # References
+
+Details are also available in Appendix A of the the supplemental information
+for [Thompson *et al*. (2014)](#Thompson2014), while the code in this package
+is updated and expanded from that in Appendix B of the same supplemental
+information.
 
 [Scofield2010]: http://dx.doi.org/10.1111/j.1365-2745.2010.01649.x
 [Scofield2011]: http://dx.doi.org/10.1007/s00442-010-1828-5

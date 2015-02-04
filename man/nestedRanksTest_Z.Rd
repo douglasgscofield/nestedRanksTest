@@ -24,6 +24,15 @@ The calculated Z-score
 calculate the Z-score for the ranks of \code{x} divided into two
 treatment levels.
 }
+\details{
+Values across both treatments are ranked using the base R function
+\code{rank} with \code{ties.method = "average"}, which assigns
+tied values their average rank.  The Mann-Whitney-Wilcoxon test
+statistic is then computed.  Because the scale of this statistic
+is sample-size dependent (between \eqn{- n_1 n_2} and
+\eqn{+ n_1 n_2}), it is scaled to be \eqn{[-1, +1]} by dividing by
+\eqn{n_1 n_2}.
+}
 \seealso{
 \code{\link{nestedRanksTest}}, \code{\link{wilcox.test}}
 }
