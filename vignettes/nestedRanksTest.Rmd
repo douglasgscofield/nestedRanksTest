@@ -286,10 +286,13 @@ sample size.
 
 Values across both treatments are ranked using the base R function `rank` with
 `ties.method = "average"`, which assigns tied values their average rank.  The
-Mann-Whitney-Wilcoxon test statistic is then computed.  Because the scale of
-this statistic is sample-size dependent (between -*n*<sub>1</sub> &times;
-*n*<sub>2</sub> and +*n*<sub>1</sub> &times; *n*<sub>2</sub>), it is scaled to
-[-1, +1] by dividing by *n*<sub>1</sub> &times; *n*<sub>2</sub>.
+Mann-Whitney-Wilcoxon test statistic is then computed.  The scale of this
+statistic is sample-size dependent, between
+-*n*<sub>1</sub>&times;*n*<sub>2</sub> and
+*n*<sub>1</sub>&times;*n*<sub>2</sub>, where *n*<sub>1</sub> and
+*n*<sub>2</sub> are group-specific sample sizes for treatment levels 1 and 2,
+respectively. The statistic is scaled to [-1, +1] by dividing by
+*n*<sub>1</sub>&times;*n*<sub>2</sub>.
 
 Help for the function performing this calculation is available via
 `?nestedRanksTest_Z` and its code can be examined directly with:
@@ -312,8 +315,9 @@ collected into the columns of a matrix.
 ## Group weights
 
 Weights are calculated for each group by multiplying the treatment-specific
-sample sizes for each group (*n*<sub>1</sub> &times; *n*<sub>2</sub>), and then
-dividing each by their sum.  Thus the weights sum to 1.
+sample sizes for each group (*n*<sub>1</sub>&times;*n*<sub>2</sub>), and then
+dividing each by the sum of *n*<sub>1</sub>&times;*n*<sub>2</sub> for all
+groups.  Thus the weights sum to 1.
 
 Help for the function performing this calculation is available via
 `?nestedRanksTest_weights` and its code can be examined directly with:
@@ -323,7 +327,7 @@ nestedRanksTest::nestedRanksTest_weights
 ```
 
 The return value is a `data.frame` with group-specific information including
-sample sizes in each treatment and weights.
+weights and sample sizes in each treatment.
 
 ## Aggregate Z-score and p-value
 
