@@ -18,7 +18,7 @@
 #
 # 'make all' or simply 'make' builds package pieces but not the package
 # tarball.  It echoes package variables, builds the NEWS file, documentation
-# (man/*.Rd files), and vignettes.
+# (creating the man/*.Rd files with Roxygen2), and vignettes.
 #
 # 'make build' creates a package tarball in the parent directory, '..' by 
 # default (set in PARENTDIR).
@@ -71,7 +71,7 @@ doc:
 
 vignettes:
 	if test -d vignettes ; then \
-		RSTUDIO_PANDOC=`which pandoc` R --quiet -e 'devtools::build_vignettes()' ; \
+		RSTUDIO_PANDOC=`which pandoc` R --quiet -e 'devtools::install(); devtools::build_vignettes()' ; \
 	else \
 		echo "No vignettes to build" ; \
 	fi

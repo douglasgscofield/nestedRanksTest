@@ -307,6 +307,20 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' \code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
 #' \code{n1*n2}.
 #'
+#' The bottleneck here is calculation of ranks, so speedup of this
+#' function comes from speeding up ranks().  A stripped-down rank_new:
+#'
+#'     function (x) y <- .Internal(rank(x, length(x), "average"))
+#'
+#' is much faster than the default rank:
+#'
+#'     > microbenchmark(rank(yy), rank_new(yy), times=100000)
+#'     Unit: microseconds
+#'              expr    min     lq      mean median      uq       max neval
+#'          rank(yy) 29.148 31.945 36.931556 32.678 33.5165 57192.350 1e+05
+#'      rank_new(yy)  3.755  4.300  4.789952  4.542  4.7290  6784.741 1e+05
+#'
+#'
 #' @param y    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.
 #' @param n1   The first \code{n1} values in \code{y} belong to the
@@ -321,7 +335,6 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' @export
 #'
 nestedRanksTest_Z <- function(y, n1, n2) {
-    stopifnot(length(y) == n1 + n2)
     r <- rank(y, ties.method = "average")
     r1 <- r[1:n1]
     r2 <- r[(n1 + 1):(n1 + n2)]
