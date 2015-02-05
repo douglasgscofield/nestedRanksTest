@@ -1,5 +1,6 @@
 # For 1.0
 
+* use Authors@R in DESCRIPTION
 * Document version dependencies: `knitr (>= 0.5)` (for rmarkdown in the vignette), anything else in the vignette?
 * Removed `paste0()`, which was introduced in R 2.15.0.  Are there other unknown dependencies on later R functions?
 * Attempt to build for Windows and linux, is travis-ci.org a solution?

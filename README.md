@@ -25,6 +25,15 @@ library(nestedRanksTest)
 
 Help is available via `?nestedRanksTest`.
 
+Note
+----
+
+This package is not currently CRAN-compliant, as it makes use of a call to
+`.Internal(rank(...))`, as the default `rank` function is a major bottleneck
+(8-9&times; slower) for the small vectors of values in the package dataset.  I
+am currently developing an alternative package but in the meantime, this will
+definitely **not** be submitted to CRAN.
+
 * * *
 These statistical tools were developed in collaboration with Peter E.
 Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by

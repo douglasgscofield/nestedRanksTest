@@ -335,7 +335,8 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' @export
 #'
 nestedRanksTest_Z <- function(y, n1, n2) {
-    r <- rank(y, ties.method = "average")
+    #r <- rank(y, ties.method = "average")
+    r <- .Internal(rank(y, length(y), ties.method = "average"))
     r1 <- r[1:n1]
     r2 <- r[(n1 + 1):(n1 + n2)]
     R1 <- sum(r1)
