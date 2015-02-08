@@ -5,6 +5,6 @@
 * Removed `paste0()`, which was introduced in R 2.15.0.  Are there other unknown dependencies on later R functions?
 * Attempt to build for Windows and linux, is travis-ci.org a solution?
 * Add figure to vignette explaining structure in the dataset.
-* Can the bootstrapping be sped up?  The place to start might be to get rid of `for (i in seq_along(groups_levels)) {`.
+* Speed up bootstrapping by writing a C function using the user-visible `R_orderVector` described at http://cran.r-project.org/doc/manuals/r-release/R-exts.html#Utility-functions
 * Keywords etc. to get it in a CRAN view for this kind of test
 * Submit to CRAN
