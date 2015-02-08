@@ -312,17 +312,17 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #'
 #' The bottleneck for bootstrapping is calculation of ranks, so the most
 #' straightforward way to speed up \code{nestedRanksTest} would come from
-#' speeding up \code{rank}.  Because of the checks' performed prior to 
+#' speeding up \code{rank}.  Because of the checks performed prior to 
 #' calling this routine, it should be sufficient to use a stripped-down 
 #' function that simply does the equivalent of making an \code{.Internal}
-#' call, which is not allowed within package code.  As of this writing:
+#' call, which is not allowed within package code.  As of this writing, this
+#' is sufficient:
 #'
 #' \code{rank_new <- function (x) .Internal(rank(x, length(x), "average"))}
 #'
 #' For the example data this is 8-9 times faster than the base R \code{rank},
-#' because it avoids the error-checking overhead.  Typical use of
-#' \code{nestedRanksTest} could involve calls here with short vectors. For
-#' longer vectors, the advantage decreases so at 10000 elements it is 20-30\%.
+#' because it avoids error-checking overhead.  For longer vectors, the 
+#' advantage decreases such that at 10000 elements it is 20-30\%.
 #'
 #' @param y    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.

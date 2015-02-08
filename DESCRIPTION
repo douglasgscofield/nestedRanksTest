@@ -1,6 +1,6 @@
 Package: nestedRanksTest
 Type: Package
-Title: Mann-Whitney-Wilcoxon Test When Data Are in Groups
+Title: Mann-Whitney-Wilcoxon Test for Nested Ranks
 Version: 0.1
 Authors@R: person(c("Douglas", "G."), "Scofield", email = "douglasgscofield@gmail.com", role = c("aut", "cre"))
 Maintainer: Douglas G. Scofield <douglasgscofield@gmail.com>
