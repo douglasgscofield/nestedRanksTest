@@ -15,7 +15,7 @@ available in R as [`wilcox.test`][wilcox].
 
 [wilcox]: https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html
 
-The package can be downloaded from CRAN:
+The latest stable release of the package can be downloaded from CRAN:
 
 ```R
 install.packages("nestedRanksTest")
@@ -28,7 +28,7 @@ Help is available via `?nestedRanksTest`, and a vignette is available via:
 vignette("nestedRanksTest")
 ```
 
-The development version is hosted on github and can be installed via:
+The development version is hosted here on github and can be installed via:
 
 ```R
 install.packages("devtools")

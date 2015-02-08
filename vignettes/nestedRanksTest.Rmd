@@ -338,13 +338,13 @@ weights and sample sizes in each treatment.
 
 ## Aggregate Z-score and p-value
 
-The aggregate Z-core for the observed data and each bootstrap iteration by
-multiplying each row of the matrix described in the bootstrap procedure by the
-weights, and then summing the values in each row, resulting in a vector of
-aggregate Z-scores of length `n.iter` with the Z-score for the observed data as
-the `n.iter`-th value.  This vector is returned in the `null.distribution`
-element of class `'htest_boot'`, but is not returned if the `lightweight =
-TRUE` option was used when invoking `nestedRanksTest`.
+The aggregate Z-core for the observed data and each bootstrap iteration are
+calculated by multiplying each row of the matrix described in the bootstrap
+procedure by the weights, and then summing the values in each row, resulting in
+a vector of aggregate Z-scores of length `n.iter` with the Z-score for the
+observed data as the `n.iter`-th value.  This vector is returned in the
+`null.distribution` element of class `'htest_boot'`, but is not returned if the
+`lightweight = TRUE` option was used when invoking `nestedRanksTest`.
 
 The p-value is calculated by counting the number of elements in the vector
 greater than or equal to the Z-score for the observed data.  Because the
