@@ -7,7 +7,7 @@
 \method{print}{htest_boot}(x, ...)
 }
 \arguments{
-\item{x}{Value of class \code{"htest_boot"} as returned by
+\item{x}{Value of class \code{'htest_boot'} as returned by
 \code{nestedRanksTest}.}
 
 \item{\dots}{Additional arguments passed to \code{print.htest}.}
@@ -17,8 +17,8 @@ The value of x is returned invisibly.
 }
 \description{
 \code{print.htest_boot} prints the return value of
-\code{\link{nestedRanksTest}}, a list of class \code{"htest_boot"}
-which extends class \code{"htest"} by including group weights, the
+\code{\link{nestedRanksTest}}, a list of class \code{'htest_boot'}
+which extends class \code{'htest'} by including group weights, the
 number of bootstrap iterations, and the complete null distribution.
 The latter is not printed by this function; it may be visualised with
 \code{\link{plot.htest_boot}}.

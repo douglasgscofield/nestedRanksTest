@@ -3,7 +3,7 @@ nestedRanksTest
 
 Tne `nestedRanksTest` package provides functions for performing a
 Mann-Whitney-Wilcoxon-type nonparametric test for a difference between
-treatment levels using nested ranks, and also provides functions for displaying
+treatment levels using nested ranks, together with functions for displaying
 results of the test.  The nested ranks test may be used when observations are
 structured into several groups and each group has received both treatment
 levels.  The p-value is determined via bootstrapping.
@@ -15,7 +15,7 @@ available in R as [`wilcox.test`][wilcox].
 
 [wilcox]: https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html
 
-The development version is hosted here and can be installed via:
+The development version is hosted on github and can be installed via:
 
 ```R
 install.packages("devtools")
@@ -24,15 +24,6 @@ library(nestedRanksTest)
 ```
 
 Help is available via `?nestedRanksTest`.
-
-Note
-----
-
-This package is not currently CRAN-compliant, as it makes use of a call to
-`.Internal(rank(...))`, as the default `rank` function is a major bottleneck
-(8-9&times; slower) for the small vectors of values in the package dataset.  I
-am currently developing an alternative package but in the meantime, this will
-definitely **not** be submitted to CRAN.
 
 * * *
 These statistical tools were developed in collaboration with Peter E.

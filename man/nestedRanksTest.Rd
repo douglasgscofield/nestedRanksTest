@@ -46,16 +46,16 @@ Using \code{n.iter = 1} simply returns the observed Z-score.}
 
 \item{lightweight}{If \code{TRUE}, the vector of individual values of
 the null distribution is excluded from the return value of
-class \code{"htest_boot"}.  By default the null distribution
+class \code{'htest_boot'}.  By default the null distribution
 is included. If \code{n.iter} is large, specifying
 \code{TRUE} for this option can save space, but note that
 calling \code{plot} on the return value will produce an
 error if so.}
 }
 \value{
-A list with class \code{"htest_boot"} based on class
-        \code{"htest"} containing the following components.  Components
-        marked with \code{"*"} are additions to \code{"htest"}.
+A list with class \code{'htest_boot'} based on class
+        \code{'htest'} containing the following components.  Components
+        marked with \code{"*"} are additions to \code{'htest'}.
 \tabular{ll}{
     \code{statistic}           \tab the value of the observed Z-score.\cr
     \code{p.value}             \tab the p-value for the test.\cr
@@ -93,6 +93,9 @@ for which treatment is a fixed effect and group membership is a random
 effect.
 }
 \note{
+Cases for which any of \code{x}, \code{y} or \code{groups} are
+      \code{NA} are removed.
+
 The generation of a null distribution can take some time.  For
       example, if any use of \code{nestedRanksTest} in the examples were
       run with the default \code{n.iter = 10000}, completion would require

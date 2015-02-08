@@ -30,21 +30,22 @@ Values across both treatments are ranked using the base R function
 tied values their average rank.  The Mann-Whitney-Wilcoxon test
 statistic is computed from these ranks.  Because the value of the
 statistic is sample-size dependent (between \code{-n1*n2} and
-\code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
+\code{n1*n2}), it is scaled to be \code{[-1,+1]} by dividing by
 \code{n1*n2}.
 
-The bottleneck here is calculation of ranks, so speedup of this
-function comes from speeding up ranks().  A stripped-down rank_new:
+The bottleneck for bootstrapping is calculation of ranks, so the most
+straightforward way to speed up \code{nestedRanksTest} would come from
+speeding up \code{rank}.  Because of the checks' performed prior to
+calling this routine, it should be sufficient to use a stripped-down
+function that simply does the equivalent of making an \code{.Internal}
+call, which is not allowed within package code.  As of this writing:
 
-function (x) y <- .Internal(rank(x, length(x), "average"))
+\code{rank_new <- function (x) .Internal(rank(x, length(x), "average"))}
 
-is much faster than the default rank:
-
-> microbenchmark(rank(yy), rank_new(yy), times=100000)
-    Unit: microseconds
-             expr    min     lq      mean median      uq       max neval
-         rank(yy) 29.148 31.945 36.931556 32.678 33.5165 57192.350 1e+05
-     rank_new(yy)  3.755  4.300  4.789952  4.542  4.7290  6784.741 1e+05
+For the example data this is 8-9 times faster than the base R \code{rank},
+because it avoids the error-checking overhead.  Typical use of
+\code{nestedRanksTest} could involve calls here with short vectors. For
+longer vectors, the advantage decreases so at 10000 elements it is 20-30\%.
 }
 \seealso{
 \code{\link{nestedRanksTest}}, \code{\link{wilcox.test}}

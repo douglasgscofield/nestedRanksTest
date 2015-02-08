@@ -4,7 +4,6 @@
 ^\.git$
 ^\.gitignore$
 ^Makefile$
-^Makefile.R-code-only$
 ^check_tmp$
 ^example_plot.png$
 ^sedgwick_landscape_fewtrees.jpg$

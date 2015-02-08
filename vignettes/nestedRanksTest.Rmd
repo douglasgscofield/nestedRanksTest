@@ -14,10 +14,25 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.show = "hold")
 options(width = 80)
 ```
 
-We first described the nested ranks test in detail in the supplemental
-information of [Thompson *et al*. (2014)](#Thompson2014).
+Tne `nestedRanksTest` package provides functions for performing a
+Mann-Whitney-Wilcoxon-type nonparametric test for a difference between
+treatment levels using nested ranks, together with functions for displaying
+results of the test.  The nested ranks test may be used when observations are
+structured into several groups and each group has received both treatment
+levels.  The p-value is determined via bootstrapping.
 
-# Empirical background
+The `nestedRanksTest` is intended to be one possible mixed-model extension of
+the Mann-Whitney-Wilcoxon test, for which treatment is a fixed effect and group
+membership is a random effect.  The standard Mann-Whitney-Wilcoxon test is
+available in R as [`wilcox.test`][wilcox].
+
+[wilcox]: https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html
+
+We first described the nested ranks test in detail in the supplemental
+information of [Thompson *et al*. (2014)](#Thompson2014).  Here we consider an
+example case, the results of which were first presented in that paper.
+
+# Background
 
 Together with my colleagues Pamela Thompson, Peter Smouse and Victoria Sork, we
 were examining year-to-year differences in acorn movement by acorn woodpeckers
@@ -134,7 +149,7 @@ We discussed the unusually long acorn movement distances of coast live oak for
 granary 140 in [Scofield *et al*. (2010)](#Scofield2010).
 
 Because of the variation in distances, a nonparametric test such as the
-Mann-Whitney-Wilcoxon test (`wilcox.test`) is preferred to a parametric test
+Mann-Whitney-Wilcoxon test ([`wilcox.test`][wilcox]) is preferred to a parametric test
 such as `t.test`.
 
 ```{r}

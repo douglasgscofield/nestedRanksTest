@@ -17,8 +17,8 @@ effect.
 The main function is \code{\link{nestedRanksTest}}, which includes a
 formula interface implementing the familiar \code{"|"} syntax for
 specifying group membership on the right-hand side of the formula.
-The value returned is a list of class \code{"htest_boot"}, which
-extends class \code{"htest"}.  \code{print} and \code{plot} methods
+The value returned is a list of class \code{'htest_boot'}, which
+extends class \code{'htest'}.  \code{print} and \code{plot} methods
 are provided to print and visualise results.
 
 These statistical tools were developed in collaboration with Peter E.

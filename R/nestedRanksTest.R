@@ -11,8 +11,8 @@
 #' The main function is \code{\link{nestedRanksTest}}, which includes a
 #' formula interface implementing the familiar \code{"|"} syntax for
 #' specifying group membership on the right-hand side of the formula.
-#' The value returned is a list of class \code{"htest_boot"}, which
-#' extends class \code{"htest"}.  \code{print} and \code{plot} methods
+#' The value returned is a list of class \code{'htest_boot'}, which
+#' extends class \code{'htest'}.  \code{print} and \code{plot} methods
 #' are provided to print and visualise results.
 #'
 #' These statistical tools were developed in collaboration with Peter E.
@@ -49,6 +49,9 @@ NULL
 #' for which treatment is a fixed effect and group membership is a random
 #' effect.
 #'
+#' @note Cases for which any of \code{x}, \code{y} or \code{groups} are
+#'       \code{NA} are removed.
+#'
 #' @note The generation of a null distribution can take some time.  For
 #'       example, if any use of \code{nestedRanksTest} in the examples were
 #'       run with the default \code{n.iter = 10000}, completion would require
@@ -79,16 +82,16 @@ NULL
 #'                Using \code{n.iter = 1} simply returns the observed Z-score.
 #' @param lightweight  If \code{TRUE}, the vector of individual values of
 #'                the null distribution is excluded from the return value of
-#'                class \code{"htest_boot"}.  By default the null distribution
+#'                class \code{'htest_boot'}.  By default the null distribution
 #'                is included. If \code{n.iter} is large, specifying
 #'                \code{TRUE} for this option can save space, but note that
 #'                calling \code{plot} on the return value will produce an
 #'                error if so.
 #' @param ...     Further arguments to be passed to or from methods.
 #'
-#' @return A list with class \code{"htest_boot"} based on class
-#'         \code{"htest"} containing the following components.  Components
-#'         marked with \code{"*"} are additions to \code{"htest"}.
+#' @return A list with class \code{'htest_boot'} based on class
+#'         \code{'htest'} containing the following components.  Components
+#'         marked with \code{"*"} are additions to \code{'htest'}.
 #' \tabular{ll}{
 #'     \code{statistic}           \tab the value of the observed Z-score.\cr
 #'     \code{p.value}             \tab the p-value for the test.\cr
@@ -286,7 +289,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
                  weights     = weights)
     if (! lightweight)
         RVAL$null.distribution = null.distribution
-    class(RVAL) <- c("htest_boot", "htest")
+    class(RVAL) <- c('htest_boot', 'htest')
     return(RVAL)
 }
 
@@ -304,22 +307,22 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' tied values their average rank.  The Mann-Whitney-Wilcoxon test
 #' statistic is computed from these ranks.  Because the value of the
 #' statistic is sample-size dependent (between \code{-n1*n2} and
-#' \code{n1*n2}), it is scaled to be \code{[-1, +1]} by dividing by
+#' \code{n1*n2}), it is scaled to be \code{[-1,+1]} by dividing by
 #' \code{n1*n2}.
 #'
-#' The bottleneck here is calculation of ranks, so speedup of this
-#' function comes from speeding up ranks().  A stripped-down rank_new:
+#' The bottleneck for bootstrapping is calculation of ranks, so the most
+#' straightforward way to speed up \code{nestedRanksTest} would come from
+#' speeding up \code{rank}.  Because of the checks' performed prior to 
+#' calling this routine, it should be sufficient to use a stripped-down 
+#' function that simply does the equivalent of making an \code{.Internal}
+#' call, which is not allowed within package code.  As of this writing:
 #'
-#'     function (x) y <- .Internal(rank(x, length(x), "average"))
+#' \code{rank_new <- function (x) .Internal(rank(x, length(x), "average"))}
 #'
-#' is much faster than the default rank:
-#'
-#'     > microbenchmark(rank(yy), rank_new(yy), times=100000)
-#'     Unit: microseconds
-#'              expr    min     lq      mean median      uq       max neval
-#'          rank(yy) 29.148 31.945 36.931556 32.678 33.5165 57192.350 1e+05
-#'      rank_new(yy)  3.755  4.300  4.789952  4.542  4.7290  6784.741 1e+05
-#'
+#' For the example data this is 8-9 times faster than the base R \code{rank},
+#' because it avoids the error-checking overhead.  Typical use of
+#' \code{nestedRanksTest} could involve calls here with short vectors. For
+#' longer vectors, the advantage decreases so at 10000 elements it is 20-30\%.
 #'
 #' @param y    Values to be ranked for the test.  Its length must
 #'             be equal to the sum of \code{n1} and \code{n2}.
@@ -335,8 +338,7 @@ nestedRanksTest.default <- function(x, y, groups, n.iter = 10000,
 #' @export
 #'
 nestedRanksTest_Z <- function(y, n1, n2) {
-    #r <- rank(y, ties.method = "average")
-    r <- .Internal(rank(y, length(y), ties.method = "average"))
+    r <- rank(y, ties.method = "average")
     r1 <- r[1:n1]
     r2 <- r[(n1 + 1):(n1 + n2)]
     R1 <- sum(r1)
@@ -391,13 +393,13 @@ nestedRanksTest_weights <- function(x, groups) {
 #' Print result of \code{nestedRanksTest}.
 #'
 #' \code{print.htest_boot} prints the return value of
-#' \code{\link{nestedRanksTest}}, a list of class \code{"htest_boot"}
-#' which extends class \code{"htest"} by including group weights, the
+#' \code{\link{nestedRanksTest}}, a list of class \code{'htest_boot'}
+#' which extends class \code{'htest'} by including group weights, the
 #' number of bootstrap iterations, and the complete null distribution.
 #' The latter is not printed by this function; it may be visualised with
 #' \code{\link{plot.htest_boot}}.
 #'
-#' @param  x      Value of class \code{"htest_boot"} as returned by
+#' @param  x      Value of class \code{'htest_boot'} as returned by
 #'                \code{nestedRanksTest}.
 #' @param  \dots  Additional arguments passed to \code{print.htest}.
 #'
@@ -431,7 +433,7 @@ print.htest_boot <- function(x, ...) {
 #' Diagnostic plot of result from nestedRanksTest.
 #'
 #' \code{plot.htest_boot} creates a diagnostic plot using the return value
-#' of \code{\link{nestedRanksTest}}, a list of class \code{"htest_boot"}.
+#' of \code{\link{nestedRanksTest}}, a list of class \code{'htest_boot'}.
 #' The plot contains a histogram of the null distribution generated by
 #' bootstrapping plotted with \code{\link{hist}}, and a verticle line
 #' indicating the observed value plotted with \code{\link{abline}}.
@@ -440,7 +442,7 @@ print.htest_boot <- function(x, ...) {
 #' options \code{lightweight = TRUE} or \code{n.iter = 1} were given to
 #' \code{nestedRanksTest}, this function produces an error.
 #'
-#' @param  x       Value of class \code{"htest_boot"} as returned by
+#' @param  x       Value of class \code{'htest_boot'} as returned by
 #'                 \code{nestedRanksTest}.
 #' @param  breaks  The number of breaks to use when plotting the distribution,
 #'                 the default is calculated from \code{n.iter} of the call to
