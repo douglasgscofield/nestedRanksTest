@@ -15,6 +15,19 @@ available in R as [`wilcox.test`][wilcox].
 
 [wilcox]: https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html
 
+The package can be downloaded from CRAN:
+
+```R
+install.packages("nestedRanksTest")
+library(nestedRanksTest)
+```
+
+Help is available via `?nestedRanksTest`, and a vignette is available via:
+
+```R
+vignette("nestedRanksTest")
+```
+
 The development version is hosted on github and can be installed via:
 
 ```R
@@ -22,8 +35,6 @@ install.packages("devtools")
 devtools::install_github("douglasgscofield/nestedRanksTest", build_vignettes = TRUE)
 library(nestedRanksTest)
 ```
-
-Help is available via `?nestedRanksTest`.
 
 * * *
 These statistical tools were developed in collaboration with Peter E.
