@@ -423,7 +423,7 @@ nestedRanksTest_weights <- function(x, groups) {
 #'
 print.htest_boot <- function(x, ...) {
     NextMethod(x, ...)
-    cat("bootstrap iterations =", x$n.iter, "\ngroup weights:\n")
+    cat("bootstrap iterations:", x$n.iter, "\ngroup weights:\n")
     print(x$weights)
     invisible(x)
 }

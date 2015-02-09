@@ -1,6 +1,12 @@
+# nestedRanksTest 0.1.9000, development
+
+* Tweak output of `print.htest_boot` so bootstrap iterations count is prefixed by
+  ': ' rather than ' = ', for consistency with other printed values
+
+
 # nestedRanksTest 0.1
 
-* Initial release
+* Initial release on CRAN
 * Provides S3 generic `nestedRanksTest()`, with function and default methods
 * Provides `print` and `plot` methods for class `'htest_boot'`, which extends
   class `'htest'` by including information on the generation and content of the
