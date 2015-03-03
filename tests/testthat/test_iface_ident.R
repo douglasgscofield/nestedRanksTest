@@ -1,7 +1,7 @@
 library(nestedRanksTest)
 data(woodpecker_multiyear)
 
-context("Identity of results with each interface")
+context("nestedRanksTest, identity of results with each interface")
 
 it <- 100
 

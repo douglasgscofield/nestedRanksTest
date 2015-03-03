@@ -124,7 +124,7 @@ group weights:
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: plot.htest_boot
-> ### Title: Diagnostic plot of result from nestedRanksTest.
+> ### Title: Diagnostic plot of result held in 'htest_boot' object
 > ### Aliases: plot.htest_boot
 > ### Keywords: hplot
 > 
@@ -160,7 +160,7 @@ group weights:
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: print.htest_boot
-> ### Title: Print result of 'nestedRanksTest'.
+> ### Title: Print result held in 'htest_boot' object
 > ### Aliases: print.htest_boot
 > 
 > ### ** Examples

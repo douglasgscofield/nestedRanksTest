@@ -1,7 +1,7 @@
 library(nestedRanksTest)
 data(woodpecker_multiyear)
 
-context("Errors when using each interface")
+context("nestedRanksTest, errors when using each interface")
 
 adat = subset(woodpecker_multiyear, Species == "agrifolia")
 
