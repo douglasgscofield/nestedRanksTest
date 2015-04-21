@@ -27,6 +27,7 @@
 #' @author   Douglas G. Scofield \email{douglasgscofield@@gmail.com}
 #' @source   Dataset originates from the lab of Victoria L. Sork
 #'           \email{vlsork@@ucla.edu} and is used with permission.
+#' @keywords datasets
 #' @docType  data
 #' @name     woodpecker_multiyear
 #'
