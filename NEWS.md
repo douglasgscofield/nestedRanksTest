@@ -1,7 +1,7 @@
 # nestedRanksTest 0.1.9000 (development version)
 
-* Tweak output of `print.htest_boot` so bootstrap iterations count is prefixed by
-  ': ' rather than ' = ', for consistency with other printed values
+* Output of `print.htest_boot` now recognises `digits` and `prefix` options and for `digits` the default is `getOption("digits")`, just like `print.htest`
+* Tweak output of `print.htest_boot` so bootstarap iterations count is prefixed by ': ' rather than ' = ', for consistency with other printed values
 
 
 # nestedRanksTest 0.1

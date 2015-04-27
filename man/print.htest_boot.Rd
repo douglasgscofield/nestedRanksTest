@@ -4,11 +4,18 @@
 \alias{print.htest_boot}
 \title{Print result held in \code{htest_boot} object}
 \usage{
-\method{print}{htest_boot}(x, ...)
+\method{print}{htest_boot}(x, digits = getOption("digits"), prefix = "\\t",
+  ...)
 }
 \arguments{
 \item{x}{Value of class \code{'htest_boot'} as returned by
 e.g., \code{nestedRanksTest}.}
+
+\item{digits}{Number of digits or significant digits to use in output.
+Similar to other \code{print} methods, this method pays attention to
+the \code{"digits"} option.}
+
+\item{prefix}{String, passed to \code{\link{print.htest}}}
 
 \item{\dots}{Additional arguments passed to \code{print.htest}.}
 }
