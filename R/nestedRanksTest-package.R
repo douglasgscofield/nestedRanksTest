@@ -16,8 +16,8 @@
 #' are provided to print and visualise results.
 #'
 #' These statistical tools were developed in collaboration with Peter E.
-#' Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by
-#' U.S. National Science Foundation awards NSF-DEB-0514956 and
+#' Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded
+#' in part by U.S. National Science Foundation awards NSF-DEB-0514956 and
 #' NSF-DEB-0516529.
 #'
 #' @references

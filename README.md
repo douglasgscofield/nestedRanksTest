@@ -28,7 +28,7 @@ Help is available via `?nestedRanksTest`, and a vignette is available via:
 vignette("nestedRanksTest")
 ```
 
-The development version is hosted here on github and can be installed via:
+The development version is hosted on github and can be installed via:
 
 ```R
 install.packages("devtools")
@@ -38,8 +38,8 @@ library(nestedRanksTest)
 
 * * *
 These statistical tools were developed in collaboration with Peter E.
-Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded by
-U.S. National Science Foundation awards NSF-DEB-0514956 and
+Smouse (Rutgers University) and Victoria L. Sork (UCLA) and were funded
+in part by U.S. National Science Foundation awards NSF-DEB-0514956 and
 NSF-DEB-0516529.
 * * *
 
@@ -65,7 +65,7 @@ print(result)
 	Nested Ranks Test
 
 data:  Distance by Year grouped by Granary
-Z = 0.277, p-value = 1e-04
+Z = 0.27695, p-value = 1e-04
 alternative hypothesis: Z lies above bootstrapped null values
 null values:
       0%       1%       5%      10%      25%      50%      75%      90%      95%

@@ -245,8 +245,9 @@ plot(result.Qlob)
 Titles, colours, line styles, etc. may be modified.
 
 ```{r, fig.width = 6, fig.height = 3}
-plot(result.Qagr, main = expression(italic("Quercus agrifolia")), col = "lightgreen",
-     p.col = "brown4", p.lty = 1, p.lwd = 4, mgp = c(2.5, 0.5, 0), las = 1, tcl = -0.4)
+plot(result.Qagr, main = expression(italic("Quercus agrifolia")),
+     col = "lightgreen", p.col = "darkgreen", p.lty = 1, p.lwd = 4,
+     mgp = c(2.5, 0.5, 0), cex.axis = 0.8, las = 1, tcl = -0.3)
 ```
 
 
@@ -354,8 +355,8 @@ than 1 / `n.iter`.
 * * *
 
 These statistical tools were developed in collaboration with Peter E. Smouse
-(Rutgers University) and Victoria L. Sork (UCLA) and were funded by U.S.
-National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
+(Rutgers University) and Victoria L. Sork (UCLA) and were funded in part by
+U.S. National Science Foundation awards NSF-DEB-0514956 and NSF-DEB-0516529.
 
 * * *
 
