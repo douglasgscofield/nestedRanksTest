@@ -84,7 +84,7 @@ $(TARBALL_LOC): NEWS doc vignettes R/*.R man/*.Rd data/* inst/*
 
 testthat:
 	if test -f tests/testthat.R ; then \
-		R --quiet -e 'devtools::install("."); library(testthat); setwd("tests"); test_check("readGenalex")' ; \
+		R --quiet -e 'devtools::install("."); library(testthat); setwd("tests"); test_check("nestedRanksTest")' ; \
 	fi
 
 build: testthat $(TARBALL_LOC)
