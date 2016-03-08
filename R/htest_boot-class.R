@@ -1,4 +1,4 @@
-#' Print result held in \code{htest_boot} object
+#' Print result held in htest_boot object
 #'
 #' \code{print.htest_boot} prints a return value held in a list of 
 #' class \code{'htest_boot'}, as returned by e.g., 
@@ -47,7 +47,7 @@ print.htest_boot <- function(x, digits = getOption("digits"), prefix = "\t", ...
 
 
 
-#' Diagnostic plot of result held in \code{htest_boot} object
+#' Diagnostic plot of result held in htest_boot object
 #'
 #' \code{plot.htest_boot} creates a diagnostic plot of a return value
 #' held in a list of class \code{'htest_boot'}, as returned by e.g., 
